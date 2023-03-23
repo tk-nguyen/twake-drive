@@ -1,0 +1,89 @@
+version: "3.4"
+
+services:
+  scylladb:
+    image: scylladb/scylla:4.1.0
+    command: --smp 1 --memory 400M
+    ports:
+      - 9042:9042
+    volumes:
+      - ./docker-data/scylladb:/var/lib/scylla
+  rabbitmq:
+    image: rabbitmq:3
+
+  node:
+    image: twaketech/twake-node
+    ports:
+      - 9229:9229
+    environment:
+      - DEV=dev
+      - DB_DRIVER=cassandra
+      - DB_CASSANDRA_URI=scylladb:9042
+      - DB_CASSANDRA_KEYSPACE=twake
+      - PUBSUB_URLS=amqp://guest:guest@rabbitmq:5672
+    build:
+      context: .
+      dockerfile: ./docker/twake-node/Dockerfile
+      target: development
+    volumes:
+      - ./backend/node:/usr/src/app
+      - ./docker-data/documents/:/storage/
+    depends_on:
+      - scylladb
+      - rabbitmq
+      - elasticsearch
+    links:
+      - scylladb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  php:
+    image: twaketech/twake-php
+    environment:
+      - DEV=dev
+    build:
+      context: .
+      dockerfile: docker/twake-php/Dockerfile
+    volumes:
+      - ./backend/core/:/twake-core:cached
+      - ./docker-data/drive/:/twake-core/drive/
+      - ./docker-data/fpm/:/etc/docker-data/fpm/
+      - ./docker-data/drive-preview/:/twake-core/web/medias/
+      - ./docker-data/uploads/:/twake-core/web/upload/
+    depends_on:
+      - scylladb
+      - rabbitmq
+      - elasticsearch
+    links:
+      - scylladb
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./docker-data/es:/usr/share/elasticsearch/data
+
+  nginx:
+    image: twaketech/twake-nginx
+    environment:
+      - DEV=dev
+    build:
+      context: .
+      dockerfile: docker/twake-nginx/Dockerfile
+    ports:
+      - 8000:80
+    depends_on:
+      - php
+      - node
+    volumes:
+      - ./docker-data/logs/nginx/:/var/log/nginx
+      - ./docker-data/letsencrypt/:/etc/letsencrypt/
+      - ./frontend/:/twake-react/
+      - ./docker-data/drive-preview/:/twake-core/web/medias/
+      - ./docker-data/uploads/:/twake-core/web/upload/

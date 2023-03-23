@@ -1,0 +1,119 @@
+.electron {
+  .channels_view {
+    padding-top: 24px;
+  }
+}
+
+.channels_view {
+  background: var(--grey-background);
+  width: 220px;
+  padding-top: 16px;
+  border-radius: var(--border-radius-base) 0 0 8px;
+
+  &.loading {
+    .applications_channels,
+    .workspace_channels,
+    .users_channels {
+      display: none;
+    }
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .channel_small_text {
+    font-size: 12px;
+    margin: 0 16px;
+    color: var(--grey-dark);
+    font-weight: 500;
+  }
+
+  .current_group {
+    line-height: 24px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: var(--grey-dark);
+    font-size: 14px;
+    background: var(--primary-background);
+    border-radius: var(--border-radius-large);
+    display: flex;
+    padding: 8px;
+    margin: 0px 14px;
+    box-sizing: border-box;
+    height: 40px;
+
+    span {
+      flex: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .group_image.invite {
+      margin-right: 4px;
+      width: auto;
+      background: var(--green);
+      border-radius: var(--border-radius-base);
+      color: var(--white);
+      padding-right: 4px;
+      white-space: nowrap;
+      display: flex;
+      font-weight: 600;
+      .group_switch {
+        margin-right: 4px;
+      }
+    }
+
+    .group_switch {
+      margin-right: 8px;
+      height: 24px;
+      .current_company_logo.has_image {
+        font-size: 0px !important;
+      }
+      .current_company_logo {
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--secondary);
+        width: 24px;
+        height: 24px;
+        border-radius: var(--border-radius-base);
+      }
+    }
+  }
+
+  .scrollbar-container {
+    flex: 1;
+  }
+}
+
+.channels_view_loader {
+  background: var(--grey-background);
+  width: 220px;
+  border-radius: var(--border-radius-base) 0 0 8px;
+
+  .applications_channels_loader {
+    margin-top: 4px;
+    margin-bottom: 12px;
+  }
+}
+
+.loading_render {
+  .channel_small_text {
+    display: none;
+  }
+  .current_group {
+    display: none;
+  }
+}
+
+/* channel add */
+.channelUserAdd .flexDiv {
+  display: flex;
+  .flex1 {
+    flex: 1;
+    margin-left: 8px;
+  }
+}

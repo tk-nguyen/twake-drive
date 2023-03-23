@@ -1,0 +1,81 @@
+{
+  "sentry": {
+    "dsn": "SENTRY_DSN"
+  },
+  "logger": {
+    "level": "LOG_LEVEL"
+  },
+  "webserver": {
+    "logger": {
+      "level": "LOG_LEVEL"
+    },
+    "static": {
+      "root": "STATIC_ROOT"
+    }
+  },
+  "phpnode": {
+    "secret": "PHP_NODE_API_SECRET"
+  },
+  "websocket": {
+    "auth": {
+      "jwt": {
+        "secret": "AUTH_JWT_SECRET"
+      }
+    }
+  },
+  "tracker": {
+    "segment": {
+      "key": "SEGMENT_SECRET_KEY"
+    }
+  },
+  "auth": {
+    "jwt": {
+      "secret": "AUTH_JWT_SECRET"
+    }
+  },
+  "notifications": {
+    "push": {
+      "type": "PUSH_DRIVER",
+      "fcm": {
+        "endpoint": "PUSH_FCM_ENDPOINT",
+        "key": "PUSH_FCM_KEY"
+      }
+    }
+  },
+  "database": {
+    "secret": "DB_SECRET",
+    "type": "DB_DRIVER",
+    "mongodb": {
+      "uri": "DB_MONGO_URI",
+      "database": "DB_MONGO_DATABASE"
+    },
+    "cassandra": {
+      "contactPoints": "DB_CASSANDRA_URI",
+      "localDataCenter": "DB_CASSANDRA_LOCALDATACENTER",
+      "keyspace": "DB_CASSANDRA_KEYSPACE"
+    }
+  },
+  "search": {
+    "type": "SEARCH_DRIVER",
+    "elasticsearch": {
+      "endpoint": "SEARCH_ES_ENDPOINT",
+      "flushInterval": "SEARCH_ES_FLUSHINTERVAL"
+    }
+  },
+  "message-queue": {
+    "type": "PUBSUB_TYPE",
+    "amqp": {
+      "urls": "PUBSUB_URLS"
+    }
+  },
+  "pusbub": {
+    "//": "//deprecated",
+    "type": "PUBSUB_TYPE",
+    "amqp": {
+      "urls": "PUBSUB_URLS"
+    }
+  },
+  "plugins": {
+    "server": "PLUGINS_SERVER"
+  }
+}

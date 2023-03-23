@@ -1,0 +1,62 @@
+version: "3.4"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./docker-data/mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - twake_network
+
+  plugins:
+    container_name: plugins
+    image: twaketech/twake-plugins
+    privileged: true
+    volumes:
+      - ./plugins/plugins:/usr/src/app/plugins
+      - ./plugins/plugins.json:/usr/src/app/plugins.json
+    build: 
+      context: .
+      dockerfile: ./docker/twake-plugins/Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - twake_network
+
+  node:
+    image: twaketech/twake-node
+    container_name: node
+    ports:
+      - 4000:3000
+      - 8000:3000
+      - 9229:9229
+    environment:
+      - DEV=dev
+      - SEARCH_DRIVER=mongodb
+      - DB_DRIVER=mongodb
+      - PUBSUB_TYPE=local
+    build:
+      context: .
+      dockerfile: ./docker/twake-node/Dockerfile
+      target: development
+    volumes:
+      - ./backend/node:/usr/src/app
+      - ./docker-data/documents/:/storage/
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - twake_network
+
+networks:
+  twake_network:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.21.0.0/16
+         gateway: 172.21.0.1
+         

@@ -1,0 +1,26 @@
+{
+  "database": {
+    "secret": "ab63bb3e90c0271c9a1c06651a7c0967eab8851a7a897766",
+    "mongodb": {
+      "uri": "mongodb://mongo:27017"
+    },
+    "cassandra": {
+      "contactPoints": ["scylladb:9042"],
+      "wait": true,
+      "retries": 50,
+      "delay": 500,
+      "queryOptions": {
+        "consistency": 1
+      }
+    }
+  },
+  "message-queue": {
+    "type": "amqp",
+    "amqp": {
+      "urls": ["amqp://guest:guest@rabbitmq:5672"]
+    }
+  },
+  "phpnode": {
+    "php_endpoint": false
+  }
+}

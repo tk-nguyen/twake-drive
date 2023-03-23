@@ -1,0 +1,50 @@
+.eventModal {
+  .title {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .date.subtitle,
+  .location.subtitle,
+  .reminders.subtitle {
+    color: var(--grey-dark);
+  }
+
+  .date_and_type {
+    display: flex;
+    .select {
+      min-width: 25%;
+      flex: 1;
+      max-width: 140px;
+      margin-right: 8px;
+    }
+    .date_selector_full {
+      & > div {
+        vertical-align: top;
+      }
+    }
+  }
+
+  .participants > .menu-list {
+    padding: 0;
+  }
+
+  .event_type {
+    display: inline-block;
+    height: 32px;
+    padding: 0 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    line-height: 32px;
+    vertical-align: middle;
+    background: var(--white);
+    border-radius: var(--border-radius-base);
+    border: 1px solid var(--grey-background);
+    box-sizing: border-box;
+    font-size: 14px;
+    padding-left: 4px;
+    .icon-unicon {
+      color: var(--grey-dark);
+    }
+  }
+}

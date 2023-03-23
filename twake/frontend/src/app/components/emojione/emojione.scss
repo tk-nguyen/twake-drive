@@ -1,0 +1,39 @@
+/* Emojione */
+
+img.emojione {
+  width: 18px;
+  height: 18px;
+  bottom: 0px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+i.emojione.emoji-image {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  background-size: contain;
+  background-position: center;
+  vertical-align: middle;
+  margin-top: -4px;
+  font-size: 1.1em;
+}
+
+.trash_emoji {
+  font-size: 16px;
+  position: relative;
+  top: 1px;
+}
+
+.emoji-container {
+  vertical-align: middle;
+  display: inline-flex;
+
+  &.emoji-text .emoji-container {
+    &,
+    img.emojione {
+      vertical-align: top;
+    }
+  }
+}
