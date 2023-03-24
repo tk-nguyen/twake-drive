@@ -1,11 +1,8 @@
-import React, { FC } from 'react';
-import Messages from 'app/views/applications/messages';
-import Drive from 'app/views/applications/drive';
-import Calendar from 'app/views/applications/calendar/calendar-content';
-import Tasks from 'app/views/applications/tasks/tasks';
-import NoApp from '../NoApp';
+import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
 import AppViewService from 'app/features/router/services/app-view-service';
-import { useChannel } from 'app/features/channels/hooks/use-channel';
+import Drive from 'app/views/applications/drive';
+import { FC } from 'react';
 
 type PropsType = {
   viewService: AppViewService;
@@ -13,42 +10,16 @@ type PropsType = {
 };
 
 const AppView: FC<PropsType> = props => {
-  //Listen context and app_id changes
-  props.viewService.useWatcher(() => {
-    return [
-      props.viewService.getConfiguration().app?.id,
-      props.viewService.getConfiguration().context,
-    ];
-  });
+  const companyId = useRouterCompany();
+  const workspaceId = useRouterWorkspace();
 
-  const configuration = props.viewService.getConfiguration();
-
-  const { channel } = useChannel(props.id);
-
-  const app = props.viewService.getConfiguration().app;
-
-  if (!channel) return <NoApp />;
-
-  switch (app?.identity?.code) {
-    case 'twake_drive':
-      return (
-        <Drive
-          context={{
-            companyId: channel.company_id,
-            workspaceId: channel.workspace_id || '',
-            channelId: channel.id,
-            tabId: configuration.context.tabId,
-          }}
-        />
-      );
-    case 'twake_calendar':
-      return <Calendar options={configuration} />;
-    case 'twake_tasks':
-      return <Tasks channel={channel} options={configuration} />;
-    case 'messages':
-      return <Messages channel={channel} options={configuration} />;
-    default:
-      return <NoApp />;
-  }
+  return (
+    <Drive
+      context={{
+        companyId,
+        workspaceId,
+      }}
+    />
+  );
 };
 export default AppView;

@@ -34,7 +34,8 @@ export const SearchInput = () => {
   const mediasLoading = useSearchMessagesMediasLoading();
   const driveItemsLoading = useSearchDriveItemsLoading();
 
-  const loading = channelsLoading || messagesLoading || filesLoading || mediasLoading || driveItemsLoading;
+  const loading =
+    channelsLoading || messagesLoading || filesLoading || mediasLoading || driveItemsLoading;
 
   return (
     <div className="relative flex mt-2 w-full">
@@ -54,32 +55,11 @@ export const SearchInput = () => {
             inputRef={inputElement}
             onChange={e => setInput({ ...input, query: e.target.value })}
             value={input.query}
-            className={className + ' rounded-tr-none rounded-br-none'}
+            className={className}
             placeholder={Languages.t('scenes.app.mainview.quick_search_placeholder')}
           />
         )}
       />
-      <Select
-        onChange={e => {
-          if (e.target.value === 'company') {
-            setInput({
-              ..._.omit(input, 'workspaceId', 'channelId'),
-            });
-          } else {
-            setInput({
-              ...input,
-              workspaceId,
-              channelId,
-            });
-          }
-          if (inputElement.current) inputElement.current.focus();
-        }}
-        value={input.channelId ? 'channel' : 'company'}
-        className="w-auto rounded-tl-none ml-px rounded-bl-none text-sm text-opacity-50"
-      >
-        <option value="company">{Languages.t('components.searchpopup.scope.company')}</option>
-        <option value="channel">{Languages.t('components.searchpopup.scope.channel')}</option>
-      </Select>
     </div>
   );
 };

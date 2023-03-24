@@ -4,7 +4,6 @@ import { Badge } from 'antd';
 import UserService from 'app/features/users/services/current-user-service';
 import Icon from 'app/components/icon/icon.jsx';
 import Emojione from 'components/emojione/emojione';
-import NotificationDelay from '../Notifications/NotificationDelay';
 
 import './CompanyHeader.scss';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
@@ -45,9 +44,6 @@ export default (props: PropsType): JSX.Element => {
             </span>
           </div>
         )}
-      </div>
-      <div className="notifications">
-        <NotificationDelay />
       </div>
     </div>
   );

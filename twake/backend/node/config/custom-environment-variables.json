@@ -62,6 +62,11 @@
       "flushInterval": "SEARCH_ES_FLUSHINTERVAL"
     }
   },
+  "storage": {
+    "local": {
+      "path": "STORAGE_LOCAL_PATH"
+    }
+  },
   "message-queue": {
     "type": "PUBSUB_TYPE",
     "amqp": {

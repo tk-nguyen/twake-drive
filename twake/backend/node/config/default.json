@@ -52,7 +52,7 @@
     }
   },
   "webserver": {
-    "port": 3000,
+    "port": 4000,
     "logger": {
       "level": "info"
     },
@@ -154,6 +154,7 @@
     "api_key": "secret",
     "sender": "noreply@twake.app"
   },
+  "applications": [],
   "services": [
     "auth",
     "push",

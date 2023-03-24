@@ -18,7 +18,7 @@ import ModalComponent from 'app/components/modal/modal-component';
 import ConnectionIndicator from 'components/connection-indicator/connection-indicator';
 import SearchPopup from 'components/search-popup/search-popup';
 import NewVersionComponent from 'components/new-version/new-version-component';
-import SideBars, { LoadingSidebar } from './side-bars';
+import SideBars from './side-bars';
 import CompanyStatusComponent from 'app/components/on-boarding/company-status-component';
 import UserContext from 'app/features/users/state/integration/user-context';
 import { useCurrentUser, useCurrentUserRealtime } from 'app/features/users/hooks/use-current-user';
@@ -60,13 +60,13 @@ export default React.memo((): JSX.Element => {
                 breakpoint="lg"
                 collapsedWidth="0"
                 theme="light"
-                width={290}
+                width={70}
                 onCollapse={(collapsed, type) => {
                   if (type === 'responsive') return setTimeout(() => setMenuIsOpen(false), 0);
                   setTimeout(() => setMenuIsOpen(!collapsed), 0);
                 }}
               >
-                <Suspense fallback={<LoadingSidebar />}>
+                <Suspense fallback={<></>}>
                   <SideBars />
                 </Suspense>
               </Layout.Sider>

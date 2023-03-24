@@ -27,7 +27,6 @@ import ModalManager from 'app/components/modal/modal-manager';
 import CompanyMessagesCounter from 'components/company-messages-counter/company-messages-counter';
 import ConsoleService from 'app/features/console/services/console-service';
 import MenuCompanyHeader from './MenuCompanyHeader';
-import SaveNewStatus from './SaveNewStatus';
 
 export default class CurrentUser extends Component {
   constructor() {
@@ -207,29 +206,6 @@ export default class CurrentUser extends Component {
     usermenu = usermenu.concat([
       { type: 'separator' },
 
-      {
-        type: 'menu',
-        text: Languages.t('scenes.app.channelsbar.currentuser.change_my_status'),
-        emoji: (current_user.status.split(' ') || {})[0] || ':smiley:',
-        submenu_replace: false,
-        submenu: [
-          {
-            type: 'title',
-            text: Languages.t(
-              'scenes.app.channelsbar.currentuser.change_my_status',
-              [],
-              'Changer mon statut',
-            ),
-          },
-
-          {
-            type: 'react-element',
-            reactElement: level => {
-              return <SaveNewStatus level={level} />;
-            },
-          },
-        ],
-      },
       {
         type: 'menu',
         icon: 'user',
