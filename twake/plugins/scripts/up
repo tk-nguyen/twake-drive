@@ -1,3 +1,0 @@
-#!/bin/bash
-
-node /usr/src/app/helpers/up.js $1
