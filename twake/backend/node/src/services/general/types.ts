@@ -16,14 +16,15 @@ export type ServerConfiguration = {
     help_url: string | null;
     pricing_plan_url: string | null;
     app_download_url: string | null;
+    app_grid: { logo: string; name: string; url: string }[];
     mobile: {
       mobile_redirect: string;
       mobile_appstore: string;
       mobile_googleplay: string;
     };
     accounts: {
-      type: "console" | "internal";
-      console: null | {
+      type: "remote" | "internal";
+      remote: null | {
         authority: string;
         client_id: string;
         account_management_url: string;

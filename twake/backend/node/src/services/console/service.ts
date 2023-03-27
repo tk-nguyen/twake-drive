@@ -1,5 +1,4 @@
 import { DatabaseServiceAPI } from "../../core/platform/services/database/api";
-import { MergeProcess } from "./processing/merge";
 import { ConsoleOptions, ConsoleType, MergeProgress } from "./types";
 import { ConsoleServiceClient } from "./client-interface";
 import { ConsoleClientFactory } from "./client-factory";
@@ -24,7 +23,7 @@ export class ConsoleServiceImpl implements TwakeServiceProvider {
   }
 
   async init(): Promise<this> {
-    this.configuration = new Configuration("console");
+    this.configuration = new Configuration("general.accounts");
     assert(this.configuration, "console configuration is missing");
     const type = this.configuration.get("type") as ConsoleType;
     assert(type, "console configuration type is not defined");
@@ -33,14 +32,12 @@ export class ConsoleServiceImpl implements TwakeServiceProvider {
 
     this.consoleOptions = {
       type: type,
-      new_console: s.new_console,
-      username: s.username,
-      password: s.password,
-      url: s.url,
-      hook: {
-        token: s.hook?.token,
-        public_key: s.hook?.public_key,
-      },
+      authority: s.authority,
+      client_id: s.client_id,
+      client_secret: s.client_secret,
+      audience: s.audience,
+      issuer: s.issuer,
+      redirect_uris: s.redirect_uris,
       disable_account_creation: s.disable_account_creation,
     };
 
@@ -48,24 +45,6 @@ export class ConsoleServiceImpl implements TwakeServiceProvider {
     this.consoleType = type;
 
     return this;
-  }
-
-  merge(
-    baseUrl: string,
-    concurrent: number = 1,
-    dryRun: boolean = false,
-    console: string = "console",
-    link: boolean = true,
-    client: string,
-    secret: string,
-    _context?: ExecutionContext,
-  ): MergeProgress {
-    return new MergeProcess(this.services.database, dryRun, console, link, {
-      type: "remote",
-      username: client,
-      password: secret,
-      url: baseUrl,
-    } as ConsoleOptions).merge(concurrent);
   }
 
   getClient(): ConsoleServiceClient {

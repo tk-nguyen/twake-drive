@@ -15,7 +15,7 @@ interface AvatarProps extends React.InputHTMLAttributes<HTMLInputElement> {
   nogradient?: boolean;
 }
 
-const sizes = { xl: 24, lg: 14, md: 11, sm: 9, xs: 6 };
+const sizes = { xl: 24, lg: 14, md: 10, sm: 9, xs: 6 };
 const fontSizes = { xl: '2xl', lg: '2xl', md: 'lg', sm: 'md', xs: 'sm' };
 
 export const getGradient = (name: string) => {

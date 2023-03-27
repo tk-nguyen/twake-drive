@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  theme?: 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark';
+  theme?: 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark' | 'white';
   size?: 'md' | 'lg' | 'sm';
   icon?: (props: any) => JSX.Element;
   iconSize?: 'md' | 'lg';
@@ -19,18 +19,22 @@ export const Button = (props: ButtonProps) => {
 
   if (props.theme === 'secondary')
     className =
-      'text-blue-500 bg-blue-100 hover:bg-blue-200 active:bg-blue-300 border-transparent ';
+      'text-blue-500 bg-blue-500 hover:bg-opacity-30 active:bg-opacity-50 bg-opacity-25 border-transparent ';
 
   if (props.theme === 'danger')
     className = 'text-white bg-rose-500 hover:bg-rose-600 active:bg-rose-700 border-transparent ';
 
   if (props.theme === 'default')
     className =
-      'text-black dark:text-white bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:active:bg-zinc-900 hover:bg-gray-50 active:bg-gray-200 border-gray-300';
+      'text-black dark:text-white bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:active:bg-zinc-900 hover:bg-zinc-50 active:bg-zinc-200 border-zinc-300';
+
+  if (props.theme === 'white')
+    className =
+      'text-black dark:text-white dark:hover:bg-zinc-700 dark:active:bg-zinc-900 hover:bg-zinc-50 active:bg-zinc-200 border-transparent';
 
   if (props.theme === 'outline')
     className =
-      'text-blue-500 bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:active:bg-zinc-900 hover:bg-gray-50 active:bg-gray-200 border-blue-500';
+      'text-blue-500 bg-white dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:active:bg-zinc-900 hover:bg-zinc-50 active:bg-zinc-200 border-blue-500';
 
   if (props.theme === 'dark')
     className =
@@ -38,12 +42,12 @@ export const Button = (props: ButtonProps) => {
 
   if (disabled) className += ' opacity-50 pointer-events-none';
 
-  if (props.size === 'lg') className = className + ' text-lg h-11';
+  if (props.size === 'lg') className = className + ' text-lg h-10';
   else if (props.size === 'sm') className = className + ' text-sm h-7 px-3';
   else className = className + ' text-base h-9';
 
   if (!props.children) {
-    if (props.size === 'lg') className = className + ' w-11 !p-0 justify-center';
+    if (props.size === 'lg') className = className + ' w-10 !p-0 justify-center';
     else if (props.size === 'sm') className = className + ' w-7 !p-0 justify-center';
     else className = className + ' w-9 !p-0 justify-center';
   }

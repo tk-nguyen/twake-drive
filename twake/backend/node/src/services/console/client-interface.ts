@@ -60,7 +60,7 @@ export interface ConsoleServiceClient {
 
   fetchCompanyInfo(consoleCompanyCode: string): Promise<ConsoleHookCompany>;
 
-  getUserByAccessToken(accessToken: string): Promise<ConsoleHookUser>;
+  getUserByAccessToken(idToken: string): Promise<ConsoleHookUser>;
 
   resendVerificationEmail(email: string): Promise<void>;
 }

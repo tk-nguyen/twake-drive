@@ -21,12 +21,14 @@ export default function Tab(props: TabsProps) {
 
   return (
     <>
-      <div className={`overflow-auto flex w-100 border-b border-zinc-200 dark:border-zinc-800 transition-all select-none ${props.className}`}>
+      <div
+        className={`overflow-auto flex w-100 border-b border-zinc-200 dark:border-zinc-800 transition-all select-none ${props.className}`}
+      >
         {props.tabs.map((tab, idx) => {
           const cl =
             defaultTabClassName +
-            (idx === props.selected ? activeTabClassName : inactiveTabClassName)
-            + props.parentClassName;
+            (idx === props.selected ? activeTabClassName : inactiveTabClassName) +
+            props.parentClassName;
           return (
             <div key={idx} className={cl} onClick={() => props.onClick(idx)}>
               {tab}

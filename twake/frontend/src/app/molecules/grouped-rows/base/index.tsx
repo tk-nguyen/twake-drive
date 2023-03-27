@@ -30,8 +30,8 @@ export default function Block(props: BlockProps) {
           </div>
         </div>
         <div className="flex">
-          <div className="grow truncate leading-normal text-slate-500 mr-1">
-            <Text.Base className="text-slate-500 dark:text-slate-400">{props.subtitle}</Text.Base>
+          <div className="grow truncate leading-normal text-zinc-500 mr-1">
+            <Text.Base className="text-zinc-500 dark:text-zinc-400">{props.subtitle}</Text.Base>
           </div>
           <div className="whitespace-nowrap">{props.subtitle_suffix}</div>
         </div>

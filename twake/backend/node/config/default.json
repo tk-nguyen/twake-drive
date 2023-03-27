@@ -8,35 +8,35 @@
       "mobile_appstore": "https://apps.apple.com/fr/app/twake/id1588764852?l=en",
       "mobile_googleplay": "https://play.google.com/store/apps/details?id=com.twake.twake&gl=FR"
     },
+    "app_grid": [
+      {
+        "name": "Tmail",
+        "logo": "/public/img/grid/tmail.png",
+        "url": "https://tmail.linagora.com/"
+      },
+      {
+        "name": "Twake",
+        "logo": "/public/img/grid/twake.png",
+        "url": "https://twake.app/"
+      }
+    ],
     "accounts": {
-      "_type": "console",
+      "_type": "remote",
       "type": "internal",
       "internal": {
         "disable_account_creation": false
       },
-      "console": {
-        "account_management_url": "http://web.twake-console.local/profile?company-code={company_id}",
+      "remote": {
         "authority": "http://auth.example.com/",
         "client_id": "twakeweb",
+        "client_secret": "",
+        "issuer": "",
+        "audience": "",
+        "redirect_uris": [""],
+        "account_management_url": "http://web.twake-console.local/profile?company-code={company_id}",
         "collaborators_management_url": "http://web.twake-console.local/compaies/{company_id}/users?company-code={company_id}",
         "company_management_url": "http://web.twake-console.local/companies?company-code={company_id}"
       }
-    }
-  },
-  "console": {
-    "_type": "remote",
-    "type": "internal",
-    "remote": {
-      "new_console": false,
-      "username": "",
-      "password": "12345678",
-      "url": "https://some-remote-console-url/",
-      "hook": {
-        "token": "12345678"
-      }
-    },
-    "internal": {
-      "disable_account_creation": false
     }
   },
   "sentry": {
@@ -62,10 +62,6 @@
     "static": {
       "root": "./public"
     }
-  },
-  "phpnode": {
-    "secret": "api_supersecret",
-    "php_endpoint": "http://nginx:80"
   },
   "websocket": {
     "path": "/socket/",
@@ -154,7 +150,6 @@
     "api_key": "secret",
     "sender": "noreply@twake.app"
   },
-  "applications": [],
   "services": [
     "auth",
     "push",

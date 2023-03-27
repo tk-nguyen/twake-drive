@@ -1,0 +1,49 @@
+import { ViewGridIcon } from '@heroicons/react/outline';
+import { Button } from 'app/atoms/button/button';
+import Menu from 'app/components/menus/menu';
+import { Base } from '../../../atoms/text';
+import InitService from '../../../features/global/services/init-service';
+
+export default ({ className }: { className?: string }): JSX.Element => {
+  const applications = InitService?.server_infos?.configuration?.app_grid || [];
+
+  if (applications.length === 0) {
+    return <></>;
+  }
+
+  return (
+    <Menu
+      position="bottom"
+      menu={[
+        {
+          type: 'react-element',
+          reactElement: (
+            <div className="grid grid-cols-3">
+              {applications.map((app, index) => {
+                return (
+                  <a
+                    key={index}
+                    target="_blank"
+                    rel="noreferrer"
+                    href={app.url}
+                    className="inline-block flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-100 rounded-md p-2 pb-1"
+                  >
+                    <img src={app.logo} className="w-14 h-14 mb-1" />
+                    <Base>{app.name}</Base>
+                  </a>
+                );
+              })}
+            </div>
+          ),
+        },
+      ]}
+    >
+      <Button
+        theme="default"
+        size="md"
+        className={'!rounded-full border-0 ' + className}
+        icon={() => <ViewGridIcon className="w-6 h-6 text-blue-500" />}
+      />
+    </Menu>
+  );
+};

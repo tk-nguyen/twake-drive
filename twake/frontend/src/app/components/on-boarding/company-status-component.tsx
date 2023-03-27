@@ -18,7 +18,7 @@ const CompanyStatusComponent = (): JSX.Element => {
   const workspace = DepreciatedCollections.get('workspaces').find(workspaceId);
 
   useEffect(() => {
-    if (InitService.server_infos?.configuration?.accounts?.type === 'console') {
+    if (InitService.server_infos?.configuration?.accounts?.type === 'remote') {
       isNewAccount();
     }
 

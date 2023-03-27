@@ -52,13 +52,13 @@ const Text = (props: TextProps) => {
       defaultClassName =
         'text-sm font-normal' +
         ' ' +
-        (props.noColor ? '' : 'text-zinc-400 dark:text-white dark:opacity-50');
+        (props.noColor ? '' : 'text-zinc-500 dark:text-white dark:opacity-50');
       break;
     case 'info-small':
       defaultClassName =
         'text-xs font-normal' +
         ' ' +
-        (props.noColor ? '' : 'text-zinc-400 dark:text-white dark:opacity-50');
+        (props.noColor ? '' : 'text-zinc-500 dark:text-white dark:opacity-50');
       break;
   }
 

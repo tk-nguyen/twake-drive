@@ -7,7 +7,7 @@ import InitService from 'app/features/global/services/init-service';
 import LoginService from 'app/features/auth/login-service';
 import Icon from 'app/components/icon/icon.jsx';
 
-import LoginView from './login-view/login-view.jsx';
+import LoginView from './login-view/login-view';
 import Signin from './signin/signin.jsx';
 import VerifyMail from './verify-mail/verify-mail.jsx';
 import ForgotPassword from './forgot-password/index.jsx';

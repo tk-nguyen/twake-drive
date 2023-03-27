@@ -133,7 +133,7 @@ export default ({ filter }: { filter: string }) => {
 
     if (
       workspaceUserRightsService.hasGroupPrivilege() &&
-      InitService.server_infos?.configuration?.accounts.type === 'console'
+      InitService.server_infos?.configuration?.accounts.type === 'remote'
     ) {
       menu.push({
         type: 'menu',
@@ -232,7 +232,7 @@ export default ({ filter }: { filter: string }) => {
   return (
     <>
       <div>
-        {InitService.server_infos?.configuration?.accounts.type === 'console' && (
+        {InitService.server_infos?.configuration?.accounts.type === 'remote' && (
           <Link
             style={{ float: 'right' }}
             href="#"

@@ -32,7 +32,7 @@ export const authenticationSchema = {
     properties: {
       email: { type: "string" },
       password: { type: "string" },
-      remote_access_token: { type: "string" },
+      oidc_id_token: { type: "string" },
     },
   },
   response: {

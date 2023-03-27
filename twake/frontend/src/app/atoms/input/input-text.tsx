@@ -20,13 +20,13 @@ interface InputProps
 }
 
 const baseInputClassName =
-  'tw-input block w-full rounded-md focus:ring-1 focus:ring-blue-500 z-0 focus:z-10 dark:text-white text-black ';
+  'tw-input block w-full rounded-md focus:ring-1 focus:ring-blue-500 z-0 focus:z-10 dark:text-white text-black text-base ';
 
 export const defaultInputClassName = (theme: 'plain' | 'outline' = 'plain') => {
   return (
     baseInputClassName +
     (theme === 'plain'
-      ? 'bg-zinc-200 border-zinc-200 dark:bg-zinc-800 dark:border-zinc-800'
+      ? 'bg-zinc-100 border-zinc-100 dark:bg-zinc-800 dark:border-zinc-800'
       : 'bg-zinc-50 border-zinc-300 dark:bg-zinc-800 dark:border-zinc-700')
   );
 };
@@ -47,7 +47,7 @@ export const Input = (props: InputProps) => {
   inputClassName = inputClassName + (props.disabled ? ' opacity-75' : '');
 
   if (!props.multiline) {
-    if (props.size === 'lg') inputClassName = inputClassName + ' h-11';
+    if (props.size === 'lg') inputClassName = inputClassName + ' h-10 pl-10';
     else if (props.size === 'sm') inputClassName = inputClassName + ' h-7';
     else inputClassName = inputClassName + ' h-9';
   }

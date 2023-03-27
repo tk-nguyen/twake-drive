@@ -14,27 +14,7 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
   const accessControl = async (
     request: FastifyRequest<{ Body: ConsoleHookBody; Querystring: ConsoleHookQueryString }>,
   ) => {
-    if (gr.services.console.consoleType != "remote") {
-      throw fastify.httpErrors.notImplemented("Hook service is only for the remote console");
-    }
-
-    if (
-      (request.body.secret_key || request.query.secret_key) !==
-      gr.services.console.consoleOptions.hook.token
-    ) {
-      throw fastify.httpErrors.forbidden("Wrong secret");
-    }
-
-    const publicKey = gr.services.console.consoleOptions.hook.public_key;
-
-    if (publicKey) {
-      const input = JSON.stringify({ content: request.body.content, type: request.body.type });
-      const signatureBase64 = request.body.signature;
-      const verifier = crypto.createVerify("RSA-SHA512").update(input);
-      if (!verifier.verify(publicKey, signatureBase64, "base64")) {
-        throw fastify.httpErrors.forbidden("Signature verification failed");
-      }
-    }
+    throw fastify.httpErrors.notImplemented("Hook service doesn't exist anymore");
   };
 
   fastify.route({

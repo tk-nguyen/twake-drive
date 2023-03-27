@@ -31,8 +31,8 @@ export class ConsoleController {
   }
 
   async auth(request: FastifyRequest<{ Body: AuthRequest }>): Promise<AuthResponse> {
-    if (request.body.remote_access_token) {
-      return { access_token: await this.authByToken(request.body.remote_access_token) };
+    if (request.body.oidc_id_token) {
+      return { access_token: await this.authByToken(request.body.oidc_id_token) };
     } else if (request.body.email && request.body.password) {
       return { access_token: await this.authByPassword(request.body.email, request.body.password) };
     } else {
@@ -283,12 +283,12 @@ export class ConsoleController {
     });
   }
 
-  private async authByToken(accessToken: string): Promise<AccessToken> {
+  private async authByToken(idToken: string): Promise<AccessToken> {
     const client = gr.services.console.getClient();
-    const userDTO = await client.getUserByAccessToken(accessToken);
+    const userDTO = await client.getUserByAccessToken(idToken);
     const user = await client.updateLocalUserFromConsole(userDTO._id);
     if (!user) {
-      throw CrudException.notFound(`User details not found for access token ${accessToken}`);
+      throw CrudException.notFound(`User details not found for access token ${idToken}`);
     }
     return gr.platformServices.auth.generateJWT(user.id, user.email_canonical, {
       track: user?.preferences?.allow_tracking || false,

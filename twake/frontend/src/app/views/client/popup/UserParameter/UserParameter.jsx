@@ -90,7 +90,7 @@ export default class UserParameter extends Component {
           <div className="title">{this.state.i18n.t('scenes.apps.account.title')}</div>
           {this.canEditAccount() && (
             <>
-              {InitService.server_infos?.configuration?.accounts?.type === 'console' && (
+              {InitService.server_infos?.configuration?.accounts?.type === 'remote' && (
                 <>
                   <Text.Info>{Languages.t('scenes.apps.account.on_console')}</Text.Info>
                   <Button
@@ -104,7 +104,7 @@ export default class UserParameter extends Component {
                   </Button>
                 </>
               )}
-              {InitService.server_infos?.configuration?.accounts?.type !== 'console' && (
+              {InitService.server_infos?.configuration?.accounts?.type !== 'remote' && (
                 <>
                   <div className="group_section">
                     <div className="subtitle">

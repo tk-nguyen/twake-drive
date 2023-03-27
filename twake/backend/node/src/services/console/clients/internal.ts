@@ -95,7 +95,7 @@ export class ConsoleInternalClient implements ConsoleServiceClient {
     throw new Error("Method should not be implemented.");
   }
 
-  getUserByAccessToken(_accessToken: string): Promise<ConsoleHookUser> {
+  getUserByAccessToken(_idToken: string): Promise<ConsoleHookUser> {
     logger.info("Internal: getUserByAccessToken");
     throw new Error("Method should not be implemented.");
   }

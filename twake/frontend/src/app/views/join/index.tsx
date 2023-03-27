@@ -29,7 +29,7 @@ export default (): JSX.Element => {
   const [error, setError] = useState<JoinError>();
   const [info, setInfo] = useState<MagicLinksJoinResponse>();
   const [busy, setBusy] = useState<boolean>(false);
-  const [,setCookie] = useCookies(['pending-redirect']);
+  const [, setCookie] = useCookies(['pending-redirect']);
 
   if (info?.company?.plan) FeatureTogglesService.setFeaturesFromCompanyPlan(info?.company?.plan);
 
@@ -67,7 +67,7 @@ export default (): JSX.Element => {
       const currentPage = document.location.href;
 
       const authUrl = `${
-        InitService.server_infos?.configuration?.accounts?.console?.authority
+        InitService.server_infos?.configuration?.accounts?.remote?.authority
       }/oauth2/authorize?invite=1&redirect_uri=${encodeURIComponent(origin)}`;
       setCookie('pending-redirect', currentPage, { path: '/', maxAge: 60 * 60 });
       setBusy(true);
@@ -92,7 +92,7 @@ export default (): JSX.Element => {
   };
 
   const onCreateCompanyBtnClick = () => {
-    if (InitService.server_infos?.configuration?.accounts?.type === 'console') {
+    if (InitService.server_infos?.configuration?.accounts?.type === 'remote') {
       return document.location.replace(InitService.getConsoleLink('account_management_url'));
     } else {
       document.location.replace('/');

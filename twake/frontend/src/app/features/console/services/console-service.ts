@@ -109,7 +109,7 @@ class ConsoleService {
    * @param callback
    */
   public getNewAccessToken(
-    currentToken: { access_token: string },
+    currentToken: { access_token: string; id_token: string },
     callback: (err?: Error, access_token?: JWTDataType) => void,
   ): void {
     this.logger.debug(
@@ -117,7 +117,7 @@ class ConsoleService {
     );
     Api.post(
       '/internal/services/console/v1/login',
-      { remote_access_token: currentToken.access_token },
+      { oidc_id_token: currentToken.id_token },
       (response: {
         access_token: JWTDataType;
         message: string;

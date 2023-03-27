@@ -6,7 +6,7 @@ import LoginService from 'app/features/auth/login-service';
 import popupManager from 'app/deprecated/popupManager/popupManager.js';
 import userService from 'app/features/users/services/current-user-service';
 import currentUserService from 'app/deprecated/user/CurrentUser';
-import WorkspaceApps from './pages/WorkspaceApps.js.js.js.js.js.js';
+import WorkspaceApps from './pages/WorkspaceApps.js.js.js.js.js.js.js';
 import WorkspaceAppsInformations from './pages/WorkspaceAppsInformations.jsx';
 import TwacodeTester from './pages/TwacodeTester.jsx';
 import MenuList from 'components/menus/menu-component.jsx';

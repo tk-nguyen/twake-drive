@@ -24,11 +24,12 @@ const routes: FastifyPluginCallback<{ configuration: ServerConfiguration["config
             "pricing_plan_url",
             "mobile",
             "app_download_url",
+            "app_grid",
           ),
           accounts: {
             type: accounts.type,
-            console: _.pick(
-              accounts.console,
+            remote: _.pick(
+              accounts.remote,
               "authority",
               "client_id",
               "account_management_url",

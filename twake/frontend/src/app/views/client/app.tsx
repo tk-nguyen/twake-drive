@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
-import Client from 'app/views/client';
 import InitService from 'app/features/global/services/init-service';
+import Client from 'app/views/client';
 
 export default () => {
   const isAppReady = InitService.useWatcher(() => InitService.app_ready);

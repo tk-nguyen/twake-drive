@@ -38,14 +38,15 @@ export type ServerInfoType = null | {
     help_url: string | null;
     pricing_plan_url: string | null;
     app_download_url: string | null;
+    app_grid: { logo: string; name: string; url: string }[];
     mobile: {
       mobile_redirect: string;
       mobile_appstore: string;
       mobile_googleplay: string;
     };
     accounts: {
-      type: 'console' | 'internal';
-      console?: ConsoleConfiguration;
+      type: 'remote' | 'internal';
+      remote?: ConsoleConfiguration;
       internal?: InternalConfiguration;
     };
   };
@@ -68,7 +69,7 @@ class InitService extends Observable {
     companyId = companyId || WorkspaceService.currentGroupId;
     const identity_provider_id =
       getCompany(companyId || '')?.identity_provider_id || getCompany(companyId || '')?.id;
-    return (this.server_infos?.configuration?.accounts?.console?.[link] || '').replace(
+    return (this.server_infos?.configuration?.accounts?.remote?.[link] || '').replace(
       /\{company_id\}/gm,
       identity_provider_id,
     );

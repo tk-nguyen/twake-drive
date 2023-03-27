@@ -25,7 +25,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { openDriveItem, onDriveItemDownloadClick } from '../common';
 import ResultContext from './result-context';
 import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import { DriveCurrentFolderAtom } from 'app/views/applications/drive/browser';
+import { DriveCurrentFolderAtom } from 'app/views/client/body/drive/browser';
 import { FolderIcon } from '@heroicons/react/solid';
 
 export default (props: { driveItem: DriveItem & { user?: UserType } }) => {

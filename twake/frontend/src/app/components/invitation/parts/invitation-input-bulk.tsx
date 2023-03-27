@@ -64,7 +64,7 @@ export default (): React.ReactElement => {
       style={{ maxHeight: 'calc(42vh - 98px)', minHeight: 'calc(42vh - 98px)' }}
       options={{ suppressScrollX: true, suppressScrollY: false }}
     >
-      { members_limit_reached && <ReachedLimit />}
+      {members_limit_reached && <ReachedLimit />}
       <ChipInput
         value={emails}
         disableUnderline={true}

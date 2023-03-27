@@ -126,14 +126,12 @@ export type ConsoleType = "remote" | "internal";
 
 export type ConsoleOptions = {
   type: ConsoleType;
-  new_console: boolean;
-  username: string;
-  password: string;
-  url: string;
-  hook: {
-    token: string;
-    public_key?: string;
-  };
+  authority: string;
+  client_id: string;
+  client_secret: string;
+  issuer: string;
+  audience: string;
+  redirect_uris: string[];
   disable_account_creation: boolean;
 };
 
@@ -231,7 +229,7 @@ export interface ConsoleExecutionContext extends ExecutionContext {
 export interface AuthRequest {
   email?: string;
   password?: string;
-  remote_access_token?: string;
+  oidc_id_token?: string;
 }
 
 export interface AuthResponse {

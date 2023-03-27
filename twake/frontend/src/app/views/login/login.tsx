@@ -8,7 +8,7 @@ const ConsoleLogin = lazy(() => import('app/views/login/console/console-login'))
 
 export default () => (
   <Suspense fallback={<></>}>
-    {InitService.server_infos?.configuration?.accounts.type === 'console' ? (
+    {InitService.server_infos?.configuration?.accounts.type === 'remote' ? (
       <ConsoleLogin />
     ) : (
       <InternalLogin />

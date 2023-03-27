@@ -20,7 +20,7 @@ import Application from 'app/features/applications/services/application-service'
 import LocalStorage from 'app/features/global/framework/local-storage-service';
 import Globals from 'app/features/global/services/globals-twake-app-service';
 
-type AccountType = 'console' | 'internal';
+type AccountType = 'remote' | 'internal';
 export type LoginState =
   | ''
   | 'app'
@@ -60,7 +60,7 @@ class AuthService {
 
     if (Globals.environment.env_dev_auth) accountType = Globals.environment.env_dev_auth;
 
-    if (accountType === 'console') {
+    if (accountType === 'remote') {
       this.provider = new OIDCAuthProviderService(config as ConsoleConfiguration);
     } else if (accountType === 'internal') {
       this.provider = new InternalAuthProviderService(config as InternalConfiguration);

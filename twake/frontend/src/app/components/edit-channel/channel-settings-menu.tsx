@@ -29,7 +29,7 @@ import RouterServices from 'app/features/router/services/router-service';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
 import workspaceUserRightsService from 'app/features/workspaces/services/workspace-user-rights-service';
 import Block from 'app/molecules/grouped-rows/base';
-import { addUrlTryDesktop } from 'app/views/desktop-redirect';
+import { addUrlTryDesktop } from 'app/components/desktop-redirect';
 import { useState } from 'react';
 
 export const ChannelSettingsMenu = (props: {

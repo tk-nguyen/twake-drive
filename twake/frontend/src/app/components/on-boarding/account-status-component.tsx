@@ -12,17 +12,17 @@ import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
 const AccountStatusComponent = (): JSX.Element => {
   const { user } = useCurrentUser();
   const maxUnverifiedDays =
-    InitService.server_infos?.configuration?.accounts?.console?.max_unverified_days || 7;
+    InitService.server_infos?.configuration?.accounts?.remote?.max_unverified_days || 7;
   const oneDay = 1000 * 60 * 60 * 24;
   const periodLimit = (user?.created_at || 0) + maxUnverifiedDays * oneDay;
   const daysLeft = Math.ceil((periodLimit - Date.now()) / oneDay);
 
-  if (!user || InitService.server_infos?.configuration?.accounts?.type !== 'console') {
+  if (!user || InitService.server_infos?.configuration?.accounts?.type !== 'remote') {
     return <></>;
   }
 
   const showBlockedModal = () => {
-    if (InitService.server_infos?.configuration?.accounts?.type === 'console')
+    if (InitService.server_infos?.configuration?.accounts?.type === 'remote')
       return ModalManager.open(
         <BlockedAccount email={user?.email} />,
         {
@@ -34,7 +34,7 @@ const AccountStatusComponent = (): JSX.Element => {
   };
 
   const showUnverifiedModal = () => {
-    if (InitService.server_infos?.configuration?.accounts?.type === 'console')
+    if (InitService.server_infos?.configuration?.accounts?.type === 'remote')
       return ModalManager.open(
         <UnverifiedAccount daysLeft={daysLeft} limit={maxUnverifiedDays} email={user.email} />,
         {

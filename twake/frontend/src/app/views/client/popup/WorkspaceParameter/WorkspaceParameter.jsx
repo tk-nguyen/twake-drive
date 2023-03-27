@@ -187,7 +187,7 @@ export default class WorkspaceParameter extends Component {
         ),
         selected: this.state.page === 4 ? 'selected' : '',
         onClick: () => {
-          if (InitService.server_infos?.configuration?.accounts?.type === 'console') {
+          if (InitService.server_infos?.configuration?.accounts?.type === 'remote') {
             return window.open(
               ConsoleService.getCompanyManagementUrl(WorkspaceService.currentGroupId),
               '_blank',

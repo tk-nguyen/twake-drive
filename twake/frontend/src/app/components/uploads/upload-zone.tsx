@@ -49,6 +49,8 @@ export default class UploadZone extends React.Component<PropsType, StateType> {
       this.file_input.style.left = '-10000px';
       this.file_input.style.width = '100px';
       this.file_input.multiple = this.props.multiple ? true : false;
+      this.file_input.directory = this.props.multiple ? true : false;
+      this.file_input.webkitdirectory = this.props.multiple ? true : false;
 
       this.setCallback();
 
