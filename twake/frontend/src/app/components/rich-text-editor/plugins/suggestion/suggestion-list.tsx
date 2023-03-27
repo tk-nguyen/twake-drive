@@ -150,9 +150,12 @@ export const SuggestionList = <T,>(props: Props<T>): JSX.Element => {
   return (
     <div className="suggestions" style={cssPosition}>
       <div
-        className={classNames(['menu-list', 'as_frame', 'inline', 'top'], {
-          fade_in: isFocused && props.list?.length,
-        })}
+        className={classNames(
+          ['menu-list', 'as_frame bg-white dark:bg-zinc-900 rounded-lg', 'inline', 'top'],
+          {
+            fade_in: isFocused && props.list?.length,
+          },
+        )}
       >
         {props?.list && props.list.length > 0 ? (
           props.list.map((item, index) => {

@@ -18,7 +18,7 @@ export default ({ className }: { className?: string }): JSX.Element => {
         {
           type: 'react-element',
           reactElement: (
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 -m-2">
               {applications.map((app, index) => {
                 return (
                   <a
@@ -26,9 +26,9 @@ export default ({ className }: { className?: string }): JSX.Element => {
                     target="_blank"
                     rel="noreferrer"
                     href={app.url}
-                    className="inline-block flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-100 rounded-md p-2 pb-1"
+                    className="inline-block flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-md p-2 pb-1"
                   >
-                    <img src={app.logo} className="w-14 h-14 mb-1" />
+                    <img src={app.logo} className="w-10 h-10 mb-1" />
                     <Base>{app.name}</Base>
                   </a>
                 );

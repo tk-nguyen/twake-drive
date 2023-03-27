@@ -10,7 +10,6 @@ export type EmbedContext = {
 
 export default ({
   initialParentId,
-  context,
   inPublicSharing,
 }: {
   initialParentId?: string;

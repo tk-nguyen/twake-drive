@@ -17,7 +17,7 @@ import MenuManager from 'app/components/menus/menus-manager';
 import { PendingFileRecoilType } from 'app/features/files/types/file';
 import { MessageFileType } from 'app/features/messages/types/message';
 import { useFileViewerModal } from 'app/features/viewer/hooks/use-viewer';
-import { useEditors } from 'app/views/applications/viewer/other/editors-service';
+import { useEditors } from 'app/views/client/viewer/other/editors-service';
 
 type PropsType = {
   file: DataFileType;
@@ -40,7 +40,7 @@ export const FileActions = ({
   const { cancelUpload, deleteOneFile, downloadOneFile, retryUpload } = useUpload();
   const menuRef = useRef<HTMLElement>();
   const { open: openPreview } = useFileViewerModal();
-  const { candidates } = useEditors(file.name.split(".").pop() || "")
+  const { candidates } = useEditors(file.name.split('.').pop() || '');
 
   const onClickDownload = async () => {
     file.company_id &&
@@ -53,7 +53,7 @@ export const FileActions = ({
 
   const onClickOpen = async () => {
     openPreview(messageFile);
-  }
+  };
 
   const buildMenu = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -66,7 +66,7 @@ export const FileActions = ({
       },
     ];
 
-    if(candidates.length > 0) {
+    if (candidates.length > 0) {
       const openerName = candidates[0].name || candidates[0].app?.identity.name;
 
       menu.push({
@@ -80,12 +80,9 @@ export const FileActions = ({
       });
     }
 
-    MenuManager.openMenu(
-      menu,
-      (window as any).getBoundingClientRect(menuRef.current),
-      null,
-      { margin: 0 },
-    );
+    MenuManager.openMenu(menu, (window as any).getBoundingClientRect(menuRef.current), null, {
+      margin: 0,
+    });
   };
 
   const onClickCancel = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
