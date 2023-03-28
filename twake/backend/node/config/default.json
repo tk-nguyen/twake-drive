@@ -39,6 +39,9 @@
       }
     }
   },
+  "console": {
+    "type": "internal"
+  },
   "sentry": {
     "dsn": ""
   },
