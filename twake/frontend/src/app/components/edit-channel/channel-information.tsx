@@ -143,7 +143,7 @@ export const ChannelInformationForm = (props: {
         <div className="mt-2">
           {!!icon && (
             <A
-              className="!text-red-500"
+              className="!text-rose-500"
               onClick={() => {
                 setIcon('');
               }}

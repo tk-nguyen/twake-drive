@@ -1,11 +1,16 @@
 import { Transition } from '@headlessui/react';
-import { ChevronLeftIcon, DesktopComputerIcon } from '@heroicons/react/outline';
-import { FolderIcon } from '@heroicons/react/solid';
+import {
+  ChevronLeftIcon,
+  DesktopComputerIcon,
+  DocumentDownloadIcon,
+  FolderAddIcon,
+  FolderDownloadIcon,
+  FolderIcon,
+} from '@heroicons/react/outline';
 import Avatar from 'app/atoms/avatar';
 import A from 'app/atoms/link';
 import { Modal, ModalContent } from 'app/atoms/modal';
 import { Base } from 'app/atoms/text';
-import { useApplications } from 'app/features/applications/hooks/use-applications';
 import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
 import { Application } from 'app/features/applications/types/application';
 import { ReactNode } from 'react';
@@ -29,9 +34,11 @@ export const CreateModalAtom = atom<CreateModalAtomType>({
 
 export const CreateModal = ({
   selectFromDevice,
+  selectFolderFromDevice,
   addFromUrl,
 }: {
   selectFromDevice: () => void;
+  selectFolderFromDevice: () => void;
   addFromUrl: (url: string, name: string) => void;
 }) => {
   const [state, setState] = useRecoilState(CreateModalAtom);
@@ -72,14 +79,19 @@ export const CreateModal = ({
           >
             <div className="-m-2">
               <CreateModalOption
-                icon={<FolderIcon className="w-5 h-5" />}
+                icon={<FolderAddIcon className="w-5 h-5" />}
                 text="Create a folder"
                 onClick={() => setState({ ...state, type: 'folder' })}
               />
               <CreateModalOption
-                icon={<DesktopComputerIcon className="w-5 h-5" />}
-                text="Upload document from device"
+                icon={<DocumentDownloadIcon className="w-5 h-5" />}
+                text="Upload files from device"
                 onClick={() => selectFromDevice()}
+              />
+              <CreateModalOption
+                icon={<FolderDownloadIcon className="w-5 h-5" />}
+                text="Upload folders from device"
+                onClick={() => selectFolderFromDevice()}
               />
 
               {(applications || [])

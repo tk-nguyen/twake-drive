@@ -10,7 +10,7 @@ export const Alert = (props: {
   let color = 'blue';
   let textColor = 'white';
   if (props.theme === 'success') color = 'green-500';
-  if (props.theme === 'danger') color = 'red-500';
+  if (props.theme === 'danger') color = 'rose-500';
   if (props.theme === 'warning') color = 'orange-500';
   if (props.theme === 'gray') {
     color = 'zinc-50';

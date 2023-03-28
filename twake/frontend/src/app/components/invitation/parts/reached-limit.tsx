@@ -4,7 +4,7 @@ import React from 'react';
 
 export default (): React.ReactElement => {
   return (
-    <Text type="base" className="text-red-500" noColor={true}>
+    <Text type="base" className="text-rose-500" noColor={true}>
       {Languages.t(
         'components.invitation.reached_limit.text',
         [],

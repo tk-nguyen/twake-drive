@@ -76,7 +76,7 @@ export default () => {
             theme="white"
             className={'w-full mb-1 ' + (inTrash ? activeClass : '')}
           >
-            <TrashIcon className="w-5 h-5 mr-4 text-red-500" /> Trash
+            <TrashIcon className="w-5 h-5 mr-4 text-rose-500" /> Trash
           </Button>
         )}
 

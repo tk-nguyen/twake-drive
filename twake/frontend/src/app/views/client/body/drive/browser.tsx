@@ -21,7 +21,7 @@ import { FolderRow } from './documents/folder-row';
 import HeaderPath from './header-path';
 import { ConfirmDeleteModal } from './modals/confirm-delete';
 import { ConfirmTrashModal } from './modals/confirm-trash';
-import { CreateModal, CreateModalAtom } from './modals/create';
+import { CreateModalAtom } from './modals/create';
 import { PropertiesModal } from './modals/properties';
 import { AccessModal } from './modals/update-access';
 import { VersionsModal } from './modals/versions';

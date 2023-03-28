@@ -35,8 +35,8 @@ export const errorInputClassName = (theme: 'plain' | 'outline' = 'plain') => {
   return (
     baseInputClassName +
     (theme === 'plain'
-      ? 'bg-red-200 border-red-200 dark:bg-red-800 dark:border-red-800'
-      : 'bg-red-50 border-red-300 dark:bg-red-900 dark:border-red-800')
+      ? 'bg-rose-200 border-rose-200 dark:bg-rose-800 dark:border-rose-800'
+      : 'bg-rose-50 border-rose-300 dark:bg-rose-900 dark:border-rose-800')
   );
 };
 

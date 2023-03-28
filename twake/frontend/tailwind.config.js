@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 let shades = [];
-['zinc', 'red', 'orange', 'green', 'blue'].map(color => {
+['zinc', 'rose', 'orange', 'green', 'blue'].map(color => {
   [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map(shade => {
     shades.push(`bg-${color}-${shade}`);
     shades.push(`border-${color}-${shade}`);

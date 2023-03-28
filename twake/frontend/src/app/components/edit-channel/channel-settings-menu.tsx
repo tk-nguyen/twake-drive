@@ -210,9 +210,9 @@ const RemoveBlock = (props: { channel?: ChannelType; onLeave?: Function }) => {
           props.onLeave && props.onLeave();
         });
       }}
-      className="-mx-2 my-1 p-2 rounded-md cursor-pointer hover:bg-red-50 dark:hover:bg-red-800"
+      className="-mx-2 my-1 p-2 rounded-md cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-800"
       title={
-        <Base noColor className="font-semibold text-red-500">
+        <Base noColor className="font-semibold text-rose-500">
           {Languages.t('scenes.app.channelsbar.channel_removing')}
         </Base>
       }
@@ -221,7 +221,7 @@ const RemoveBlock = (props: { channel?: ChannelType; onLeave?: Function }) => {
         loading ? (
           <Loader className="w-4 h-4 m-1" />
         ) : (
-          <TrashIcon className="text-red-500 w-6 h-6" />
+          <TrashIcon className="text-rose-500 w-6 h-6" />
         )
       }
     />
@@ -280,9 +280,9 @@ const LeaveBlock = (props: { channel?: ChannelType; onLeave?: Function }) => {
 
         return leaveChannel();
       }}
-      className="-mx-2 my-1 p-2 rounded-md cursor-pointer hover:bg-red-50 dark:hover:bg-red-800"
+      className="-mx-2 my-1 p-2 rounded-md cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-800"
       title={
-        <Base noColor className="font-semibold text-red-500">
+        <Base noColor className="font-semibold text-rose-500">
           {Languages.t('scenes.app.channelsbar.channel_leaving')}
         </Base>
       }
@@ -291,7 +291,7 @@ const LeaveBlock = (props: { channel?: ChannelType; onLeave?: Function }) => {
         loading ? (
           <Loader className="w-4 h-4 m-1" />
         ) : (
-          <LogoutIcon className="text-red-500 w-6 h-6" />
+          <LogoutIcon className="text-rose-500 w-6 h-6" />
         )
       }
     />

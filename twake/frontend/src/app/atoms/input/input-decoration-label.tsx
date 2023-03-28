@@ -16,7 +16,7 @@ export const InputLabel = (props: InputLabelProps) => {
           <label className="block text-sm text-zinc-400">{props.label}</label>
           <div className="mt-1">{props.input}</div>
           {props.feedback && (
-            <Info noColor className={props.hasError ? 'text-red-400' : 'text-blue-500'}>
+            <Info noColor className={props.hasError ? 'text-rose-400' : 'text-blue-500'}>
               {props.feedback}
             </Info>
           )}

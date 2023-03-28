@@ -21,6 +21,8 @@ type FileInputType = any;
 type FileObjectType = { [key: string]: any };
 
 let sharedFileInput: any = null;
+let sharedFolderInput: any = null;
+
 export default class UploadZone extends React.Component<PropsType, StateType> {
   file_input: FileInputType = {};
   stopHoverTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -41,7 +43,10 @@ export default class UploadZone extends React.Component<PropsType, StateType> {
   componentDidMount() {
     this.node && this.watch(this.node, document.body);
 
-    if (!sharedFileInput) {
+    if (
+      (this.props.directory && !sharedFolderInput) ||
+      (!this.props.directory && !sharedFileInput)
+    ) {
       this.file_input = document.createElement('input');
       this.file_input.type = 'file';
       this.file_input.style.position = 'absolute';
@@ -49,14 +54,18 @@ export default class UploadZone extends React.Component<PropsType, StateType> {
       this.file_input.style.left = '-10000px';
       this.file_input.style.width = '100px';
       this.file_input.multiple = this.props.multiple ? true : false;
-      this.file_input.directory = this.props.multiple ? true : false;
-      this.file_input.webkitdirectory = this.props.multiple ? true : false;
+      this.file_input.directory = this.props.directory ? true : false;
+      this.file_input.webkitdirectory = this.props.directory ? true : false;
 
       this.setCallback();
 
       document.body.appendChild(this.file_input);
 
-      sharedFileInput = this.file_input;
+      if (this.props.directory) {
+        sharedFolderInput = this.file_input;
+      } else {
+        sharedFileInput = this.file_input;
+      }
     } else {
       this.file_input = sharedFileInput;
     }
