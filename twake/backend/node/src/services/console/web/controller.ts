@@ -222,7 +222,7 @@ export class ConsoleController {
 
   private async userAdded(content: ConsoleHookBodyContent): Promise<void> {
     const userDTO = content.user;
-    const user = await gr.services.console.getClient().updateLocalUserFromConsole(userDTO._id);
+    const user = await gr.services.console.getClient().updateLocalUserFromConsole(userDTO);
     await this.updateCompany(content.company);
     await gr.services.console.processPendingUser(user);
   }
@@ -237,8 +237,8 @@ export class ConsoleController {
   }
 
   private async userUpdated(code: string) {
-    const user = await gr.services.console.getClient().updateLocalUserFromConsole(code);
-    await gr.services.console.processPendingUser(user);
+    //Not implemented yet
+    throw CrudException.notImplemented("Unimplemented");
   }
 
   private async companyRemoved(content: ConsoleHookCompanyDeletedContent) {
@@ -286,7 +286,7 @@ export class ConsoleController {
   private async authByToken(idToken: string): Promise<AccessToken> {
     const client = gr.services.console.getClient();
     const userDTO = await client.getUserByAccessToken(idToken);
-    const user = await client.updateLocalUserFromConsole(userDTO._id);
+    const user = await client.updateLocalUserFromConsole(userDTO);
     if (!user) {
       throw CrudException.notFound(`User details not found for access token ${idToken}`);
     }

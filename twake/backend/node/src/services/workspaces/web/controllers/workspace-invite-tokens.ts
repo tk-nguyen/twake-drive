@@ -169,14 +169,6 @@ export class WorkspaceInviteTokensCrudController
                 inviterEmail: inviter.email_canonical,
               },
             );
-
-          await gr.services.console
-            .getClient()
-            .updateLocalUserFromConsole(user.identity_provider_id);
-          companyUser = await gr.services.companies.getCompanyUser(
-            { id: company_id },
-            { id: userId },
-          );
         }
         if (!companyUser) {
           throw CrudException.badRequest("Unable to add user to the company");

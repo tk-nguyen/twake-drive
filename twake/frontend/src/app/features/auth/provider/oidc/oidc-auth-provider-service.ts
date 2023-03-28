@@ -44,15 +44,13 @@ export default class OIDCAuthProviderService
       Oidc.Log.logger = Logger.getLogger('OIDCClient');
       Oidc.Log.level = EnvironmentService.isProduction() ? Oidc.Log.WARN : Oidc.Log.DEBUG;
 
-      const audience = ['https://dev-mxb6x0f2.eu.auth0.com/api/v2/'];
-
       this.userManager = new Oidc.UserManager({
         userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
         authority: this.configuration?.authority || environment.api_root_url,
         client_id: this.configuration?.client_id,
         redirect_uri: getAsFrontUrl(OIDC_CALLBACK_URL),
         response_type: 'code',
-        scope: 'openid profile email address phone offline_access ' + audience.join(' '),
+        scope: 'openid profile email address phone offline_access',
         post_logout_redirect_uri: getAsFrontUrl(OIDC_SIGNOUT_URL),
         //silent_redirect_uri: getAsFrontUrl(OIDC_SILENT_URL),
         automaticSilentRenew: true,

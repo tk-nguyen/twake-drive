@@ -1,4 +1,15 @@
 {
+  "general": {
+    "accounts": {
+      "type": "ACCOUNTS_TYPE",
+      "remote": {
+        "authority": "SSO_AUTHORITY",
+        "client_id": "SSO_CLIENT_ID",
+        "issuer": "SSO_ISSUER",
+        "jwks_uri": "SSO_JWKS_URI"
+      }
+    }
+  },
   "sentry": {
     "dsn": "SENTRY_DSN"
   },

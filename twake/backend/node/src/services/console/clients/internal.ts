@@ -70,7 +70,7 @@ export class ConsoleInternalClient implements ConsoleServiceClient {
     throw new Error("Method should not be implemented.");
   }
 
-  updateLocalUserFromConsole(_code: string): Promise<User> {
+  updateLocalUserFromConsole(_user: ConsoleHookUser): Promise<User> {
     logger.info("Internal: updateLocalUserFromConsole");
     throw new Error("Method should not be implemented.");
   }

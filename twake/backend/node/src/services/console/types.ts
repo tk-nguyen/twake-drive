@@ -130,6 +130,7 @@ export type ConsoleOptions = {
   client_id: string;
   client_secret: string;
   issuer: string;
+  jwks_uri: string;
   audience: string;
   redirect_uris: string[];
   disable_account_creation: boolean;
