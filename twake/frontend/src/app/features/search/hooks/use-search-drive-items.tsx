@@ -20,9 +20,7 @@ export const useSearchDriveItems = () => {
   const companyId = useRouterCompany();
   const { open } = useSearchModal();
   const searchInput = useRecoilValue(SearchInputState);
-  const [loading, setLoading] = useRecoilState(
-    LoadingState('useSearchDriveItems'),
-  );
+  const [loading, setLoading] = useRecoilState(LoadingState('useSearchDriveItems'));
 
   const [searched, setSearched] = useRecoilState(SearchDriveItemsResultsState(companyId));
   const [recent, setRecent] = useRecoilState(RecentDriveItemsState(companyId));
@@ -31,6 +29,7 @@ export const useSearchDriveItems = () => {
     {
       limit: 25,
       workspace_id: searchInput.workspaceId,
+      company_id: companyId,
       channel_id: searchInput.channelId,
     },
     _.isUndefined,
@@ -52,7 +51,7 @@ export const useSearchDriveItems = () => {
 
     const update = {
       results,
-      nextPage: "",
+      nextPage: '',
       // nextPage: response.next_page_token,
     };
 
