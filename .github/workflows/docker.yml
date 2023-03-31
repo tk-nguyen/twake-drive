@@ -11,16 +11,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - run: cd twake && docker build -t twaketech/twake-nginx -f docker/twake-nginx/Dockerfile .
-
-  build-php:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - run: cd twake && docker build -t twaketech/twake-php -f docker/twake-php/Dockerfile .
+      - run: cd twake && docker build -t twaketech/tdrive-nginx -f docker/twake-nginx/Dockerfile .
 
   build-node:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - run: cd twake && docker build --target production -t twaketech/twake-node -f docker/twake-node/Dockerfile .
+      - run: cd twake && docker build --target production -t twaketech/tdrive-node -f docker/twake-node/Dockerfile .

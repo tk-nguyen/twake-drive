@@ -65,9 +65,9 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: twaketech/twake-nginx
+          name: twaketech/tdrive-nginx
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: twake
-          buildoptions: "-t twaketech/twake-nginx -f docker/twake-nginx/Dockerfile"
+          buildoptions: "-t twaketech/tdrive-nginx -f docker/twake-nginx/Dockerfile"
           tags: "${{ env.DOCKERTAG }},${{ env.DOCKERTAGVERSION }}"

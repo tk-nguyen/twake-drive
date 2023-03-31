@@ -10,33 +10,6 @@ on:
       - ".github/workflows/**"
 
 jobs:
-  deploy-php:
-    runs-on: ubuntu-20.04
-    steps:
-      - run: 'echo "DOCKERTAGVERSION=2023.Q1.1223" >> $GITHUB_ENV'
-      - name: Set env to develop
-        if: endsWith(github.ref, '/develop')
-        run: 'echo "DOCKERTAG=develop" >> $GITHUB_ENV; echo "DOCKERTAGVERSION=2023.Q1.1223" >> $GITHUB_ENV'
-      - name: Set env to develop
-        if: endsWith(github.ref, '/qa')
-        run: 'echo "DOCKERTAG=qa" >> $GITHUB_ENV; echo "DOCKERTAGVERSION=2023.Q1.1223" >> $GITHUB_ENV'
-      - name: Set env to develop
-        if: endsWith(github.ref, '/canary')
-        run: 'echo "DOCKERTAG=canary" >> $GITHUB_ENV; echo "DOCKERTAGVERSION=${{ env.DOCKERTAGVERSION }}-canary" >> $GITHUB_ENV'
-      - name: Set env to production
-        if: endsWith(github.ref, '/main')
-        run: 'echo "DOCKERTAG=latest" >> $GITHUB_ENV'
-      - uses: actions/checkout@v2
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: twaketech/twake-php
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: twake
-          buildoptions: "-t twaketech/twake-php -f docker/twake-php/Dockerfile"
-          tags: "${{ env.DOCKERTAG }},${{ env.DOCKERTAGVERSION }}"
-
   deploy-node:
     runs-on: ubuntu-20.04
     steps:
@@ -57,11 +30,11 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: twaketech/twake-node
+          name: twaketech/tdrive-node
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: twake
           context: .
           target: production
-          buildoptions: "-t twaketech/twake-node -f docker/twake-node/Dockerfile"
+          buildoptions: "-t twaketech/tdrive-node -f docker/twake-node/Dockerfile"
           tags: "${{ env.DOCKERTAG }},${{ env.DOCKERTAGVERSION }}"
