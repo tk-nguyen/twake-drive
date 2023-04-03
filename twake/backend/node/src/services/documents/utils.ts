@@ -1,3 +1,4 @@
+import mimes from "../../utils/mime";
 import { merge } from "lodash";
 import { DriveFile } from "./entities/drive-file";
 import {
@@ -347,17 +348,6 @@ export const getAccessLevel = async (
   repository: Repository<DriveFile>,
   context: CompanyExecutionContext & { public_token?: string; twake_tab_token?: string },
 ): Promise<DriveFileAccessLevel | "none"> => {
-  if (
-    context.user?.application_id &&
-    (
-      await globalResolver.services.applications.companyApps.get({
-        company_id: context.company.id,
-        application_id: context.user.application_id,
-      })
-    )?.application?.access //TODO check precise access right for applications
-  ) {
-    return "manage";
-  }
 
   if (!id || id === "root")
     return !context?.user?.id ? "none" : (await isCompanyGuest(context)) ? "read" : "manage";
@@ -804,3 +794,10 @@ export const canMoveItem = async (
 
   return true;
 };
+
+export function isFileType(fileMime: string, fileName: string, requiredExtensions: string[]): any {
+  const extension = fileName.split(".").pop();
+  const secondaryExtensions = Object.keys(mimes).filter(k => mimes[k] === fileMime);
+  const fileExtensions = [extension, ...secondaryExtensions];
+  return fileExtensions.some(e => requiredExtensions.includes(e));
+}

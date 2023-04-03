@@ -7,18 +7,10 @@ import { Pagination } from "../../../core/platform/framework/api/crud-service";
 
 import User, { TYPE as UserTYPE } from "../../../services/user/entities/user";
 import { Channel } from "../../../services/channels/entities";
-import Application, {
-  TYPE as ApplicationTYPE,
-} from "../../../services/applications/entities/application";
 import Repository from "../../../core/platform/services/database/services/orm/repository/repository";
 import { SearchServiceAPI } from "../../../core/platform/services/search/api";
 import CompanyUser, { TYPE as CompanyUserTYPE } from "../../../services/user/entities/company_user";
-import { Message, TYPE as MessageTYPE } from "../../../services/messages/entities/messages";
 import gr from "../../../services/global-resolver";
-import {
-  MessageFile,
-  TYPE as MessageFileTYPE,
-} from "../../../services/messages/entities/message-files";
 
 type Options = {
   repository?: string;
@@ -36,17 +28,8 @@ class SearchIndexAll {
 
   public async run(options: Options = {}): Promise<void> {
     const repositories: Map<string, Repository<any>> = new Map();
-    repositories.set("messages", await this.database.getRepository(MessageTYPE, Message));
-    repositories.set(
-      "message_files",
-      await this.database.getRepository(MessageFileTYPE, MessageFile),
-    );
     repositories.set("users", await this.database.getRepository(UserTYPE, User));
     repositories.set("channels", await this.database.getRepository("channels", Channel));
-    repositories.set(
-      "applications",
-      await this.database.getRepository(ApplicationTYPE, Application),
-    );
 
     const repository = repositories.get(options.repository);
     if (!repository) {

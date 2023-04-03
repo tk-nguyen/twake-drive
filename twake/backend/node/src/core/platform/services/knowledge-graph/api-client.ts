@@ -5,7 +5,6 @@ import { KnowledgeGraphCreateBodyRequest, KnowledgeGraphCreateMessageObjectData 
 import { md5 } from "../../../../core/crypto";
 import { Channel } from "../../../../services/channels/entities";
 import gr from "../../../../services/global-resolver";
-import { Message } from "../../../../services/messages/entities/messages";
 import Company from "../../../../services/user/entities/company";
 import User from "../../../../services/user/entities/user";
 import Workspace from "../../../../services/workspaces/entities/workspace";
@@ -136,41 +135,6 @@ export default class KnowledgeGraphAPIClient {
 
     if (response.statusText === "OK") {
       this.logger.info("onChannelCreated %o", response.config.data);
-    }
-  }
-
-  public async onMessageUpsert(
-    channelId: string,
-    message: Partial<Message>,
-    sensitiveData: boolean,
-  ): Promise<void> {
-    const response = await this.send({
-      records: [
-        {
-          key: "null",
-          value: {
-            id: "Message",
-            properties: {
-              _kg_user_id: await this.getUserKGId(message.user_id),
-              _kg_email_id: await this.getUserKGMailId(message.user_id),
-              _kg_company_id: await this.getCompanyKGId(message.cache?.company_id),
-              message_thread_id: message.thread_id,
-              message_content: sensitiveData ? message.text : "",
-              type_message: message.type,
-              message_created_at: message.created_at,
-              message_updated_at: message.updated_at,
-              user_id: message.user_id,
-              channel_id: message.cache?.channel_id || channelId,
-              workspace_id: message.cache?.workspace_id,
-              company_id: message.cache?.company_id,
-            },
-          },
-        },
-      ],
-    });
-
-    if (response.statusText === "OK") {
-      this.logger.info("onMessageUpsert %o", response.config.data);
     }
   }
 

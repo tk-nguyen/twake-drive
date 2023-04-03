@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MessageWithReplies } from "../../../services/messages/types";
 import { Initializable, TwakeServiceProvider } from "../../../core/platform/framework";
 import { Paginable, Pagination } from "../../../core/platform/framework/api/crud-service";
 import Repository from "../../../core/platform/services/database/services/orm/repository/repository";
 import { Channel } from "../../../services/channels/entities";
-import { Message } from "../../../services/messages/entities/messages";
 import { UserObject } from "../../../services/user/web/types";
 import Workspace from "../../../services/workspaces/entities/workspace";
 import gr from "../../global-resolver";
@@ -104,7 +102,6 @@ export class UserNotificationDigestService implements TwakeServiceProvider, Init
     const notifications: {
       channel: Channel;
       workspace: Workspace;
-      message: Message & { user: UserObject };
     }[] = [];
     const workspaces: { [key: string]: Workspace } = {};
     const channels: { [key: string]: Channel } = {};
@@ -112,15 +109,7 @@ export class UserNotificationDigestService implements TwakeServiceProvider, Init
     for (const badge of badges.getEntities()) {
       if (!badge.thread_id) continue;
       try {
-        const message = await gr.services.messages.messages.includeUsersInMessageWithReplies(
-          (await gr.services.messages.messages.get({
-            id: badge.thread_id,
-            thread_id: badge.thread_id,
-          })) as MessageWithReplies,
-        );
-
-        if (message.created_at < digest.created_at - 60 * 1000) continue;
-
+        
         channels[badge.channel_id] =
           channels[badge.channel_id] ||
           (await gr.services.channels.channels.get({
@@ -141,7 +130,6 @@ export class UserNotificationDigestService implements TwakeServiceProvider, Init
         notifications.push({
           channel: channels[badge.channel_id],
           workspace: workspaces[badge.workspace_id],
-          message: { ...message, user: (message.users || []).find(u => u.id === message.user_id) },
         });
       } catch (e) {}
     }

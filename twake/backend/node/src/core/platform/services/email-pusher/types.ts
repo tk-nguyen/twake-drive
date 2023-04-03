@@ -1,5 +1,4 @@
 import { Channel } from "../../../../services/channels/entities/channel";
-import { Message } from "../../../../services/messages/entities/messages";
 import Company from "../../../../services/user/entities/company";
 import Workspace from "../../../../services/workspaces/entities/workspace";
 import User from "../../../../services/user/entities/user";
@@ -11,7 +10,6 @@ export type EmailBuilderDataPayload = {
   notifications: {
     channel: Channel;
     workspace: Workspace;
-    message: Message & { user: UserObject };
   }[];
 };
 

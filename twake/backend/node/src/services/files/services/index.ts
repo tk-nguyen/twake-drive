@@ -6,8 +6,6 @@ import { File } from "../entities/file";
 import Repository from "../../../../src/core/platform/services/database/services/orm/repository/repository";
 import { CompanyExecutionContext } from "../web/types";
 import { logger } from "../../../core/platform/framework";
-import { PreviewClearMessageQueueRequest, PreviewMessageQueueRequest } from "../../previews/types";
-import { PreviewFinishedProcessor } from "./preview";
 import _ from "lodash";
 import { getDownloadRoute, getThumbnailRoute } from "../web/routes";
 import {
@@ -27,9 +25,6 @@ export class FileServiceImpl {
     try {
       await Promise.all([
         (this.repository = await gr.database.getRepository<File>("files", File)),
-        gr.platformServices.messageQueue.processor.addHandler(
-          new PreviewFinishedProcessor(this, this.repository),
-        ),
       ]);
     } catch (err) {
       logger.error("Error while initializing files service", err);
@@ -116,61 +111,6 @@ export class FileServiceImpl {
         await this.repository.save(entity, context);
       }
 
-      //Fixme: detect in multichunk when all chunks are uploaded to trigger this. For now we do only single chunks for preview
-      if (entity.upload_data.chunks === 1 && totalUploadedSize) {
-        /** Send preview generation task */
-        if (entity.upload_data.size < this.max_preview_file_size) {
-          const document: PreviewMessageQueueRequest["document"] = {
-            id: JSON.stringify(_.pick(entity, "id", "company_id")),
-            provider: gr.platformServices.storage.getConnectorType(),
-
-            path: getFilePath(entity),
-            encryption_algo: this.algorithm,
-            encryption_key: entity.encryption_key,
-            chunks: entity.upload_data.chunks,
-
-            filename: entity.metadata.name,
-            mime: entity.metadata.mime,
-          };
-          const output = {
-            provider: gr.platformServices.storage.getConnectorType(),
-            path: `${getFilePath(entity)}/thumbnails/`,
-            encryption_algo: this.algorithm,
-            encryption_key: entity.encryption_key,
-            pages: 10,
-          };
-
-          entity.metadata.thumbnails_status = "waiting";
-          await this.repository.save(entity, context);
-
-          try {
-            await gr.platformServices.messageQueue.publish<PreviewMessageQueueRequest>(
-              "services:preview",
-              {
-                data: { document, output },
-              },
-            );
-
-            if (options.waitForThumbnail) {
-              entity = await gr.services.files.getFile(
-                {
-                  id: entity.id,
-                  company_id: context.company.id,
-                },
-                context,
-                { waitForThumbnail: true },
-              );
-            }
-          } catch (err) {
-            entity.metadata.thumbnails_status = "error";
-            await this.repository.save(entity, context);
-
-            logger.warn({ err }, "Previewing - Error while sending ");
-          }
-        }
-
-        /** End preview generation task generation */
-      }
     }
 
     return entity;
@@ -285,22 +225,6 @@ export class FileServiceImpl {
     await gr.platformServices.storage.remove(path, {
       totalChunks: fileToDelete.upload_data.chunks,
     });
-
-    if (fileToDelete.thumbnails.length > 0) {
-      await gr.platformServices.messageQueue.publish<PreviewClearMessageQueueRequest>(
-        "services:preview:clear",
-        {
-          data: {
-            document: {
-              id: JSON.stringify(_.pick(fileToDelete, "id", "company_id")),
-              provider: gr.platformServices.storage.getConnectorType(),
-              path: `${path}/thumbnails/`,
-              thumbnails_number: fileToDelete.thumbnails.length,
-            },
-          },
-        },
-      );
-    }
 
     return new DeleteResult("files", fileToDelete, true);
   }

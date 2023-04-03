@@ -66,45 +66,6 @@ export class NotificationController
       }),
     };
   }
-
-  /**
-   * Acknowledge a notification
-   *
-   * @param {FastifyRequest} request - The request object
-   * @param {FastifyReply} reply - The reply object
-   * @returns {Promise<boolean>} - The response object
-   */
-  async acknowledge(
-    request: FastifyRequest<{
-      Params: {
-        company_id: string;
-      };
-      Body: NotificationAcknowledgeBody;
-    }>,
-    reply: FastifyReply,
-  ): Promise<boolean> {
-    const context = getExecutionContext(request);
-    const { company_id } = request.params;
-    const { workspace_id, channel_id, thread_id, message_id } = request.body;
-
-    try {
-      await gr.services.notifications.badges.acknowledge(
-        {
-          channel_id,
-          company_id,
-          thread_id,
-          user_id: context.user.id,
-          workspace_id,
-          message_id,
-        },
-        context,
-      );
-
-      return reply.send(true);
-    } catch (err) {
-      return reply.send(false);
-    }
-  }
 }
 
 function getExecutionContext(request: FastifyRequest): WorkspaceExecutionContext {

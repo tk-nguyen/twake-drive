@@ -5,7 +5,6 @@ import Workspace from "../../../../services/workspaces/entities/workspace";
 import Company from "../../../../services/user/entities/company";
 import User from "../../../../services/user/entities/user";
 import { Channel } from "../../../../services/channels/entities";
-import { Message } from "../../../../services/messages/entities/messages";
 import {
   KnowledgeGraphGenericEventPayload,
   KnowledgeGraphEvents,
@@ -48,11 +47,6 @@ export default class KnowledgeGraphService
       this.onChannelCreated.bind(this),
     );
 
-    localEventBus.subscribe<KnowledgeGraphGenericEventPayload<Message>>(
-      KnowledgeGraphEvents.MESSAGE_UPSERT,
-      this.onMessageUpsert.bind(this),
-    );
-
     localEventBus.subscribe<KnowledgeGraphGenericEventPayload<User>>(
       KnowledgeGraphEvents.USER_UPSERT,
       this.onUserCreated.bind(this),
@@ -91,23 +85,6 @@ export default class KnowledgeGraphService
 
     if (this.kgAPIClient && (await this.shouldForwardEvent([data.resource.company_id]))) {
       this.kgAPIClient.onChannelCreated(data.resource);
-    }
-  }
-
-  async onMessageUpsert(data: KnowledgeGraphGenericEventPayload<Message>): Promise<void> {
-    this.logger.debug(`${KnowledgeGraphEvents.MESSAGE_UPSERT} %o`, data);
-
-    const allowedToShare = await this.shouldForwardEvent(
-      [data.resource.cache.company_id],
-      data.resource.user_id,
-    );
-
-    if (this.kgAPIClient && allowedToShare) {
-      this.kgAPIClient.onMessageUpsert(
-        data.resource.cache.company_id,
-        data.resource,
-        allowedToShare === "all",
-      );
     }
   }
 

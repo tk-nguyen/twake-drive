@@ -1,7 +1,6 @@
 import { ExecutionContext } from "../../core/platform/framework/api/crud-service";
 import { Channel, ChannelMember } from "../channels/entities";
 import { PaginationQueryParameters } from "../channels/web/types";
-import { SpecialMention } from "../messages/types";
 import { uuid } from "../../utils/types";
 import { MessageQueueHandler } from "../../core/platform/services/message-queue/api";
 
@@ -26,7 +25,6 @@ export type MentionNotification = {
   creation_date: number;
   mentions?: {
     users: uuid[];
-    specials?: SpecialMention[];
   };
   object_names?: {
     users: { [id: string]: string };

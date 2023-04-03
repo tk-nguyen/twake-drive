@@ -102,12 +102,7 @@ export class PushReactionNotification
           }),
       gr.services.users.get({ id: reaction_user_id }),
     ]);
-
-    const msg = await gr.services.messages.messages.get({
-      thread_id: thread_id,
-      id: message.message_id,
-    });
-
+    
     const companyName = company?.name || "";
     const workspaceName = workspace_id === "direct" ? "Direct" : workspace?.name || "";
     const userName = this.getUserName(user) || "Twake";
@@ -120,7 +115,7 @@ export class PushReactionNotification
 
     return {
       title,
-      text: `${userName}: ${reaction} to ${msg?.text || "your message"}`,
+      text: `${userName}: ${reaction}`,
     };
   }
 

@@ -24,15 +24,7 @@ import { WorkspaceServiceImpl } from "./workspaces/services/workspace";
 import { UserExternalLinksServiceImpl } from "./user/services/external_links";
 import { UserNotificationBadgeService } from "./notifications/services/bages";
 import { NotificationPreferencesService } from "./notifications/services/preferences";
-import { ThreadMessagesService } from "./messages/services/messages";
-import { MessagesFilesService } from "./messages/services/messages-files";
-import { ThreadsService } from "./messages/services/threads";
-import { UserBookmarksService } from "./messages/services/user-bookmarks";
 import { UserServiceImpl } from "./user/services/users/service";
-import { CompanyApplicationServiceImpl } from "./applications/services/company-applications";
-import { ApplicationServiceImpl } from "./applications/services/applications";
-import { ViewsServiceImpl } from "./messages/services/views";
-import { MessagesEngine } from "./messages/services/engine";
 import { FileServiceImpl } from "./files/services";
 import { ChannelServiceImpl } from "./channels/services/channel/service";
 import { MemberServiceImpl } from "./channels/services/member/service";
@@ -44,13 +36,8 @@ import { NotificationEngine } from "./notifications/services/engine";
 import { MobilePushService } from "./notifications/services/mobile-push";
 import { ChannelMemberPreferencesServiceImpl } from "./notifications/services/channel-preferences";
 import { ChannelThreadUsersServiceImpl } from "./notifications/services/channel-thread-users";
-import { PreviewProcessService } from "./previews/services/files/processing/service";
-import { ApplicationHooksService } from "./applications/services/hooks";
 import OnlineServiceImpl from "./online/service";
-import { PreviewEngine } from "./previews/services/files/engine";
 import { ChannelsMessageQueueListener } from "./channels/services/pubsub";
-import { LinkPreviewProcessService } from "./previews/services/links/processing/service";
-import { LinkPreviewEngine } from "./previews/services/links/engine";
 import { UserNotificationDigestService } from "./notifications/services/digest";
 import { DocumentsService } from "./documents/services";
 import { DocumentsEngine } from "./documents/services/engine";
@@ -87,23 +74,6 @@ type TwakeServices = {
     preferences: NotificationPreferencesService;
     mobilePush: MobilePushService;
     digest: UserNotificationDigestService;
-  };
-  preview: {
-    files: PreviewProcessService;
-    links: LinkPreviewProcessService;
-  };
-  messages: {
-    messages: ThreadMessagesService;
-    messagesFiles: MessagesFilesService;
-    threads: ThreadsService;
-    userBookmarks: UserBookmarksService;
-    views: ViewsServiceImpl;
-    engine: MessagesEngine;
-  };
-  applications: {
-    marketplaceApps: ApplicationServiceImpl;
-    companyApps: CompanyApplicationServiceImpl;
-    hooks: ApplicationHooksService;
   };
   files: FileServiceImpl;
   channels: {
@@ -159,9 +129,6 @@ class GlobalResolver {
       assert(service, `Platform service ${key} was not initialized`);
     });
 
-    await new PreviewEngine().init();
-    await new LinkPreviewEngine().init();
-
     this.services = {
       workspaces: await new WorkspaceServiceImpl().init(),
       companies: await new CompanyServiceImpl().init(),
@@ -177,23 +144,6 @@ class GlobalResolver {
         preferences: await new NotificationPreferencesService().init(),
         mobilePush: await new MobilePushService().init(),
         digest: await new UserNotificationDigestService().init(),
-      },
-      preview: {
-        files: await new PreviewProcessService().init(),
-        links: await new LinkPreviewProcessService().init(),
-      },
-      messages: {
-        messages: await new ThreadMessagesService().init(platform),
-        messagesFiles: await new MessagesFilesService().init(),
-        threads: await new ThreadsService().init(),
-        userBookmarks: await new UserBookmarksService().init(),
-        views: await new ViewsServiceImpl().init(),
-        engine: await new MessagesEngine().init(),
-      },
-      applications: {
-        marketplaceApps: await new ApplicationServiceImpl().init(),
-        companyApps: await new CompanyApplicationServiceImpl().init(),
-        hooks: await new ApplicationHooksService().init(),
       },
       files: await new FileServiceImpl().init(),
       channels: {

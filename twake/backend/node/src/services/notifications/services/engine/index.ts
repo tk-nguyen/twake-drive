@@ -1,7 +1,6 @@
 import { Initializable } from "../../../../core/platform/framework";
 import { MarkChannelAsReadMessageProcessor } from "./processors/mark-channel-as-read";
 import { MarkChannelAsUnreadMessageProcessor } from "./processors/mark-channel-as-unread";
-import { NewChannelMessageProcessor } from "./processors/new-channel-message";
 import { PushNotificationMessageProcessor } from "./processors/mobile-push-notifications";
 import { PushNotificationToUsersMessageProcessor } from "./processors/push-to-users";
 import { LeaveChannelMessageProcessor } from "./processors/channel-member-deleted";
@@ -24,7 +23,6 @@ export class NotificationEngine implements Initializable {
     gr.platformServices.messageQueue.processor.addHandler(
       new MarkChannelAsUnreadMessageProcessor(),
     );
-    gr.platformServices.messageQueue.processor.addHandler(new NewChannelMessageProcessor());
     gr.platformServices.messageQueue.processor.addHandler(new PushNotificationMessageProcessor());
     gr.platformServices.messageQueue.processor.addHandler(
       new PushNotificationToUsersMessageProcessor(),

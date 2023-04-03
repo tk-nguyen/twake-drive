@@ -168,12 +168,6 @@ export class PushNotificationToUsersMessageProcessor
             message_id: badge.message_id,
             user_id: user,
             mention_type: mentions.users.includes(user)
-              ? "me"
-              : mentions.specials.length > 0
-              ? "global"
-              : badge.thread_id !== badge.message_id
-              ? "reply"
-              : null,
           });
           return this.saveBadge(badgeEntity, context);
         }),

@@ -43,23 +43,6 @@ export default class Tracker extends TwakeService<TrackerAPI> implements Tracker
       );
     });
 
-    const messageSentEvent = "channel:message_sent";
-    localEventBus.subscribe<ResourceEventsPayload>(messageSentEvent, data => {
-      logger.debug(`Tracker - New ${messageSentEvent} event`);
-      this.track(
-        {
-          user: data.user,
-          event: messageSentEvent,
-          properties: {
-            is_direct: data.message.workspace_id === "direct" ? true : false,
-            is_thread_reply: data.message.thread_id ? true : false,
-          },
-        },
-        (err: Error) =>
-          err ? logger.error({ err }, "Tracker - Error while tracking", messageSentEvent) : false,
-      );
-    });
-
     const channelCreatedEvent = "channel:created";
     localEventBus.subscribe<ResourceEventsPayload>(channelCreatedEvent, data => {
       logger.debug(`Tracker - New ${channelCreatedEvent} event`);

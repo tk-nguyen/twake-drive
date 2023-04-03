@@ -10,7 +10,6 @@ import {
   ChannelTab,
 } from "../services/channels/entities";
 import { ChannelParameters } from "../services/channels/web/types";
-import { MessageNotification } from "../services/messages/types";
 
 export type uuid = string;
 
@@ -107,7 +106,6 @@ export interface ResourceEventsPayload {
   channelParameters?: ChannelParameters;
   guest?: ChannelPendingEmails;
   member?: ChannelMember;
-  message?: Pick<MessageNotification, "sender" | "workspace_id" | "thread_id">;
   actor?: User;
   resourcesBefore?: (User | ChannelEntity | ChannelTab | ChannelMember)[];
   resourcesAfter?: (User | ChannelEntity | ChannelTab | ChannelMember)[];
