@@ -1,10 +1,8 @@
 import { FastifyInstance, FastifyPluginCallback, FastifyRequest } from "fastify";
 import { authenticationSchema, consoleHookSchema, tokenRenewalSchema } from "./schemas";
-import crypto from "crypto";
 // import { WorkspaceBaseRequest, WorkspaceUsersBaseRequest, WorkspaceUsersRequest } from "./types";
 import { ConsoleController } from "./controller";
 import { ConsoleHookBody, ConsoleHookQueryString } from "../types";
-import gr from "../../global-resolver";
 
 const hookUrl = "/hook";
 

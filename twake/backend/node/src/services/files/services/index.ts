@@ -6,7 +6,6 @@ import { File } from "../entities/file";
 import Repository from "../../../../src/core/platform/services/database/services/orm/repository/repository";
 import { CompanyExecutionContext } from "../web/types";
 import { logger } from "../../../core/platform/framework";
-import _ from "lodash";
 import { getDownloadRoute, getThumbnailRoute } from "../web/routes";
 import {
   CrudException,
@@ -23,9 +22,7 @@ export class FileServiceImpl {
 
   async init(): Promise<this> {
     try {
-      await Promise.all([
-        (this.repository = await gr.database.getRepository<File>("files", File)),
-      ]);
+      await Promise.all([(this.repository = await gr.database.getRepository<File>("files", File))]);
     } catch (err) {
       logger.error("Error while initializing files service", err);
     }
@@ -110,7 +107,6 @@ export class FileServiceImpl {
         entity.upload_data.size = totalUploadedSize;
         await this.repository.save(entity, context);
       }
-
     }
 
     return entity;

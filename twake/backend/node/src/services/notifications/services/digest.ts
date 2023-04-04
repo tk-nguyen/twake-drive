@@ -3,7 +3,6 @@ import { Initializable, TwakeServiceProvider } from "../../../core/platform/fram
 import { Paginable, Pagination } from "../../../core/platform/framework/api/crud-service";
 import Repository from "../../../core/platform/services/database/services/orm/repository/repository";
 import { Channel } from "../../../services/channels/entities";
-import { UserObject } from "../../../services/user/web/types";
 import Workspace from "../../../services/workspaces/entities/workspace";
 import gr from "../../global-resolver";
 import { UserNotificationBadge } from "../entities";
@@ -109,7 +108,6 @@ export class UserNotificationDigestService implements TwakeServiceProvider, Init
     for (const badge of badges.getEntities()) {
       if (!badge.thread_id) continue;
       try {
-        
         channels[badge.channel_id] =
           channels[badge.channel_id] ||
           (await gr.services.channels.channels.get({

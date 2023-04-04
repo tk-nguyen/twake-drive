@@ -140,7 +140,7 @@ export class WorkspaceInviteTokensCrudController
         const userId = request.currentUser.id;
         const user = await gr.services.users.get({ id: userId });
 
-        let companyUser = await gr.services.companies.getCompanyUser(
+        const companyUser = await gr.services.companies.getCompanyUser(
           { id: company_id },
           { id: userId },
         );

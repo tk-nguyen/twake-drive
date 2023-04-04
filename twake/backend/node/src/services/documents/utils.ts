@@ -348,7 +348,6 @@ export const getAccessLevel = async (
   repository: Repository<DriveFile>,
   context: CompanyExecutionContext & { public_token?: string; twake_tab_token?: string },
 ): Promise<DriveFileAccessLevel | "none"> => {
-
   if (!id || id === "root")
     return !context?.user?.id ? "none" : (await isCompanyGuest(context)) ? "read" : "manage";
   if (id === "trash")

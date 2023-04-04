@@ -83,7 +83,7 @@ export class PushReactionNotification
   async buildNotificationMessageContent(
     message: ReactionNotification,
   ): Promise<{ title: string; text: string }> {
-    const { company_id, workspace_id, reaction_user_id, reaction, thread_id } = message;
+    const { company_id, workspace_id, reaction_user_id, reaction } = message;
     let title = "";
 
     const channel: Channel = await gr.services.channels.channels.get({
@@ -102,7 +102,7 @@ export class PushReactionNotification
           }),
       gr.services.users.get({ id: reaction_user_id }),
     ]);
-    
+
     const companyName = company?.name || "";
     const workspaceName = workspace_id === "direct" ? "Direct" : workspace?.name || "";
     const userName = this.getUserName(user) || "Twake";

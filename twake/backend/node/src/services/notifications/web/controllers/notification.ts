@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyRequest } from "fastify";
 import { CrudController } from "../../../../core/platform/services/webserver/types";
-import { NotificationAcknowledgeBody, NotificationListQueryParameters } from "../../types";
+import { NotificationListQueryParameters } from "../../types";
 import {
   ResourceCreateResponse,
   ResourceDeleteResponse,

@@ -167,7 +167,7 @@ export class PushNotificationToUsersMessageProcessor
             thread_id: badge.thread_id,
             message_id: badge.message_id,
             user_id: user,
-            mention_type: mentions.users.includes(user)
+            mention_type: mentions.users.includes(user),
           });
           return this.saveBadge(badgeEntity, context);
         }),

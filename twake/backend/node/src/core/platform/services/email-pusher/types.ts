@@ -2,7 +2,6 @@ import { Channel } from "../../../../services/channels/entities/channel";
 import Company from "../../../../services/user/entities/company";
 import Workspace from "../../../../services/workspaces/entities/workspace";
 import User from "../../../../services/user/entities/user";
-import { UserObject } from "../../../../services/user/web/types";
 
 export type EmailBuilderDataPayload = {
   user: User;

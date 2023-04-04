@@ -1,5 +1,5 @@
 import { DatabaseServiceAPI } from "../../core/platform/services/database/api";
-import { ConsoleOptions, ConsoleType, MergeProgress } from "./types";
+import { ConsoleOptions, ConsoleType } from "./types";
 import { ConsoleServiceClient } from "./client-interface";
 import { ConsoleClientFactory } from "./client-factory";
 import User from "../user/entities/user";
