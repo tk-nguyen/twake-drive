@@ -20,6 +20,7 @@ export default (props: { download: string; name: string }) => {
           const result = reader.result as string;
           const link = result.match(/URL=(.*)/);
           if (link && link[1]) {
+            if (!link[1].match(/^(http|https):\/\//)) throw new Error('Invalid link');
             window.open(link[1], '_blank');
           } else {
             setError(true);
