@@ -12,7 +12,7 @@ RUN apt-get update && \
 # RUN ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
 
 
-### Install Twake
+### Install TDrive
 
 WORKDIR /usr/src/app
 COPY backend/node/package*.json ./
@@ -24,7 +24,7 @@ RUN npm install
 COPY backend/node/ .
 
 # Add frontend Stage
-FROM node-base as with-frontend
+FROM node-base as installed-libs
 
 COPY backend/node/ .
 #Install dev dependancies for build
@@ -36,22 +36,8 @@ RUN NODE_ENV=development npm install && \
     #Install prod dependancies after build
     npm install --legacy-peer-deps
 
-# Add frontend into node
-COPY frontend/ ../public_build/
-RUN export NODE_ENV=development && \
-    apt-get install -y build-essential && \
-    cd ../public_build/ && \
-    yarn install --network-timeout 1000000000 && \
-    yarn global add webpack webpack-cli jest && \
-    cp src/app/environment/environment.ts.dist src/app/environment/environment.ts && \
-    export NODE_ENV=production && \
-    yarn build && \
-    rm -R node_modules && \
-    mv build/* ../app/public && \
-    cd .. && rm -R public_build/
-
 # Development Stage
-FROM with-frontend as development
+FROM installed-libs as development
 
 ENV NODE_ENV=development
 RUN npm install -g pino-pretty && \
@@ -60,7 +46,7 @@ RUN npm install -g pino-pretty && \
 CMD ["npm", "run", "dev:debug"]
 
 # Production Stage
-FROM with-frontend as production
+FROM installed-libs as production
 
 EXPOSE 3000
 CMD ["npm", "run", "serve"]
