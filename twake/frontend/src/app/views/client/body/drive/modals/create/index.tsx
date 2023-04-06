@@ -1,11 +1,9 @@
 import { Transition } from '@headlessui/react';
 import {
   ChevronLeftIcon,
-  DesktopComputerIcon,
   DocumentDownloadIcon,
   FolderAddIcon,
   FolderDownloadIcon,
-  FolderIcon,
 } from '@heroicons/react/outline';
 import Avatar from 'app/atoms/avatar';
 import A from 'app/atoms/link';
