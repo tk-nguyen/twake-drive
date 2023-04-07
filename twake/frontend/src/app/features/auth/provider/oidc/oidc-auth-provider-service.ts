@@ -95,7 +95,9 @@ export default class OIDCAuthProviderService
 
     try {
       await this.userManager!.signinRedirectCallback();
-    } catch (e) {}
+    } catch (e) {
+      console.log("Not connected, connect through SSO");
+    }
 
     const user = await this.userManager?.getUser();
 
