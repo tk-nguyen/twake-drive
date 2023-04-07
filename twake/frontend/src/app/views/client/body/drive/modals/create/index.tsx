@@ -4,6 +4,7 @@ import {
   DocumentDownloadIcon,
   FolderAddIcon,
   FolderDownloadIcon,
+  LinkIcon,
 } from '@heroicons/react/outline';
 import Avatar from 'app/atoms/avatar';
 import A from 'app/atoms/link';
@@ -15,6 +16,7 @@ import { ReactNode } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { slideXTransition, slideXTransitionReverted } from 'src/utils/transitions';
 import { CreateFolder } from './create-folder';
+import { CreateLink } from './create-link';
 
 export type CreateModalAtomType = {
   open: boolean;
@@ -91,6 +93,11 @@ export const CreateModal = ({
                 text="Upload folders from device"
                 onClick={() => selectFolderFromDevice()}
               />
+              <CreateModalOption
+                icon={<LinkIcon className="w-5 h-5" />}
+                text="Create a link file"
+                onClick={() => setState({ ...state, type: 'link' })}
+              />
 
               {(applications || [])
                 .filter(app => app.display?.twake?.files?.editor?.empty_files?.length)
@@ -145,6 +152,18 @@ export const CreateModal = ({
             {...(!state.type ? slideXTransitionReverted : slideXTransition)}
           >
             <CreateFolder />
+          </Transition>
+
+          <Transition
+            style={{
+              gridColumn: '1 / 1',
+              gridRow: '1 / 1',
+            }}
+            show={state.type === 'link'}
+            as="div"
+            {...(!state.type ? slideXTransitionReverted : slideXTransition)}
+          >
+            <CreateLink />
           </Transition>
         </div>
       </ModalContent>
