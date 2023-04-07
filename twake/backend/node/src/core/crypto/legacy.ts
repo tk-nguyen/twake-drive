@@ -25,9 +25,10 @@ function decrypt(data: string, encryptionKey: string): CryptoResult {
   const salt = encryptedArray[1]
     ? Buffer.from(encryptedArray[1], "utf-8")
     : Buffer.from("", "utf-8");
-  const iv = encryptedArray.length >= 3
-    ? Buffer.from(encryptedArray[2], "base64")
-    : Buffer.from("twake_constantiv", "utf-8");
+  const iv =
+    encryptedArray.length >= 3
+      ? Buffer.from(encryptedArray[2], "base64")
+      : Buffer.from("twake_constantiv", "utf-8");
   const password = Buffer.concat([Buffer.from(encryptionKey, "hex"), salt], 32);
   const decipher = createDecipheriv("AES-256-CBC", password, iv);
 
