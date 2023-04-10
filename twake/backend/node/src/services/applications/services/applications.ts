@@ -18,7 +18,6 @@ import SearchRepository from "../../../core/platform/services/search/repository"
 import assert from "assert";
 
 import gr from "../../global-resolver";
-import { InternalToHooksProcessor } from "./internal-event-to-hooks";
 
 export class ApplicationServiceImpl implements TwakeServiceProvider, Initializable {
   version: "1";
@@ -36,8 +35,6 @@ export class ApplicationServiceImpl implements TwakeServiceProvider, Initializab
       console.log(err);
       logger.error("Error while initializing applications service");
     }
-
-    gr.platformServices.messageQueue.processor.addHandler(new InternalToHooksProcessor());
 
     return this;
   }
