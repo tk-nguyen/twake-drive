@@ -68,7 +68,7 @@ export default class OIDCAuthProviderService
         this.logger.debug('Redirect signout');
         this.signOut();
       }
-      
+
       this.userManager.events.addUserLoaded((user: any, ...args) => {
         this.logger.debug('New User Loaded：', user, args);
         this.logger.debug('Acess_token: ', user.access_token);
@@ -85,13 +85,14 @@ export default class OIDCAuthProviderService
       this.userManager.events.addSilentRenewError((...args) => {
         console.error('Silent Renew Error：', args);
       });
+    }
 
     return this;
   }
 
   async signIn(): Promise<void> {
     this.logger.info('Signin');
-    
+
     try {
       await this.userManager!.signinRedirectCallback();
     } catch (e) {
