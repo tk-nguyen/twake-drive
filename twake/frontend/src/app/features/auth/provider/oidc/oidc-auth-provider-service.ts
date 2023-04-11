@@ -68,60 +68,58 @@ export default class OIDCAuthProviderService
         this.logger.debug('Redirect signout');
         this.signOut();
       }
-
-      this.userManager.events.addUserLoaded((user: any) => {
-        console.log('New User Loaded：', arguments);
-        console.log('Acess_token: ', user.access_token);
+      
+      this.userManager.events.addUserLoaded((user: any, ...args) => {
+        this.logger.debug('New User Loaded：', user, args);
+        this.logger.debug('Acess_token: ', user.access_token);
       });
 
-      this.userManager.events.addAccessTokenExpiring(function () {
-        console.log('AccessToken Expiring：', arguments);
+      this.userManager.events.addAccessTokenExpiring((...args) => {
+        this.logger.debug('AccessToken Expiring：', args);
       });
 
-      this.userManager.events.addAccessTokenExpired(() => {
-        console.log('AccessToken Expired：', arguments);
+      this.userManager.events.addAccessTokenExpired((...args) => {
+        this.logger.debug('AccessToken Expired：', args);
       });
 
-      this.userManager.events.addSilentRenewError(function () {
-        console.error('Silent Renew Error：', arguments);
+      this.userManager.events.addSilentRenewError((...args) => {
+        console.error('Silent Renew Error：', args);
       });
-
-      (async () => {
-        try {
-          await this.userManager!.signinRedirectCallback();
-        } catch (e) {}
-
-        const user = await this.userManager?.getUser();
-
-        if (user) {
-          this.getJWTFromOidcToken(user, (err, jwt) => {
-            if (err) {
-              this.logger.error(
-                'OIDC user loaded listener, error while getting the JWT from OIDC token',
-                err,
-              );
-              this.signinRedirect();
-            }
-
-            if (!this.initialized) {
-              this.onInitialized();
-              this.initialized = true;
-            } else {
-              jwt && params.onNewToken(jwt);
-            }
-          });
-        } else {
-          this.userManager?.signinRedirect();
-        }
-      })();
-    }
 
     return this;
   }
 
   async signIn(): Promise<void> {
     this.logger.info('Signin');
-    this.signinRedirect();
+    
+    try {
+      await this.userManager!.signinRedirectCallback();
+    } catch (e) {
+      console.log("Not connected, connect through SSO");
+    }
+
+    const user = await this.userManager?.getUser();
+
+    if (user) {
+      this.getJWTFromOidcToken(user, (err, jwt) => {
+        if (err) {
+          this.logger.error(
+            'OIDC user loaded listener, error while getting the JWT from OIDC token',
+            err,
+          );
+          this.signinRedirect();
+        }
+
+        if (!this.initialized) {
+          this.onInitialized();
+          this.initialized = true;
+        } else {
+          jwt && this.params!.onNewToken(jwt);
+        }
+      });
+    } else {
+      this.userManager?.signinRedirect();
+    }
   }
 
   async signUp(): Promise<void> {
