@@ -37,16 +37,17 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
       issuer: this.infos.issuer?.replace(/\/+$/, ""),
       jwksUri: this.infos.jwks_uri,
       // For local deployment create a https agent that ignore self signed certificate
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       requestAgent: new (require("https").Agent)({
         rejectUnauthorized: this.infos.issuer.includes("example.com") ? false : true,
       }),
     });
   }
   fetchCompanyInfo(consoleCompanyCode: string): Promise<ConsoleHookCompany> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented, ${consoleCompanyCode}.`);
   }
   resendVerificationEmail(email: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented, ${email}.`);
   }
 
   private auth() {
@@ -57,6 +58,7 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
     company: ConsoleCompany,
     user: CreateConsoleUser,
   ): Promise<CreatedConsoleUser> {
+    logger.info(`Method not implemented, ${company.id}, ${user.id}.`);
     return null;
   }
 
@@ -65,22 +67,25 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
     user: UpdateConsoleUserRole,
   ): Promise<UpdatedConsoleUserRole> {
     logger.info("Remote: updateUserRole");
+    logger.info(`Method not implemented, ${company.id}, ${user.id}.`);
     return null;
   }
 
   async createCompany(company: CreateConsoleCompany): Promise<CreatedConsoleCompany> {
     logger.info("Remote: createCompany");
+    logger.info(`Method not implemented, ${company}.`);
     return null;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addUserToTwake(user: CreateConsoleUser): Promise<User> {
-    logger.info("Remote: addUserToTwake");
+  addUserToTdrive(user: CreateConsoleUser): Promise<User> {
+    logger.info("Remote: addUserToTdrive");
     //should do noting for real console
     return Promise.resolve(undefined);
   }
 
   async updateLocalCompanyFromConsole(partialCompanyDTO: ConsoleHookCompany): Promise<Company> {
+    logger.info(`Method not implemented, ${partialCompanyDTO}.`);
     return null;
   }
 
@@ -92,8 +97,11 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
     }
 
     const roles = userDTO.roles.filter(
-      role => role.applications === undefined || role.applications.find(a => a.code === "twake"),
+      role => role.applications === undefined || role.applications.find(a => a.code === "tdrive"),
     );
+
+    //REMOVE LATER
+    logger.info(`Roles are: ${roles}.`);
 
     let user = await gr.services.users.getByConsoleId(userDTO.email);
 
@@ -153,7 +161,7 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
       company = await gr.services.companies.createCompany(
         getCompanyInstance({
           id: "00000000-0000-4000-0000-000000000000",
-          name: "Twake",
+          name: "Tdrive",
           plan: { name: "Local", limits: undefined, features: undefined },
         }),
       );
@@ -182,7 +190,7 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
     const user = await gr.services.users.getByConsoleId(consoleUserId);
 
     if (!user) {
-      throw new Error("User does not exists on Twake.");
+      throw new Error("User does not exists on Tdrive.");
     }
 
     await gr.services.users.anonymizeAndDelete(

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { TwakePlatform } from "../core/platform/platform";
+import { TdrivePlatform } from "../core/platform/platform";
 import { RealtimeServiceAPI } from "../core/platform/services/realtime/api";
 import WebServerAPI from "../core/platform/services/webserver/provider";
 import { SearchServiceAPI } from "../core/platform/services/search/api";
@@ -25,6 +25,8 @@ import { UserExternalLinksServiceImpl } from "./user/services/external_links";
 import { UserNotificationBadgeService } from "./notifications/services/bages";
 import { NotificationPreferencesService } from "./notifications/services/preferences";
 import { UserServiceImpl } from "./user/services/users/service";
+import { CompanyApplicationServiceImpl } from "./applications/services/company-applications";
+import { ApplicationServiceImpl } from "./applications/services/applications";
 import { FileServiceImpl } from "./files/services";
 import { ChannelServiceImpl } from "./channels/services/channel/service";
 import { MemberServiceImpl } from "./channels/services/member/service";
@@ -36,6 +38,7 @@ import { NotificationEngine } from "./notifications/services/engine";
 import { MobilePushService } from "./notifications/services/mobile-push";
 import { ChannelMemberPreferencesServiceImpl } from "./notifications/services/channel-preferences";
 import { ChannelThreadUsersServiceImpl } from "./notifications/services/channel-thread-users";
+import { ApplicationHooksService } from "./applications/services/hooks";
 import OnlineServiceImpl from "./online/service";
 import { ChannelsMessageQueueListener } from "./channels/services/pubsub";
 import { UserNotificationDigestService } from "./notifications/services/digest";
@@ -59,7 +62,7 @@ type PlatformServices = {
   emailPusher: EmailPusherAPI;
 };
 
-type TwakeServices = {
+type TdriveServices = {
   workspaces: WorkspaceServiceImpl;
   companies: CompanyServiceImpl;
   users: UserServiceImpl;
@@ -74,6 +77,11 @@ type TwakeServices = {
     preferences: NotificationPreferencesService;
     mobilePush: MobilePushService;
     digest: UserNotificationDigestService;
+  };
+  applications: {
+    marketplaceApps: ApplicationServiceImpl;
+    companyApps: CompanyApplicationServiceImpl;
+    hooks: ApplicationHooksService;
   };
   files: FileServiceImpl;
   channels: {
@@ -92,7 +100,7 @@ type TwakeServices = {
 };
 
 class GlobalResolver {
-  public services: TwakeServices;
+  public services: TdriveServices;
   public platformServices: PlatformServices;
   public database: DatabaseServiceAPI;
 
@@ -100,7 +108,7 @@ class GlobalResolver {
 
   private alreadyInitialized = false;
 
-  async doInit(platform: TwakePlatform) {
+  async doInit(platform: TdrivePlatform) {
     if (this.alreadyInitialized) {
       return;
     }
@@ -145,6 +153,11 @@ class GlobalResolver {
         mobilePush: await new MobilePushService().init(),
         digest: await new UserNotificationDigestService().init(),
       },
+      applications: {
+        marketplaceApps: await new ApplicationServiceImpl().init(),
+        companyApps: await new CompanyApplicationServiceImpl().init(),
+        hooks: await new ApplicationHooksService().init(),
+      },
       files: await new FileServiceImpl().init(),
       channels: {
         channels: await new ChannelServiceImpl().init(),
@@ -161,7 +174,7 @@ class GlobalResolver {
       tags: await new TagsService().init(),
     };
 
-    Object.keys(this.services).forEach((key: keyof TwakeServices) => {
+    Object.keys(this.services).forEach((key: keyof TdriveServices) => {
       assert(this.services[key], `Service ${key} was not initialized`);
       if (this.services[key].constructor.name == "Object") {
         const subs = this.services[key] as any;
