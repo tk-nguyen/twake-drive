@@ -1,21 +1,24 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, HTTPMethods } from "fastify";
-import { ApplicationObject } from "../../../applications/entities/application";
-import {
-  ApplicationApiExecutionContext,
-  ApplicationLoginRequest,
-  ApplicationLoginResponse,
-  ConfigureRequest,
-} from "../types";
-import { ResourceGetResponse } from "../../../../utils/types";
+import _ from "lodash";
+import { v4 } from "uuid";
 import { CrudException } from "../../../../core/platform/framework/api/crud-service";
 import { localEventBus } from "../../../../core/platform/framework/event-bus";
 import {
   RealtimeApplicationEvent,
   RealtimeBaseBusEvent,
 } from "../../../../core/platform/services/realtime/types";
+import { ResourceGetResponse } from "../../../../utils/types";
+import {
+  ApplicationObject,
+  getApplicationObject,
+} from "../../../applications/entities/application";
 import gr from "../../../global-resolver";
-import _ from "lodash";
-import { v4 } from "uuid";
+import {
+  ApplicationApiExecutionContext,
+  ApplicationLoginRequest,
+  ApplicationLoginResponse,
+  ConfigureRequest,
+} from "../types";
 
 export class ApplicationsApiController {
   async token(
@@ -27,12 +30,7 @@ export class ApplicationsApiController {
       throw CrudException.forbidden("Application not found");
     }
 
-    const app = await gr.services.applications.marketplaceApps.get(
-      {
-        id: request.body.id,
-      },
-      context,
-    );
+    const app = await gr.services.applications.marketplaceApps.get(request.body.id, context);
 
     if (!app) {
       throw CrudException.forbidden("Application not found");
@@ -60,16 +58,15 @@ export class ApplicationsApiController {
     const context = getExecutionContext(request);
 
     const entity = await gr.services.applications.marketplaceApps.get(
-      {
-        id: context.application_id,
-      },
+      context.application_id,
+
       context,
     );
     if (!entity) {
       throw CrudException.notFound("Application not found");
     }
 
-    return { resource: entity.getApplicationObject() };
+    return { resource: getApplicationObject(entity) };
   }
 
   async configure(
@@ -78,7 +75,7 @@ export class ApplicationsApiController {
   ): Promise<Record<string, string>> {
     const app_id = request.currentUser.application_id;
     const context = getExecutionContext(request);
-    const application = await gr.services.applications.marketplaceApps.get({ id: app_id }, context);
+    const application = await gr.services.applications.marketplaceApps.get(app_id, context);
 
     if (!application) {
       throw CrudException.forbidden("Application not found");
@@ -125,9 +122,7 @@ export class ApplicationsApiController {
 
     const context = getExecutionContext(request);
     const app = await gr.services.applications.marketplaceApps.get(
-      {
-        id: request.currentUser.application_id,
-      },
+      request.currentUser.application_id,
       context,
     );
 

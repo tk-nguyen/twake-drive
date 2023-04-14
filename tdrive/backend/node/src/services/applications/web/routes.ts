@@ -15,45 +15,6 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
   const applicationController = new ApplicationController();
   const companyApplicationController = new CompanyApplicationController();
 
-  const adminCheck = async (
-    request: FastifyRequest<{
-      Body: { resource: Application };
-      Params: { application_id: string };
-    }>,
-  ) => {
-    try {
-      let companyId: string = request.body?.resource?.company_id;
-
-      if (request.params.application_id) {
-        const application = await gr.services.applications.marketplaceApps.get(
-          request.params.application_id,
-          undefined,
-        );
-
-        if (!application) {
-          throw fastify.httpErrors.notFound("Application is not defined");
-        }
-
-        companyId = application.company_id;
-      }
-
-      const userId = request.currentUser.id;
-
-      if (!companyId) {
-        throw fastify.httpErrors.forbidden(`Company ${companyId} not found`);
-      }
-
-      const companyUser = await checkUserBelongsToCompany(userId, companyId);
-
-      if (!hasCompanyAdminLevel(companyUser.role)) {
-        throw fastify.httpErrors.forbidden("You must be an admin of this company");
-      }
-    } catch (e) {
-      log.error(e);
-      throw e;
-    }
-  };
-
   /**
    * Applications collection
    * Marketplace of applications
