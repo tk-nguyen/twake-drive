@@ -1,81 +1,53 @@
-import { Type } from "class-transformer";
-import _, { merge } from "lodash";
-import { Column, Entity } from "../../../core/platform/services/database/services/orm/decorators";
-import search from "./application.search";
+import _ from "lodash";
 
-export const TYPE = "applications";
-
-@Entity(TYPE, {
-  primaryKey: ["id"],
-  type: TYPE,
-  search,
-})
-export default class Application {
-  @Type(() => String)
-  @Column("id", "timeuuid", { generator: "timeuuid" })
+export default interface Application {
   id: string;
-
-  @Type(() => String)
-  @Column("group_id", "timeuuid")
+  internal_domain?: string;
+  external_prefix?: string;
   company_id: string;
-
-  @Column("is_default", "boolean")
   is_default: boolean;
-
-  @Column("identity", "json")
   identity: ApplicationIdentity;
-
-  //This information is private to the application, make sure not to disclose it
-  @Column("api", "encoded_json")
   api: ApplicationApi;
-
-  @Column("access", "json")
   access: ApplicationAccess;
-
-  @Column("display", "json")
   display: ApplicationDisplay;
-
-  @Column("publication", "json")
   publication: ApplicationPublication;
-
-  @Column("stats", "json")
   stats: ApplicationStatistics;
-
-  getPublicObject(): PublicApplicationObject {
-    const i = _.pick(
-      this,
-      "id",
-      "company_id",
-      "is_default",
-      "identity",
-      "access",
-      "display",
-      "publication",
-      "stats",
-    );
-
-    i.is_default = !!i.is_default;
-    return i;
-  }
-
-  getApplicationObject(): ApplicationObject {
-    const i = _.pick(
-      this,
-      "id",
-      "company_id",
-      "is_default",
-      "identity",
-      "access",
-      "display",
-      "publication",
-      "stats",
-      "api",
-    );
-
-    i.is_default = !!i.is_default;
-    return i;
-  }
 }
+
+export const getPublicObject = (e: Application): PublicApplicationObject => {
+  const i = _.pick(
+    e,
+    "id",
+    "company_id",
+    "is_default",
+    "identity",
+    "access",
+    "display",
+    "publication",
+    "stats",
+  );
+
+  i.is_default = !!i.is_default;
+  return i;
+};
+
+export const getApplicationObject = (e: Application): ApplicationObject => {
+  const i = _.pick(
+    e,
+    "id",
+    "company_id",
+    "is_default",
+    "identity",
+    "access",
+    "display",
+    "publication",
+    "stats",
+    "api",
+  );
+
+  i.is_default = !!i.is_default;
+  return i;
+};
 
 export type PublicApplicationObject = Pick<
   Application,
@@ -95,12 +67,6 @@ export type ApplicationObject = Pick<
   | "api"
 >;
 
-export type ApplicationPrimaryKey = { id: string };
-
-export function getInstance(message: Application): Application {
-  return merge(new Application(), message);
-}
-
 export type ApplicationIdentity = {
   code: string;
   name: string;
@@ -108,7 +74,7 @@ export type ApplicationIdentity = {
   description: string;
   website: string;
   categories: string[];
-  compatibility: "tdrive"[];
+  compatibility: "twake"[];
   repository?: string;
 };
 
@@ -145,7 +111,7 @@ export type ApplicationAccess = {
 };
 
 export type ApplicationDisplay = {
-  tdrive: {
+  twake: {
     files?: {
       editor?: {
         preview_url: string; //Open a preview inline (iframe)

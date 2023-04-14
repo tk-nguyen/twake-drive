@@ -3,6 +3,7 @@ import _ from "lodash";
 import { languages } from "../languages";
 import { Languages, ServerConfiguration } from "../types";
 import version from "../../../version";
+import config from "config";
 
 const routes: FastifyPluginCallback<{ configuration: ServerConfiguration["configuration"] }> = (
   fastify: FastifyInstance,
@@ -24,8 +25,9 @@ const routes: FastifyPluginCallback<{ configuration: ServerConfiguration["config
             "pricing_plan_url",
             "mobile",
             "app_download_url",
-            "app_grid",
+            
           ),
+          app_grid: config.get("applications.grid") || [],
           accounts: {
             type: accounts.type,
             remote: _.pick(

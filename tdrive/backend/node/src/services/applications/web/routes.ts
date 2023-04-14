@@ -26,9 +26,7 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
 
       if (request.params.application_id) {
         const application = await gr.services.applications.marketplaceApps.get(
-          {
-            id: request.params.application_id,
-          },
+          request.params.application_id,
           undefined,
         );
 
@@ -61,15 +59,6 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
    * Marketplace of applications
    */
 
-  //Get and search list of applications in the marketplace
-  fastify.route({
-    method: "GET",
-    url: `${applicationsUrl}`,
-    preValidation: [fastify.authenticate],
-    // schema: applicationGetSchema,
-    handler: applicationController.list.bind(applicationController),
-  });
-
   //Get a single application in the marketplace
   fastify.route({
     method: "GET",
@@ -77,35 +66,6 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
     preValidation: [fastify.authenticate],
     // schema: applicationGetSchema,
     handler: applicationController.get.bind(applicationController),
-  });
-
-  //Create application (must be my company application and I must be company admin)
-  fastify.route({
-    method: "POST",
-    url: `${applicationsUrl}`,
-    preHandler: [adminCheck],
-    preValidation: [fastify.authenticate],
-    schema: applicationPostSchema,
-    handler: applicationController.save.bind(applicationController),
-  });
-
-  //Edit application (must be my company application and I must be company admin)
-  fastify.route({
-    method: "POST",
-    url: `${applicationsUrl}/:application_id`,
-    preHandler: [adminCheck],
-    preValidation: [fastify.authenticate],
-    schema: applicationPostSchema,
-    handler: applicationController.save.bind(applicationController),
-  });
-
-  // Delete application (must be my company application and I must be company admin)
-  fastify.route({
-    method: "DELETE",
-    url: `${applicationsUrl}/:application_id`,
-    preHandler: [adminCheck],
-    preValidation: [fastify.authenticate],
-    handler: applicationController.delete.bind(applicationController),
   });
 
   /**
@@ -128,22 +88,6 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, options, next) 
     url: `${companyApplicationsUrl}/:application_id`,
     preValidation: [fastify.authenticate],
     handler: companyApplicationController.get.bind(companyApplicationController),
-  });
-
-  //Remove an application from a company
-  fastify.route({
-    method: "DELETE",
-    url: `${companyApplicationsUrl}/:application_id`,
-    preValidation: [fastify.authenticate],
-    handler: companyApplicationController.delete.bind(companyApplicationController),
-  });
-
-  //Add an application to the company
-  fastify.route({
-    method: "POST",
-    url: `${companyApplicationsUrl}/:application_id`,
-    preValidation: [fastify.authenticate],
-    handler: companyApplicationController.save.bind(companyApplicationController),
   });
 
   //Application event triggered by a user

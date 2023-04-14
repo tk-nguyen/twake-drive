@@ -62,45 +62,6 @@ export class CompanyApplicationController
         ) || [],
     };
   }
-
-  async save(
-    request: FastifyRequest<{
-      Params: { company_id: string; application_id: string };
-      Body: PublicApplicationObject;
-    }>,
-  ): Promise<ResourceGetResponse<PublicApplicationObject>> {
-    const context = getCompanyExecutionContext(request);
-
-    const resource = await gr.services.applications.companyApps.save(
-      { application_id: request.params.application_id, company_id: context.company.id },
-      {},
-      context,
-    );
-
-    const app = await gr.services.applications.companyApps.get(resource.entity);
-
-    return {
-      resource: app.application,
-    };
-  }
-
-  async delete(
-    request: FastifyRequest<{ Params: { company_id: string; application_id: string } }>,
-    _reply: FastifyReply,
-  ): Promise<ResourceDeleteResponse> {
-    const context = getCompanyExecutionContext(request);
-    const resource = await gr.services.applications.companyApps.delete(
-      {
-        application_id: request.params.application_id,
-        company_id: context.company.id,
-        id: undefined,
-      },
-      context,
-    );
-    return {
-      status: resource.deleted ? "success" : "error",
-    };
-  }
 }
 
 function getCompanyExecutionContext(
