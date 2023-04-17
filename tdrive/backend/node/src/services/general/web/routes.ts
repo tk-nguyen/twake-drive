@@ -25,7 +25,6 @@ const routes: FastifyPluginCallback<{ configuration: ServerConfiguration["config
             "pricing_plan_url",
             "mobile",
             "app_download_url",
-            
           ),
           app_grid: config.get("applications.grid") || [],
           accounts: {
