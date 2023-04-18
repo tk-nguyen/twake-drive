@@ -1,12 +1,8 @@
-import { FastifyInstance, FastifyPluginCallback, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyPluginCallback } from "fastify";
 import { ApplicationController } from "./controllers/applications";
 import { CompanyApplicationController } from "./controllers/company-applications";
 
-import Application from "../entities/application";
-import { applicationEventHookSchema, applicationPostSchema } from "./schemas";
-import { logger as log } from "../../../core/platform/framework";
-import { checkUserBelongsToCompany, hasCompanyAdminLevel } from "../../../utils/company";
-import gr from "../../global-resolver";
+import { applicationEventHookSchema } from "./schemas";
 
 const applicationsUrl = "/applications";
 const companyApplicationsUrl = "/companies/:company_id/applications";

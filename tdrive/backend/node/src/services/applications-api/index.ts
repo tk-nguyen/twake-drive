@@ -1,10 +1,9 @@
+import config from "config";
+import FastProxy from "fast-proxy";
 import { Prefix, TdriveService } from "../../core/platform/framework";
 import WebServerAPI from "../../core/platform/services/webserver/provider";
-import web from "./web/index";
-import FastProxy from "fast-proxy";
-import globalResolver from "../global-resolver";
-import config from "config";
 import Application from "../applications/entities/application";
+import web from "./web/index";
 
 @Prefix("/api")
 export default class ApplicationsApiService extends TdriveService<undefined> {
