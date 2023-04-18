@@ -46,10 +46,6 @@ export default {
                 link: "/internal-documentation/backend-services/intro/README.md",
               },
               {
-                text: "Applications",
-                link: "/internal-documentation/backend-services/applications/README.md",
-              },
-              {
                 text: "Documents",
                 link: "/internal-documentation/backend-services/documents/README.md",
               },

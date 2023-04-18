@@ -3,6 +3,8 @@ import WebServerAPI from "../../core/platform/services/webserver/provider";
 import web from "./web/index";
 import FastProxy from "fast-proxy";
 import globalResolver from "../global-resolver";
+import config from "config";
+import Application from "../applications/entities/application";
 
 @Prefix("/api")
 export default class ApplicationsApiService extends TdriveService<undefined> {
@@ -17,7 +19,7 @@ export default class ApplicationsApiService extends TdriveService<undefined> {
     });
 
     //Redirect requests from /plugins/* to the plugin server (if installed)
-    const apps = await globalResolver.services.applications.marketplaceApps.list(null);
+    const apps = config.get<Application[]>("applications.plugins") || [];
     for (const app of apps) {
       const domain = app.internal_domain;
       const prefix = app.external_prefix;
