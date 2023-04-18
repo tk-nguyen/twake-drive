@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Api from 'app/features/global/framework/api-service';
+import Api from '@features/global/framework/api-service';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
-import Icon from 'app/components/icon/icon';
+import Icon from '@components/icon/icon';
 import Emojione from 'components/emojione/emojione';
 import Attribute from 'components/parameters/attribute';
 import Input from 'components/inputs/input';
 import TagPicker from 'components/tag-picker/tag-picker';
 import AutoHeight from 'components/auto-height/auto-height';
 import InputWithClipBoard from 'components/input-with-clip-board/input-with-clip-board';
-import { getCompanyApplication as getApplication } from 'app/features/applications/state/company-applications';
+import { getCompanyApplication as getApplication } from '@features/applications/state/company-applications';
 
 import './pages.scss';
-import WorkspacesApp from 'app/deprecated/workspaces/workspaces_apps.jsx';
+import WorkspacesApp from '@deprecated/workspaces/workspaces_apps.jsx';
 import InlineTagPicker from 'components/inline-tag-picker/inline-tag-picker';
 import Switch from 'components/inputs/switch';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout';

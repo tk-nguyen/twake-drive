@@ -5,14 +5,14 @@ import classNames from 'classnames';
 import { AlertTriangle } from 'react-feather';
 import { Alert, Button, Checkbox, Input, Row, Typography } from 'antd';
 
-import Logger from 'app/features/global/framework/logger-service';
-import { WorkspaceType, WorkspaceUserType } from 'app/features/workspaces/types/workspace';
-import Languages from 'app/features/global/services/languages-service';
-import ObjectModal from 'app/components/object-modal/object-modal';
-import WorkspaceAPIClient from 'app/features/workspaces/api/workspace-api-client';
-import RouterService from 'app/features/router/services/router-service';
-import ModalManager from 'app/components/modal/modal-manager';
-import WorkspaceUserAPIClient from 'app/features/workspace-members/api/workspace-members-api-client';
+import Logger from '@features/global/framework/logger-service';
+import { WorkspaceType, WorkspaceUserType } from '@features/workspaces/types/workspace';
+import Languages from '@features/global/services/languages-service';
+import ObjectModal from '@components/object-modal/object-modal';
+import WorkspaceAPIClient from '@features/workspaces/api/workspace-api-client';
+import RouterService from '@features/router/services/router-service';
+import ModalManager from '@components/modal/modal-manager';
+import WorkspaceUserAPIClient from '@features/workspace-members/api/workspace-members-api-client';
 
 import './styles.scss';
 

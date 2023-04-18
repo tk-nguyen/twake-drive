@@ -1,9 +1,9 @@
 import { DocumentIcon, FolderIcon } from '@heroicons/react/solid';
-import { Button } from 'app/atoms/button/button';
-import { Checkbox } from 'app/atoms/input/input-checkbox';
-import { Modal, ModalContent } from 'app/atoms/modal';
-import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
-import { DriveItem } from 'app/features/drive/types';
+import { Button } from '@atoms/button/button';
+import { Checkbox } from '@atoms/input/input-checkbox';
+import { Modal, ModalContent } from '@atoms/modal';
+import { useDriveItem } from '@features/drive/hooks/use-drive-item';
+import { DriveItem } from '@features/drive/types';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { PathRender } from '../../header-path';

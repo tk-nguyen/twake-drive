@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ws from 'app/deprecated/websocket/websocket.js';
-import Workspaces from 'app/deprecated/workspaces/workspaces.jsx';
-import User from 'app/features/users/services/current-user-service';
-import LoginService from 'app/features/auth/login-service';
+import ws from '@deprecated/websocket/websocket.js';
+import Workspaces from '@deprecated/workspaces/workspaces.jsx';
+import User from '@features/users/services/current-user-service';
+import LoginService from '@features/auth/login-service';
 import { RightsOrNone } from '../../workspace-members/services/workspace-members-access-rights-service';
-import Logger from 'app/features/global/framework/logger-service';
+import Logger from '@features/global/framework/logger-service';
 
 type WebsocketWorkspace = {
   type: 'remove' | 'add' | 'update_group_privileges' | 'update_workspace_level';

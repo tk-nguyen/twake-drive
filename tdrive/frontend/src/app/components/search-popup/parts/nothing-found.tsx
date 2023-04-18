@@ -1,6 +1,6 @@
-import { NotFoundIcon } from 'app/atoms/icons-colored';
-import Languages from 'app/features/global/services/languages-service';
-import { SearchInputState } from 'app/features/search/state/search-input';
+import { NotFoundIcon } from '@atoms/icons-colored';
+import Languages from '@features/global/services/languages-service';
+import { SearchInputState } from '@features/search/state/search-input';
 import { useRecoilValue } from 'recoil';
 import * as Text from '@atoms/text';
 

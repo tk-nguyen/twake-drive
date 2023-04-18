@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Typography } from 'antd';
-import Languages from 'app/features/global/services/languages-service';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
-import AutoHeight from 'app/components/auto-height/auto-height';
-import ConsoleService from 'app/features/console/services/console-service';
-import WorkspacesUsers from 'app/features/workspace-members/services/workspace-members-service';
+import Languages from '@features/global/services/languages-service';
+import popupManager from '@deprecated/popupManager/popupManager.js';
+import AutoHeight from '@components/auto-height/auto-height';
+import ConsoleService from '@features/console/services/console-service';
+import WorkspacesUsers from '@features/workspace-members/services/workspace-members-service';
 import MagicLinks from './MagicLinks';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 
 import './AddUser.scss';
-import LockedInviteAlert from 'app/components/locked-features-components/locked-invite-alert';
-import { useFeatureToggles } from 'app/components/locked-features-components/feature-toggles-hooks';
-import FeatureTogglesService from 'app/features/global/services/feature-toggles-service';
-import { useCurrentCompany } from 'app/features/companies/hooks/use-companies';
+import LockedInviteAlert from '@components/locked-features-components/locked-invite-alert';
+import { useFeatureToggles } from '@components/locked-features-components/feature-toggles-hooks';
+import FeatureTogglesService from '@features/global/services/feature-toggles-service';
+import { useCurrentCompany } from '@features/companies/hooks/use-companies';
 
 type PropsType = {
   [key: string]: unknown;

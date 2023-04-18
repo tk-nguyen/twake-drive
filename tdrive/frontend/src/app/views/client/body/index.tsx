@@ -1,11 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 import { FC, useEffect, useState } from 'react';
 
-import AccountStatusComponent from 'app/components/on-boarding/account-status-component';
-import CompanyBillingBanner from 'app/components/on-boarding/company-billing-banner';
-import useRouterChannel from 'app/features/router/hooks/use-router-channel';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
+import useRouterChannel from '@features/router/hooks/use-router-channel';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
 import Drive from './drive';
 
 type PropsType = {
@@ -19,8 +17,6 @@ const MainView: FC<PropsType> = ({ className }) => {
 
   return (
     <div className={'grow min-h-full relative ' + (className ? className : '')}>
-      <AccountStatusComponent />
-      {companyId && <CompanyBillingBanner companyId={companyId || ''} />}
       <MainContentWrapper key={companyId + workspaceId + channelId} />
     </div>
   );

@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 import AutoComplete from 'components/auto-complete/auto-complete';
-import Icon from 'app/components/icon/icon.jsx';
-import Languages from 'app/features/global/services/languages-service';
+import Icon from '@components/icon/icon.jsx';
+import Languages from '@features/global/services/languages-service';
 import './picker.scss';
 
 export default class Picker extends React.Component {

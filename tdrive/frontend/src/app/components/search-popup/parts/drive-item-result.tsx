@@ -1,8 +1,11 @@
-import * as Text from '@atoms/text';
-import FileUploadAPIClient from '@features/files/api/file-upload-api-client';
-import { Button } from 'app/atoms/button/button';
-import { DownloadIcon } from 'app/atoms/icons-agnostic';
+import { FolderIcon } from '@heroicons/react/solid';
 import { ArrowRight } from 'react-feather';
+import Highlighter from 'react-highlight-words';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { onDriveItemDownloadClick, openDriveItem } from '../common';
+import ResultContext from './result-context';
+import { Button } from '@atoms/button/button';
+import { DownloadIcon } from '@atoms/icons-agnostic';
 import {
   FileTypeArchiveIcon,
   FileTypeDocumentIcon,
@@ -10,23 +13,20 @@ import {
   FileTypeSlidesIcon,
   FileTypeSpreadsheetIcon,
   FileTypeUnknownIcon,
-} from 'app/atoms/icons-colored';
-import { formatDate } from 'app/features/global/utils/format-date';
-import { formatSize } from 'app/features/global/utils/format-file-size';
-import { DriveItem } from 'app/features/drive/types';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import { useSearchModal } from 'app/features/search/hooks/use-search';
-import { SearchInputState } from 'app/features/search/state/search-input';
-import { UserType } from 'app/features/users/types/user';
-import { useFileViewerModal } from 'app/features/viewer/hooks/use-viewer';
-import Media from 'app/molecules/media';
-import Highlighter from 'react-highlight-words';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { openDriveItem, onDriveItemDownloadClick } from '../common';
-import ResultContext from './result-context';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import { DriveCurrentFolderAtom } from 'app/views/client/body/drive/browser';
-import { FolderIcon } from '@heroicons/react/solid';
+} from '@atoms/icons-colored';
+import * as Text from '@atoms/text';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
+import { DriveItem } from '@features/drive/types';
+import FileUploadAPIClient from '@features/files/api/file-upload-api-client';
+import { formatDate } from '@features/global/utils/format-date';
+import { formatSize } from '@features/global/utils/format-file-size';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import { useSearchModal } from '@features/search/hooks/use-search';
+import { SearchInputState } from '@features/search/state/search-input';
+import { UserType } from '@features/users/types/user';
+import { useFileViewerModal } from '@features/viewer/hooks/use-viewer';
+import Media from '@molecules/media';
+import { DriveCurrentFolderAtom } from '@views/client/body/drive/browser';
 
 export default (props: { driveItem: DriveItem & { user?: UserType } }) => {
   const input = useRecoilValue(SearchInputState);
@@ -63,12 +63,7 @@ export default (props: { driveItem: DriveItem & { user?: UserType } }) => {
           {extension?.toLocaleUpperCase()} • {formatDate(parseInt(file?.last_modified))} •{' '}
           {formatSize(file?.size)}
         </Text.Info>
-        <ResultContext
-          user={file.user}
-          context={{
-            companyId: file?.company_id,
-          }}
-        />
+        <ResultContext user={file.user} />
       </div>
       <div
         className="whitespace-nowrap"

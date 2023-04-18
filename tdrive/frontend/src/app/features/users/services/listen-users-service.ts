@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ws from 'app/deprecated/websocket/websocket';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
+import ws from '@deprecated/websocket/websocket';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
 import UserService from './current-user-service';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import userAsyncGet from 'app/features/users/utils/async-get';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import userAsyncGet from '@features/users/utils/async-get';
 
 type Timeout = ReturnType<typeof setTimeout>;
 

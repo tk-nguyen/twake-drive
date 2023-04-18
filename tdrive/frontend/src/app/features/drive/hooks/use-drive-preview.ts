@@ -1,7 +1,7 @@
-import fileUploadApiClient from 'app/features/files/api/file-upload-api-client';
-import fileUploadService from 'app/features/files/services/file-upload-service';
-import { useGlobalEffect } from 'app/features/global/hooks/use-global-effect';
-import { LoadingState } from 'app/features/global/state/atoms/Loading';
+import fileUploadApiClient from '@features/files/api/file-upload-api-client';
+import fileUploadService from '@features/files/services/file-upload-service';
+import { useGlobalEffect } from '@features/global/hooks/use-global-effect';
+import { LoadingState } from '@features/global/state/atoms/Loading';
 import { useRecoilState } from 'recoil';
 import { DriveApiClient } from '../api-client/api-client';
 import { DriveViewerState } from '../state/viewer';

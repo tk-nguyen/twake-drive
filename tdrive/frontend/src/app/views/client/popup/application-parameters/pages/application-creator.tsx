@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Row, Typography, Button, Col, Checkbox } from 'antd';
 
-import Languages from 'app/features/global/services/languages-service';
-import AlertManager from 'app/features/global/services/alert-manager-service';
-import { useCurrentCompany } from 'app/features/companies/hooks/use-companies';
-import ApplicationsAPIClient from 'app/features/applications/api/applications-api-client';
+import Languages from '@features/global/services/languages-service';
+import AlertManager from '@features/global/services/alert-manager-service';
+import { useCurrentCompany } from '@features/companies/hooks/use-companies';
+import ApplicationsAPIClient from '@features/applications/api/applications-api-client';
 import {
   buildDefaultApplicationPayload,
   getApplicationIdentityCode,
-} from 'app/features/applications/utils/application';
-import ModalManager from 'app/components/modal/modal-manager';
-import ObjectModal from 'app/components/object-modal/object-modal';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
+} from '@features/applications/utils/application';
+import ModalManager from '@components/modal/modal-manager';
+import ObjectModal from '@components/object-modal/object-modal';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
 
 import './pages.scss';
 import ApplicationEditor from './application-editor';

@@ -6,7 +6,13 @@ import A from './index';
 export default {
   title: '@atoms/link',
   component: A,
-  decorators: [(Story) => (<MemoryRouter><Story/></MemoryRouter>)]
+  decorators: [
+    Story => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
 } as ComponentMeta<typeof A>;
 
 const Template: ComponentStory<typeof A> = args => <A {...args} />;
@@ -15,7 +21,7 @@ export const Default = Template.bind({});
 Default.args = {
   href: 'https://www.google.com',
   children: 'Link',
-}
+};
 
 export const noColor = Template.bind({});
 noColor.args = {

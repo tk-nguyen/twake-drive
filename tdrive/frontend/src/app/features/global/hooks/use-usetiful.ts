@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react';
 
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import Logger from 'app/features/global/framework/logger-service';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import Logger from '@features/global/framework/logger-service';
 
 let initiatedService = false;
 const logger = Logger.getLogger(`app/features/global/use-usetiful`);

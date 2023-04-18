@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TdriveService } from 'app/features/global/framework/registry-decorator-service';
+import { TdriveService } from '@features/global/framework/registry-decorator-service';
 import InitService, {
   ConsoleConfiguration,
   InternalConfiguration,
-} from 'app/features/global/services/init-service';
+} from '@features/global/services/init-service';
 import { AuthProvider } from './provider/auth-provider';
 import OIDCAuthProviderService from './provider/oidc/oidc-auth-provider-service';
 import InternalAuthProviderService from './provider/internal/internal-auth-provider-service';
-import Logger from 'app/features/global/framework/logger-service';
+import Logger from '@features/global/framework/logger-service';
 
 import AlertManager from '../../features/global/services/alert-manager-service';
-import Languages from 'app/features/global/services/languages-service';
-import { UserType } from 'app/features/users/types/user';
-import JWT, { JWTDataType } from 'app/features/auth/jwt-storage-service';
+import Languages from '@features/global/services/languages-service';
+import { UserType } from '@features/users/types/user';
+import JWT, { JWTDataType } from '@features/auth/jwt-storage-service';
 import UserAPIClient from '../../features/users/api/user-api-client';
-import Application from 'app/features/applications/services/application-service';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Application from '@features/applications/services/application-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 
 type AccountType = 'remote' | 'internal';
 export type LoginState =

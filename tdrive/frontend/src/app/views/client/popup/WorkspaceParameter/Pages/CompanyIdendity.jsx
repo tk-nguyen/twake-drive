@@ -1,10 +1,10 @@
 import { Component } from 'react';
 
-import { getFilesTree } from 'app/components/uploads/file-tree-utils';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
-import groupService from 'app/deprecated/workspaces/groups';
-import Languages from 'app/features/global/services/languages-service';
-import { addApiUrlIfNeeded } from 'app/features/global/utils/URLUtils';
+import { getFilesTree } from '@components/uploads/file-tree-utils';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
+import groupService from '@deprecated/workspaces/groups';
+import Languages from '@features/global/services/languages-service';
+import { addApiUrlIfNeeded } from '@features/global/utils/URLUtils';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout';
 import Input from 'components/inputs/input';
 import Attribute from 'components/parameters/attribute';

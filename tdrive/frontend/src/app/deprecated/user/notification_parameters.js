@@ -1,12 +1,12 @@
-import Languages from 'app/features/global/services/languages-service';
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import ws from 'app/deprecated/websocket/websocket.js';
-import Api from 'app/features/global/framework/api-service';
-import Login from 'app/features/auth/login-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import AlertManager from 'app/features/global/services/alert-manager-service';
+import Languages from '@features/global/services/languages-service';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import ws from '@deprecated/websocket/websocket.js';
+import Api from '@features/global/framework/api-service';
+import Login from '@features/auth/login-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import AlertManager from '@features/global/services/alert-manager-service';
 
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 
 /**
  * FIXME: This service seems still used by some components but we now have ./NotificationPreferences one which seems to overlap...

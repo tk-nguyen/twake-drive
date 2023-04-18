@@ -7,19 +7,19 @@ import { Avatar, Button, Col, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import TrashIcon from '@material-ui/icons/DeleteOutlined';
 
-import Strings from 'app/features/global/utils/strings';
-import Languages from 'app/features/global/services/languages-service';
+import Strings from '@features/global/utils/strings';
+import Languages from '@features/global/services/languages-service';
 import Icon from '../icon/icon';
 import AutoCompleteExtended from 'components/auto-complete-extended/auto-complete-extended';
-import { UserType } from 'app/features/users/types/user';
-import UsersService from 'app/features/users/services/current-user-service';
+import { UserType } from '@features/users/types/user';
+import UsersService from '@features/users/services/current-user-service';
 import './elements.scss';
 import './user-list-manager.scss';
-import { getCurrentUserList, getUser } from 'app/features/users/hooks/use-user-list';
-import { SearchContextType } from 'app/features/users/api/user-api-client';
-import { searchBackend, searchFrontend } from 'app/features/users/hooks/use-search-user-list';
+import { getCurrentUserList, getUser } from '@features/users/hooks/use-user-list';
+import { SearchContextType } from '@features/users/api/user-api-client';
+import { searchBackend, searchFrontend } from '@features/users/hooks/use-search-user-list';
 import _ from 'lodash';
-import RouterServices from 'app/features/router/services/router-service';
+import RouterServices from '@features/router/services/router-service';
 
 const { Text } = Typography;
 
@@ -72,7 +72,7 @@ const UserListManager = (props: PropsType) => {
   const [input, setInput] = useState<string>('');
   const [editing, setEditing] = useState<boolean>(props.autoFocus ? props.autoFocus : false);
   const [usersIds, setUsersIds] = useState<string[]>([...props.users]);
-  const callback = useRef<(Function)>(() => {});
+  const callback = useRef<Function>(() => {});
   let savedUserProps: string;
 
   useEffect(() => {

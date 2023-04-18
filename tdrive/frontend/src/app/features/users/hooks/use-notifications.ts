@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useGlobalEffect } from 'app/features/global/hooks/use-global-effect';
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import { useGlobalEffect } from '@features/global/hooks/use-global-effect';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 import _ from 'lodash';
 import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import userNotificationApiClient from '../api/user-notification-api-client';
@@ -13,12 +13,12 @@ import {
   NotificationsWorkspaceBadgesSelector,
 } from '../state/atoms/notifications';
 import { NotificationType } from '../types/notification-types';
-import ElectronService from 'app/features/global/framework/electron-service';
-import windowState from 'app/features/global/utils/window';
+import ElectronService from '@features/global/framework/electron-service';
+import windowState from '@features/global/utils/window';
 import RouterService, { ClientStateType } from '../../router/services/router-service';
 import { pushDesktopNotification } from '../services/push-desktop-notification';
-import { RouterState } from 'app/features/router/state/atoms/router';
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import { RouterState } from '@features/router/state/atoms/router';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
 
 export let removeBadgesNow: (type: 'company' | 'workspace' | 'channel', id: string) => void = () =>
   undefined;

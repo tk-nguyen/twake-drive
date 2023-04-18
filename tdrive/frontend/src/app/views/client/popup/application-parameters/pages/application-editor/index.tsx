@@ -3,20 +3,20 @@ import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 import { Tabs, Button, Typography, Col, Row, Divider } from 'antd';
 
-import { Application } from 'app/features/applications/types/application';
-import Languages from 'app/features/global/services/languages-service';
-import AvatarComponent from 'app/components/avatar/avatar';
-import ObjectModal from 'app/components/object-modal/object-modal';
-import AlertManager from 'app/features/global/services/alert-manager-service';
+import { Application } from '@features/applications/types/application';
+import Languages from '@features/global/services/languages-service';
+import AvatarComponent from '@components/avatar/avatar';
+import ObjectModal from '@components/object-modal/object-modal';
+import AlertManager from '@features/global/services/alert-manager-service';
 
 import { ApplicationPublication } from './components/application-publication';
 import { ApplicationIdentity } from './components/application-identity';
 import { ApplicationAPI } from './components/application-api';
 import { ApplicationDisplay } from './components/application-display';
 import { ApplicationAccess } from './components/application-access';
-import ApplicationsAPIClient from 'app/features/applications/api/applications-api-client';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import ModalManager from 'app/components/modal/modal-manager';
+import ApplicationsAPIClient from '@features/applications/api/applications-api-client';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
+import ModalManager from '@components/modal/modal-manager';
 import { ApplicationHelp } from './components/application-help';
 
 import '../../../WorkspaceParameter/Pages/Applications/ApplicationsStyles.scss';

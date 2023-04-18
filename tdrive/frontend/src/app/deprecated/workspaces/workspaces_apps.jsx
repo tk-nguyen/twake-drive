@@ -1,17 +1,17 @@
 import React from 'react';
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import CurrentUser from 'app/deprecated/user/CurrentUser';
-import Api from 'app/features/global/framework/api-service';
-import ws from 'app/deprecated/websocket/websocket.js';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import CurrentUser from '@deprecated/user/CurrentUser';
+import Api from '@features/global/framework/api-service';
+import ws from '@deprecated/websocket/websocket.js';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
 import Groups from './groups.js';
 import Workspaces from './workspaces.jsx';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import Icon from 'app/components/icon/icon';
-import { getUser } from 'app/features/users/hooks/use-user-list';
-import Login from 'app/features/auth/login-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import Icon from '@components/icon/icon';
+import { getUser } from '@features/users/hooks/use-user-list';
+import Login from '@features/auth/login-service';
 import { Folder, Calendar, CheckSquare, Hexagon } from 'react-feather';
-import { getCompanyApplication as getApplication } from 'app/features/applications/state/company-applications';
+import { getCompanyApplication as getApplication } from '@features/applications/state/company-applications';
 
 class WorkspacesApps extends Observable {
   constructor() {

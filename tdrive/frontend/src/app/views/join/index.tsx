@@ -6,17 +6,17 @@ import { Button, Col, Divider, Layout, Row, Space, Typography } from 'antd';
 import {
   MagicLinksJoinResponse,
   MagicLinksJoinService,
-} from 'app/features/workspaces/services/magic-links-service';
-import Languages from 'app/features/global/services/languages-service';
-import RouterService from 'app/features/router/services/router-service';
-import InitService from 'app/features/global/services/init-service';
-import LockedInviteAlert from 'app/components/locked-features-components/locked-invite-alert';
+} from '@features/workspaces/services/magic-links-service';
+import Languages from '@features/global/services/languages-service';
+import RouterService from '@features/router/services/router-service';
+import InitService from '@features/global/services/init-service';
+import LockedInviteAlert from '@components/locked-features-components/locked-invite-alert';
 import FeatureTogglesService, {
   FeatureNames,
-} from 'app/features/global/services/feature-toggles-service';
+} from '@features/global/services/feature-toggles-service';
 
 import './styles.scss';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
 
 const { Title, Text } = Typography;
 

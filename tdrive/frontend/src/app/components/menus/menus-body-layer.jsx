@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
 import MenuComponent from './menu-component.jsx';
 import OutsideClickHandler from 'react-outside-click-handler';
 

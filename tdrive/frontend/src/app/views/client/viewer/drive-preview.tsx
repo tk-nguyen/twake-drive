@@ -1,21 +1,21 @@
 import { Transition } from '@headlessui/react';
 import { DownloadIcon, XIcon } from '@heroicons/react/outline';
-import { Modal } from 'app/atoms/modal';
+import { useEffect, useState } from 'react';
+import { fadeTransition } from 'src/utils/transitions';
+import Controls from './controls';
+import DriveDisplay from './drive-display';
+import { Button } from '@atoms/button/button';
+import { Loader } from '@atoms/loader';
+import { Modal } from '@atoms/modal';
+import * as Text from '@atoms/text';
 import {
   useDrivePreview,
   useDrivePreviewDisplayData,
   useDrivePreviewLoading,
-} from 'app/features/drive/hooks/use-drive-preview';
-import { addShortcut, removeShortcut } from 'app/features/global/services/shortcut-service';
-import { useEffect, useState } from 'react';
-import { fadeTransition } from 'src/utils/transitions';
-import * as Text from '@atoms/text';
-import { formatDate } from 'app/features/global/utils/format-date';
-import { formatSize } from 'app/features/global/utils/format-file-size';
-import { Button } from 'app/atoms/button/button';
-import DriveDisplay from './drive-display';
-import { Loader } from 'app/atoms/loader';
-import Controls from './controls';
+} from '@features/drive/hooks/use-drive-preview';
+import { addShortcut, removeShortcut } from '@features/global/services/shortcut-service';
+import { formatDate } from '@features/global/utils/format-date';
+import { formatSize } from '@features/global/utils/format-file-size';
 
 export const DrivePreview = (): React.ReactElement => {
   const { isOpen, close, loading } = useDrivePreview();

@@ -1,5 +1,5 @@
 import { Col, Row, Typography } from 'antd';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import { ChevronsUp, ChevronUp } from 'react-feather';
 const { Text } = Typography;
 

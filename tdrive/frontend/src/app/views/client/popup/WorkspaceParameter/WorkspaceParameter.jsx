@@ -1,20 +1,20 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import LoginService from 'app/features/auth/login-service';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
-import userService from 'app/features/users/services/current-user-service';
-import currentUserService from 'app/deprecated/user/CurrentUser';
+import Languages from '@features/global/services/languages-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import LoginService from '@features/auth/login-service';
+import popupManager from '@deprecated/popupManager/popupManager.js';
+import userService from '@features/users/services/current-user-service';
+import currentUserService from '@deprecated/user/CurrentUser';
 import CompanyIntegration from './Pages/CompanyIntegrations';
 import WorkspacePartner from './Pages/WorkspacePartner';
 import CompanyIdendity from './Pages/CompanyIdendity.jsx';
-import WorkspaceUserRights from 'app/features/workspaces/services/workspace-user-rights-service';
-import WorkspaceService from 'app/deprecated/workspaces/workspaces.jsx';
+import WorkspaceUserRights from '@features/workspaces/services/workspace-user-rights-service';
+import WorkspaceService from '@deprecated/workspaces/workspaces.jsx';
 import MenuList from 'components/menus/menu-component.jsx';
-import InitService from 'app/features/global/services/init-service';
-import ConsoleService from 'app/features/console/services/console-service';
+import InitService from '@features/global/services/init-service';
+import ConsoleService from '@features/console/services/console-service';
 
 import './WorkspaceParameter.scss';
 import WorkspaceIdentity from './Pages/Workspace/WorkspaceIdentity';

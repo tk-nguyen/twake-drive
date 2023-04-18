@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Typography } from 'antd';
 
-import Emojione from 'app/components/emojione/emojione';
-import Languages from 'app/features/global/services/languages-service';
+import Emojione from '@components/emojione/emojione';
+import Languages from '@features/global/services/languages-service';
 
 const { Text, Link } = Typography;
 export const ApplicationHelp = () => (

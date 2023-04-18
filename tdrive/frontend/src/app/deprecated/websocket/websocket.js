@@ -1,8 +1,8 @@
-import Number from 'app/features/global/utils/Numbers';
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import LoginService from 'app/features/auth/login-service';
-import Logger from 'app/features/global/framework/logger-service';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Number from '@features/global/utils/Numbers';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import LoginService from '@features/auth/login-service';
+import Logger from '@features/global/framework/logger-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 import WebSocket from '../../features/global/types/websocket-types';
 
 /**

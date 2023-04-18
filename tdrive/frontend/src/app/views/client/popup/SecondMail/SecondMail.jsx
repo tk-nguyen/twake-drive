@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import WorkspaceService from 'app/deprecated/workspaces/workspaces.jsx';
-import userService from 'app/features/users/services/current-user-service';
-import loginService from 'app/features/auth/login-service';
-import AccountService from 'app/deprecated/login/account';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
+import Languages from '@features/global/services/languages-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import WorkspaceService from '@deprecated/workspaces/workspaces.jsx';
+import userService from '@features/users/services/current-user-service';
+import loginService from '@features/auth/login-service';
+import AccountService from '@deprecated/login/account';
+import popupManager from '@deprecated/popupManager/popupManager.js';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout.jsx';
 import Input from 'components/inputs/input.jsx';
 import './SecondMail.scss';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import Input from './input.jsx';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import './inputs.scss';
 
 export default class InputEnter extends Component {

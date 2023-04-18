@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Typography } from 'antd';
 
-import { Application } from 'app/features/applications/types/application';
+import { Application } from '@features/applications/types/application';
 
 const { Text } = Typography;
 export const ApplicationDisplay = ({

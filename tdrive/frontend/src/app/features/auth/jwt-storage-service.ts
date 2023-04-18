@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import LocalStorage from 'app/features/global/framework/local-storage-service';
-import LoginService from 'app/features/auth/login-service';
-import WindowService from 'app/features/global/utils/window';
-import ConsoleAPIClient from 'app/features/console/api/console-api-client';
+import LocalStorage from '@features/global/framework/local-storage-service';
+import LoginService from '@features/auth/login-service';
+import WindowService from '@features/global/utils/window';
+import ConsoleAPIClient from '@features/console/api/console-api-client';
 import { TdriveService } from '../global/framework/registry-decorator-service';
 import Logger from '../global/framework/logger-service';
 

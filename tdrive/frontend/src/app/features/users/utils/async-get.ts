@@ -1,6 +1,6 @@
-import { UserType } from 'app/features/users/types/user';
+import { UserType } from '@features/users/types/user';
 import UserAPIClient from '../api/user-api-client';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
 
 const currentUserRequests: { [key: string]: PromiseLike<UserType | null> } = {};
 const usersCollection = Collections.get('users');

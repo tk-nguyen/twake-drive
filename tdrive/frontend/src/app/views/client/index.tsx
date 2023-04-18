@@ -2,30 +2,24 @@
 import classNames from 'classnames';
 import React, { Suspense, useState } from 'react';
 
-import UsersSearchModal from 'app/components/channel-members-list/users-search-modal';
-import ChatUploadsViewer from 'app/components/file-uploads/uploads-viewer';
-import { useFeatureToggles } from 'app/components/locked-features-components/feature-toggles-hooks';
-import MenusBodyLayer from 'app/components/menus/menus-body-layer.jsx';
-import ModalComponent from 'app/components/modal/modal-component';
-import CompanyStatusComponent from 'app/components/on-boarding/company-status-component';
-import PopupService from 'app/deprecated/popupManager/popupManager.js';
-import useUsetiful from 'app/features/global/hooks/use-usetiful';
-import Languages from 'app/features/global/services/languages-service';
-import { useCurrentUser, useCurrentUserRealtime } from 'app/features/users/hooks/use-current-user';
-import UserContext from 'app/features/users/state/integration/user-context';
-import Viewer from 'app/views/client/viewer/viewer';
+import ChatUploadsViewer from '@components/file-uploads/uploads-viewer';
+import { useFeatureToggles } from '@components/locked-features-components/feature-toggles-hooks';
+import MenusBodyLayer from '@components/menus/menus-body-layer.jsx';
+import ModalComponent from '@components/modal/modal-component';
+import PopupService from '@deprecated/popupManager/popupManager.js';
+import useUsetiful from '@features/global/hooks/use-usetiful';
+import Languages from '@features/global/services/languages-service';
+import { useCurrentUser, useCurrentUserRealtime } from '@features/users/hooks/use-current-user';
+import UserContext from '@features/users/state/integration/user-context';
+import Viewer from '@views/client/viewer/viewer';
 import ConnectionIndicator from 'components/connection-indicator/connection-indicator';
-import DraggableBodyLayer from 'components/draggable/draggable-body-layer.jsx';
 import NewVersionComponent from 'components/new-version/new-version-component';
 import PopupComponent from 'components/popup-component/popup-component.jsx';
 import SearchPopup from 'components/search-popup/search-popup';
 import DriveUploadViewer from 'components/uploads/upload-viewer.jsx';
 import MainView from './body';
 
-import ChannelAttachementList from 'app/components/channel-attachement-list/channel-attachement-list';
-import DownloadAppBanner from 'app/components/download-app-banner/download-app-banner';
-import { EditChannelModal } from 'app/components/edit-channel';
-import Invitation from 'app/components/invitation/invitation';
+import DownloadAppBanner from '@components/download-app-banner/download-app-banner';
 import DesktopRedirect from '../../components/desktop-redirect';
 import Header from './header';
 import SideBar from './side-bar';
@@ -49,7 +43,6 @@ export default React.memo((): JSX.Element => {
         <div className="fade_in bg-zinc-100 dark:bg-black flex flex-col gap-2 h-full">
           <DownloadAppBanner />
           <NewVersionComponent />
-          <CompanyStatusComponent />
 
           <FeatureToggles features={activeFeatureNames}>
             <>
@@ -101,17 +94,12 @@ export default React.memo((): JSX.Element => {
       {PopupService.isOpen() && <PopupComponent key="PopupComponent" />}
       {page}
       <MenusBodyLayer />
-      <DraggableBodyLayer />
       <DriveUploadViewer />
       <Viewer />
       <ModalComponent />
       <SearchPopup />
-      <ChannelAttachementList />
       <ConnectionIndicator />
       <ChatUploadsViewer />
-      <UsersSearchModal />
-      <EditChannelModal />
-      <Invitation />
     </>
   );
 });

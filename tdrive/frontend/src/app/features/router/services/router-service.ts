@@ -3,14 +3,14 @@ import { createBrowserHistory, History } from 'history';
 import { matchPath, match } from 'react-router';
 import short, { Translator } from 'short-uuid';
 
-import App from 'app/views/client/app';
-import Login from 'app/views/login/login';
-import Logout from 'app/views/login/logout';
-import Error from 'app/views/error';
-import Join from 'app/views/join';
-import PublicMainView from 'app/views/client/body/drive/shared';
+import App from '@views/client/app';
+import Login from '@views/login/login';
+import Logout from '@views/login/logout';
+import Error from '@views/error';
+import Join from '@views/join';
+import PublicMainView from '@views/client/body/drive/shared';
 import Observable from '../../../deprecated/Observable/Observable';
-import { getWorkspacesByCompany } from 'app/features/workspaces/state/workspace-list';
+import { getWorkspacesByCompany } from '@features/workspaces/state/workspace-list';
 
 export type RouteType = {
   path: string;

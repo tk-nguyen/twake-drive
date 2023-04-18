@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  CompanyRoleType,
-  CompanyStatusType,
-  CompanyType,
-} from 'app/features/companies/types/company';
-import { WorkspaceType } from 'app/features/workspaces/types/workspace';
+import { CompanyRoleType, CompanyStatusType, CompanyType } from '@features/companies/types/company';
+import { WorkspaceType } from '@features/workspaces/types/workspace';
 
 export type UserPreferencesType = null | {
   locale?: string;

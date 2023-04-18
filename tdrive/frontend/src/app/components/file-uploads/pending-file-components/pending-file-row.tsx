@@ -10,11 +10,9 @@ import {
   isPendingFileStatusPending,
   isPendingFileStatusSuccess,
 } from '../../../features/files/utils/pending-files';
-import Languages from 'app/features/global/services/languages-service';
-import { useUpload } from 'app/features/files/hooks/use-upload';
-import { PendingFileRecoilType, PendingFileType } from 'app/features/files/types/file';
-
-import '../../file/file.scss';
+import Languages from '@features/global/services/languages-service';
+import { useUpload } from '@features/files/hooks/use-upload';
+import { PendingFileRecoilType, PendingFileType } from '@features/files/types/file';
 
 type PropsType = {
   pendingFileState: PendingFileRecoilType;

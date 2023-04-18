@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import { Application } from 'app/features/applications/types/application';
-import jwtStorageService from 'app/features/auth/jwt-storage-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
+import { Application } from '@features/applications/types/application';
+import jwtStorageService from '@features/auth/jwt-storage-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
 
 type EditorType = {
   url?: string;

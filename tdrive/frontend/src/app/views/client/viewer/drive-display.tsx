@@ -2,7 +2,7 @@ import {
   useDrivePreviewDisplayData,
   useDrivePreviewLoading,
   useDrivePreviewModal,
-} from 'app/features/drive/hooks/use-drive-preview';
+} from '@features/drive/hooks/use-drive-preview';
 import ImageDisplay from './images/display';
 import VideoDisplay from './videos/display';
 import PdfDisplay from './pdf/display';

@@ -3,17 +3,17 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 import { Avatar, Button, Col, Descriptions, Divider, Input, Row, Switch, Typography } from 'antd';
 
-import Languages from 'app/features/global/services/languages-service';
-import { useCurrentWorkspace } from 'app/features/workspaces/hooks/use-workspaces';
-import AvatarComponent from 'app/components/avatar/avatar';
-import ModalManager from 'app/components/modal/modal-manager';
+import Languages from '@features/global/services/languages-service';
+import { useCurrentWorkspace } from '@features/workspaces/hooks/use-workspaces';
+import AvatarComponent from '@components/avatar/avatar';
+import ModalManager from '@components/modal/modal-manager';
 import DeleteWorkspacePopup from './DeleteWorkspacePopup';
 import WorkspaceAPIClient, {
   WorkspaceUpdateResource,
-} from 'app/features/workspaces/api/workspace-api-client';
-import { ToasterService as Toaster } from 'app/features/global/services/toaster-service';
-import { addApiUrlIfNeeded } from 'app/features/global/utils/URLUtils';
-import { getBase64 } from 'app/features/global/utils/strings';
+} from '@features/workspaces/api/workspace-api-client';
+import { ToasterService as Toaster } from '@features/global/services/toaster-service';
+import { addApiUrlIfNeeded } from '@features/global/utils/URLUtils';
+import { getBase64 } from '@features/global/utils/strings';
 
 const { Item } = Descriptions;
 const { Text, Title, Link } = Typography;

@@ -1,5 +1,5 @@
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import Api from 'app/features/global/framework/api-service';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import Api from '@features/global/framework/api-service';
 
 class WorkspacePicker extends Observable {
   constructor() {

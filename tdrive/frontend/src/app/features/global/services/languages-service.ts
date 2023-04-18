@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import Observable from 'app/deprecated/CollectionsV1/observable';
-import DateTime from 'app/features/global/utils/datetime';
+import Observable from '@deprecated/CollectionsV1/observable';
+import DateTime from '@features/global/utils/datetime';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Version from 'app/environment/version';
+import Version from '@environment/version';
 class LanguagesService extends Observable {
   private i18nt: Function | null = null;
   private language = '';

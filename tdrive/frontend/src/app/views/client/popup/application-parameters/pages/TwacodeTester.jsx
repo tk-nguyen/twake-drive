@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import AutoHeight from 'components/auto-height/auto-height.jsx';
 import Twacode from 'components/twacode/twacode';
 

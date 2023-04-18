@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Typography } from 'antd';
 
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import Languages from 'app/features/global/services/languages-service';
-import InitService from 'app/features/global/services/init-service';
-import LoginService from 'app/features/auth/login-service';
-import Icon from 'app/components/icon/icon.jsx';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import Languages from '@features/global/services/languages-service';
+import InitService from '@features/global/services/init-service';
+import LoginService from '@features/auth/login-service';
+import Icon from '@components/icon/icon.jsx';
 
 import LoginView from './login-view/login-view';
 import Signin from './signin/signin.jsx';

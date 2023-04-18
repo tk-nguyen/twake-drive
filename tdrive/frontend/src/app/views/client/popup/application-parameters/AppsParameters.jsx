@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import LoginService from 'app/features/auth/login-service';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
-import userService from 'app/features/users/services/current-user-service';
-import currentUserService from 'app/deprecated/user/CurrentUser';
+import Languages from '@features/global/services/languages-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import LoginService from '@features/auth/login-service';
+import popupManager from '@deprecated/popupManager/popupManager.js';
+import userService from '@features/users/services/current-user-service';
+import currentUserService from '@deprecated/user/CurrentUser';
 import WorkspaceApps from './pages/WorkspaceApps.js.js.js.js.js.js.js';
 import WorkspaceAppsInformations from './pages/WorkspaceAppsInformations.jsx';
 import TwacodeTester from './pages/TwacodeTester.jsx';

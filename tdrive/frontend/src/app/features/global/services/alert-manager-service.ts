@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Modal } from 'antd';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import { TdriveService } from '../framework/registry-decorator-service';
 
 const { confirm, info } = Modal;

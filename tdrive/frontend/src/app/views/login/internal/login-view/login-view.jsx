@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import LoginService from 'app/features/auth/login-service';
+import Languages from '@features/global/services/languages-service';
+import LoginService from '@features/auth/login-service';
 import Emojione from 'components/emojione/emojione';
 import Button from 'components/buttons/button.jsx';
 import Input from 'components/inputs/input.jsx';
-import InitService from 'app/features/global/services/init-service';
+import InitService from '@features/global/services/init-service';
 import { Typography } from 'antd';
 export default class LoginView extends Component {
   constructor() {

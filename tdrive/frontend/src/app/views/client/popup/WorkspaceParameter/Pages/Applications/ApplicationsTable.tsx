@@ -4,13 +4,13 @@ import { ColumnsType } from 'antd/lib/table';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 import { Divider, Table, Typography, Row, Input, Col, Button } from 'antd';
 
-import { Application } from 'app/features/applications/types/application';
-import Languages from 'app/features/global/services/languages-service';
-import { useApplications } from 'app/features/applications/hooks/use-applications';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import { useCurrentCompany } from 'app/features/companies/hooks/use-companies';
-import { delayRequest } from 'app/features/global/utils/managedSearchRequest';
-import AvatarComponent from 'app/components/avatar/avatar';
+import { Application } from '@features/applications/types/application';
+import Languages from '@features/global/services/languages-service';
+import { useApplications } from '@features/applications/hooks/use-applications';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
+import { useCurrentCompany } from '@features/companies/hooks/use-companies';
+import { delayRequest } from '@features/global/utils/managedSearchRequest';
+import AvatarComponent from '@components/avatar/avatar';
 
 import './ApplicationsStyles.scss';
 

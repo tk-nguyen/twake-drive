@@ -1,6 +1,6 @@
 import Api from '../../global/framework/api-service';
 import { DriveItem, DriveItemDetails, DriveItemVersion } from '../types';
-import Workspace from 'app/deprecated/workspaces/workspaces';
+import Workspace from '@deprecated/workspaces/workspaces';
 import Logger from 'features/global/framework/logger-service';
 export interface BaseSearchOptions {
   company_id?: string;
@@ -116,9 +116,9 @@ export class DriveApiClient {
     const companyId = options?.company_id ? options.company_id : Workspace.currentGroupId;
     const query = `/internal/services/documents/v1/companies/${companyId}/search`;
     const searchData = {
-      "search": searchString
+      search: searchString,
     };
-    const res = await Api.post<SearchDocumentsBody,{ entities: DriveItem[] }>(query, searchData);
+    const res = await Api.post<SearchDocumentsBody, { entities: DriveItem[] }>(query, searchData);
     this.logger.debug(
       `Drive search by text "${searchString}". Found`,
       res.entities.length,

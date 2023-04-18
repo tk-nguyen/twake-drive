@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ServiceRegistry from 'app/features/global/framework/registry-service';
+import ServiceRegistry from '@features/global/framework/registry-service';
 
 const SERVICE_SUFFIX = 'ChannelServiceImpl';
 

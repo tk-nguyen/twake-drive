@@ -1,6 +1,6 @@
-import { FileTreeObject } from 'app/components/uploads/file-tree-utils';
-import FileUploadService from 'app/features/files/services/file-upload-service';
-import { ToasterService } from 'app/features/global/services/toaster-service';
+import { FileTreeObject } from '@components/uploads/file-tree-utils';
+import FileUploadService from '@features/files/services/file-upload-service';
+import { ToasterService } from '@features/global/services/toaster-service';
 import { DriveApiClient } from '../api-client/api-client';
 import { useDriveActions } from './use-drive-actions';
 

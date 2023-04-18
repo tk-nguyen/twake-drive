@@ -5,12 +5,12 @@ import { capitalize } from 'lodash';
 import { Check } from 'react-feather';
 import { Tabs, Button, Typography, Col, Tag, Descriptions, Row, Divider } from 'antd';
 
-import { Application, ApplicationAccess } from 'app/features/applications/types/application';
-import Languages from 'app/features/global/services/languages-service';
-import AvatarComponent from 'app/components/avatar/avatar';
-import ObjectModal from 'app/components/object-modal/object-modal';
-import ModalManager from 'app/components/modal/modal-manager';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
+import { Application, ApplicationAccess } from '@features/applications/types/application';
+import Languages from '@features/global/services/languages-service';
+import AvatarComponent from '@components/avatar/avatar';
+import ObjectModal from '@components/object-modal/object-modal';
+import ModalManager from '@components/modal/modal-manager';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
 
 import './ApplicationsStyles.scss';
 

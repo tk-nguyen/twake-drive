@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import Observable from 'app/deprecated/Observable/Observable';
-import Languages from 'app/features/global/services/languages-service';
-import { ToasterService as Toaster } from 'app/features/global/services/toaster-service';
+import Observable from '@deprecated/Observable/Observable';
+import Languages from '@features/global/services/languages-service';
+import { ToasterService as Toaster } from '@features/global/services/toaster-service';
 import {
   NotificationPreferencesType,
   preferencesType,
-} from 'app/features/users/types/notification-preferences-type';
+} from '@features/users/types/notification-preferences-type';
 
 type Keys = keyof preferencesType;
 type Values = preferencesType[Keys];

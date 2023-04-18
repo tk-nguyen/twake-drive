@@ -1,5 +1,5 @@
-import { ToasterService } from 'app/features/global/services/toaster-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import { ToasterService } from '@features/global/services/toaster-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 import { useCallback } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { DriveApiClient } from '../api-client/api-client';

@@ -1,4 +1,4 @@
-import FileUploadService from 'app/features/files/services/file-upload-service';
+import FileUploadService from '@features/files/services/file-upload-service';
 import { selector } from 'recoil';
 import { PendingFilesListState } from '../atoms/pending-files-list';
 

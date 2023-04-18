@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Maybe } from 'app/features/global/types/global-types';
+import { Maybe } from '@features/global/types/global-types';
 import Globals from '../services/globals-tdrive-app-service';
 import JWTStorage from '../../auth/jwt-storage-service';
 import Logger from '../framework/logger-service';

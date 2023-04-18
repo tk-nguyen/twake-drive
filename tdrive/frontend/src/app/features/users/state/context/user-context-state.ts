@@ -1,7 +1,7 @@
-import { CompanyType } from 'app/features/companies/types/company';
-import { UserType } from 'app/features/users/types/user';
-import { UserContext } from 'app/features/users/types/user-context';
-import { WorkspaceType } from 'app/features/workspaces/types/workspace';
+import { CompanyType } from '@features/companies/types/company';
+import { UserType } from '@features/users/types/user';
+import { UserContext } from '@features/users/types/user-context';
+import { WorkspaceType } from '@features/workspaces/types/workspace';
 
 class UserContextState implements UserContext {
   private _user: UserType | undefined;

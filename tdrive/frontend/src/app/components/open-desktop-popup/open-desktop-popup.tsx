@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Logo } from 'app/atoms/logo';
-import { Subtitle } from 'app/atoms/text';
-import A from 'app/atoms/link';
+import { Logo } from '@atoms/logo';
+import { Subtitle } from '@atoms/text';
+import A from '@atoms/link';
 import { useRecoilState } from 'recoil';
-import { useWebState } from 'app/features/global/state/atoms/use-web';
-import Languages from 'app/features/global/services/languages-service';
+import { useWebState } from '@features/global/state/atoms/use-web';
+import Languages from '@features/global/services/languages-service';
 
 export const OpenDesktopPopup = (): React.ReactElement => {
   const [showLink, setShowLink] = useState(true);

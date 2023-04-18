@@ -1,8 +1,5 @@
 import Api from '../../global/framework/api-service';
-import {
-  WorkspacePendingUserType,
-  WorkspaceUserType,
-} from 'app/features/workspaces/types/workspace';
+import { WorkspacePendingUserType, WorkspaceUserType } from '@features/workspaces/types/workspace';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
 
 const PREFIX = '/internal/services/workspaces/v1/companies';

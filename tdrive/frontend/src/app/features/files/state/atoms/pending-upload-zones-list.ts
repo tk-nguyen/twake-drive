@@ -1,7 +1,7 @@
-import { MessageFileType } from 'app/features/messages/types/message';
+import { AttachedFileType } from '@features/files/types/file';
 import { atomFamily } from 'recoil';
 
-export const PendingUploadZonesListState = atomFamily<MessageFileType[], string>({
+export const PendingUploadZonesListState = atomFamily<AttachedFileType[], string>({
   key: 'PendingUploadZonesListState',
   default: () => [],
 });

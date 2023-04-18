@@ -1,11 +1,11 @@
 import { Button } from '@atoms/button/button';
 import { Input } from '@atoms/input/input-text';
 import { AdjustmentsIcon, SearchIcon } from '@heroicons/react/outline';
-import { InputDecorationIcon } from 'app/atoms/input/input-decoration-icon';
-import Languages from 'app/features/global/services/languages-service';
-import RouterServices from 'app/features/router/services/router-service';
-import { useSearchModal } from 'app/features/search/hooks/use-search';
-import { SearchInputState } from 'app/features/search/state/search-input';
+import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
+import Languages from '@features/global/services/languages-service';
+import RouterServices from '@features/router/services/router-service';
+import { useSearchModal } from '@features/search/hooks/use-search';
+import { SearchInputState } from '@features/search/state/search-input';
 import { useRecoilState } from 'recoil';
 
 export default (): JSX.Element => {

@@ -3,10 +3,10 @@ import './connection-indicator.scss';
 import ErrorOutlinedIcon from '@material-ui/icons/ErrorOutlined';
 import HourglassEmpty from '@material-ui/icons/HourglassEmpty';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Languages from 'app/features/global/services/languages-service';
-import { ConnectedState } from 'app/features/users/state/atoms/connected';
+import Languages from '@features/global/services/languages-service';
+import { ConnectedState } from '@features/users/state/atoms/connected';
 import { useRecoilState } from 'recoil';
-import WebSocket, { WebsocketEvents } from 'app/features/global/types/websocket-types';
+import WebSocket, { WebsocketEvents } from '@features/global/types/websocket-types';
 
 export default () => {
   const [{ connected, reconnecting }, setState] = useRecoilState(ConnectedState);

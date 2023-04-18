@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import Requests from 'app/features/global/framework/requests-api-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import Requests from '@features/global/framework/requests-api-service';
 
 class GroupedQueryApi {
   private groupedQueryBuffer: any;

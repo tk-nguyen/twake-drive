@@ -2,16 +2,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { v1 as uuid } from 'uuid';
 
-import { FileType, PendingFileType } from 'app/features/files/types/file';
-import JWTStorage from 'app/features/auth/jwt-storage-service';
-import RouterServices from 'app/features/router/services/router-service';
-import Resumable from 'app/features/files/utils/resumable';
+import { FileType, PendingFileType } from '@features/files/types/file';
+import JWTStorage from '@features/auth/jwt-storage-service';
+import RouterServices from '@features/router/services/router-service';
+import Resumable from '@features/files/utils/resumable';
 import FileUploadAPIClient from '../api/file-upload-api-client';
 import { isPendingFileStatusPending } from '../utils/pending-files';
-import Logger from 'app/features/global/framework/logger-service';
+import Logger from '@features/global/framework/logger-service';
 import _ from 'lodash';
-import { MessageFileType } from 'app/features/messages/types/message';
-import MessageAPIClient from 'app/features/messages/api/message-api-client';
+import { AttachedFileType } from '@features/files/types/file';
 
 export enum Events {
   ON_CHANGE = 'notify',
@@ -265,10 +264,6 @@ class FileUploadService {
       companyId: companyId,
       fileId: fileId,
     });
-  }
-
-  public async markAsDownloadedFromMessage(messageFile: MessageFileType) {
-    await MessageAPIClient.download(messageFile);
   }
 }
 

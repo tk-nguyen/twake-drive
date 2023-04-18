@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input, Space, message } from 'antd';
 import { DeleteOutlined, RetweetOutlined } from '@ant-design/icons';
-import Languages from 'app/features/global/services/languages-service';
-import RouterServices from 'app/features/router/services/router-service';
+import Languages from '@features/global/services/languages-service';
+import RouterServices from '@features/router/services/router-service';
 import './MagicLinks.scss';
-import { MagicLinksGeneratorService } from 'app/features/workspaces/services/magic-links-service';
+import { MagicLinksGeneratorService } from '@features/workspaces/services/magic-links-service';
 
 type PropsType = {
   loading?: boolean;
@@ -24,7 +24,11 @@ export default (props: PropsType): JSX.Element => {
     setDisabled(val);
   };
 
-  const magicLinksService = new MagicLinksGeneratorService(companyId as string, workspaceId as string, busy);
+  const magicLinksService = new MagicLinksGeneratorService(
+    companyId as string,
+    workspaceId as string,
+    busy,
+  );
 
   useEffect(() => {
     init();

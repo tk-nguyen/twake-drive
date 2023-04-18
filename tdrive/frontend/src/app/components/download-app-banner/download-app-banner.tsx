@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InitService from '../../features/global/services/init-service';
 import LocalStorage from '../../features/global/framework/local-storage-service';
-import DownloadBanner from 'app/molecules/download-banner';
+import DownloadBanner from '@molecules/download-banner';
 import { detectDesktopAppPresence } from '../../../utils/browser-detect';
 
 export default (): React.ReactElement => {

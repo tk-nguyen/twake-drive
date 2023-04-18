@@ -1,14 +1,14 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import WorkspaceService from 'app/deprecated/workspaces/workspaces.jsx';
-import GroupService from 'app/deprecated/workspaces/groups.js';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
+import Languages from '@features/global/services/languages-service';
+import WorkspaceService from '@deprecated/workspaces/workspaces.jsx';
+import GroupService from '@deprecated/workspaces/groups.js';
+import popupManager from '@deprecated/popupManager/popupManager.js';
 import Emojione from 'components/emojione/emojione';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout.jsx';
 import Input from 'components/inputs/input.jsx';
-import AddUserByEmail from 'app/views/client/popup/AddUser/AddUserByEmail';
+import AddUserByEmail from '@views/client/popup/AddUser/AddUserByEmail';
 import './CreateWorkspacePage.scss';
 
 export default class CreateWorkspacePage extends Component {

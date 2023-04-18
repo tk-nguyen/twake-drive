@@ -1,15 +1,12 @@
-import { ChannelType } from 'app/features/channels/types/channel';
-import { MessageFileType, MessageWithReplies } from 'app/features/messages/types/message';
-import { UserType } from 'app/features/users/types/user';
+import { UserType } from '@features/users/types/user';
 import Api from '../../global/framework/api-service';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
+import { AttachedFileType } from 'app/features/files/types/file';
 
 const MESSAGES_PREFIX = '/internal/services/messages/v1/companies';
 
-export type MessageFileDetails = MessageFileType & {
+export type MessageFileDetails = AttachedFileType & {
   user: UserType;
-  message: MessageWithReplies;
-  channel: ChannelType;
   navigation: {
     previous: null | {
       message_id: string;

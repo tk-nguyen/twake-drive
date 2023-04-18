@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tag } from 'antd';
 
-import { ApplicationScopes } from 'app/features/applications/types/application';
+import { ApplicationScopes } from '@features/applications/types/application';
 import { defaultApplicationScopes } from '../default-scopes';
 
 export const TagPicker = ({

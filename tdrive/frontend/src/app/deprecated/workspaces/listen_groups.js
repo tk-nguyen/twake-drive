@@ -1,5 +1,5 @@
-import ws from 'app/deprecated/websocket/websocket.js';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
+import ws from '@deprecated/websocket/websocket.js';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
 
 class ListenGroups {
   constructor() {

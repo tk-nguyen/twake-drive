@@ -1,6 +1,6 @@
-import Api from 'app/features/global/framework/api-service';
-import Languages from 'app/features/global/services/languages-service';
-import DepreciatedCollections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
+import Api from '@features/global/framework/api-service';
+import Languages from '@features/global/services/languages-service';
+import DepreciatedCollections from '@deprecated/CollectionsV1/Collections/Collections.js';
 import Login from '../../features/auth/login-service';
 import { getUser } from '../../features/users/hooks/use-user-list';
 

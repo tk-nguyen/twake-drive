@@ -2,13 +2,13 @@ import React, { Suspense } from 'react';
 
 import { Button, Row, Typography } from 'antd';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import ApplicationsTable from './Applications/ApplicationsTable';
 import CompanyApplicationsTable from './Applications/CompanyApplicationsTable';
 import ApplicationCreator from '../../application-parameters/pages/application-creator';
-import ModalManager from 'app/components/modal/modal-manager';
-import AccessRightsService from 'app/features/workspace-members/services/workspace-members-access-rights-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import ModalManager from '@components/modal/modal-manager';
+import AccessRightsService from '@features/workspace-members/services/workspace-members-access-rights-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 
 import './Pages.scss';
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import InputWithClipBoard from 'components/input-with-clip-board/input-with-clip-board.jsx';
-import workspaceService from 'app/deprecated/workspaces/workspaces.jsx';
-import userService from 'app/features/users/services/current-user-service';
+import workspaceService from '@deprecated/workspaces/workspaces.jsx';
+import userService from '@features/users/services/current-user-service';
 import './pages.scss';
 
 export default class WorkspaceAppsInformations extends Component {

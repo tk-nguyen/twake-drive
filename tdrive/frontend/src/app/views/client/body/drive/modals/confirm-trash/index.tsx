@@ -1,10 +1,10 @@
-import { Button } from 'app/atoms/button/button';
-import { Modal, ModalContent } from 'app/atoms/modal';
-import { Base } from 'app/atoms/text';
-import { useDriveActions } from 'app/features/drive/hooks/use-drive-actions';
-import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
-import { DriveItemSelectedList } from 'app/features/drive/state/store';
-import { DriveItem } from 'app/features/drive/types';
+import { Button } from '@atoms/button/button';
+import { Modal, ModalContent } from '@atoms/modal';
+import { Base } from '@atoms/text';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
+import { useDriveItem } from '@features/drive/hooks/use-drive-item';
+import { DriveItemSelectedList } from '@features/drive/state/store';
+import { DriveItem } from '@features/drive/types';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
@@ -61,7 +61,7 @@ const ConfirmTrashModalContent = ({ items }: { items: DriveItem[] }) => {
           await Promise.all((items || []).map(async item => await remove(item.id, item.parent_id)));
           setSelected({});
           setLoading(false);
-          refresh("trash");
+          refresh('trash');
           setState({ ...state, open: false });
         }}
       >

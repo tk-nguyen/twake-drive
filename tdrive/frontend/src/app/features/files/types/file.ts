@@ -1,6 +1,36 @@
-import Resumable from 'app/features/files/utils/resumable';
-import { ThumbnailType } from '../../messages/types/message';
-import { UserType } from 'app/features/users/types/user';
+import Resumable from '@features/files/utils/resumable';
+import { UserType } from '@features/users/types/user';
+
+export type ThumbnailType = {
+  width?: number; //Thumbnail width (for images only)
+  height?: number; //Thumbnail height (for images only)
+  id?: string; //Url to thumbnail (or set it to undefined if no relevant)
+  index?: number;
+  size?: number;
+  mime?: string;
+  type?: string;
+  url: string;
+};
+
+export type AttachedFileMetadataSource = 'internal' | 'drive' | string;
+
+export type AttachedFileType = {
+  //Primary key
+  id?: string;
+  company_id?: string; // optional
+  message_id?: string; // optional
+  thread_id?: string; // optional
+
+  metadata?: {
+    //File information when attached (it can change if edited)
+    source?: AttachedFileMetadataSource;
+    external_id: string | { company_id: string; id: string } | any;
+    name?: string; //Original name
+    size?: number; //Original weight
+    mime?: string;
+    thumbnails?: ThumbnailType[];
+  };
+};
 
 export type MetaDataType = {
   thumbnails?: ThumbnailType[];

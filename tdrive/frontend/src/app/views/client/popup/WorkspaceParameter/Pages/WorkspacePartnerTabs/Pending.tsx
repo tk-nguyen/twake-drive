@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import { Divider, Table, Typography } from 'antd';
 import Menu from 'components/menus/menu.jsx';
 import EditIcon from '@material-ui/icons/MoreHorizOutlined';
 import { ColumnsType } from 'antd/lib/table';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import AccessRightsService from 'app/features/workspace-members/services/workspace-members-access-rights-service';
-import WorkspaceUserAPIClient from 'app/features/workspace-members/api/workspace-members-api-client';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import AccessRightsService from '@features/workspace-members/services/workspace-members-access-rights-service';
+import WorkspaceUserAPIClient from '@features/workspace-members/api/workspace-members-api-client';
 
 type PendingEmailResourceType = {
   company_role: string;

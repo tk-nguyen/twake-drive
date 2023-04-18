@@ -3,7 +3,7 @@
 import React from 'react';
 
 import UploadManager from './upload-manager';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import { Upload } from 'react-feather';
 import classNames from 'classnames';
 import './uploads.scss';
@@ -89,41 +89,6 @@ export default class UploadZone extends React.Component<PropsType, StateType> {
 
   /**
    *
-   * @param tree
-   * @param nb
-   * @param totalSize
-   */
-  upload(tree: any, nb?: number, totalSize?: number) {
-    if (this.props.multiple === false) {
-      nb = 1;
-      let file: any = null;
-      Object.keys(tree).every(i => {
-        const element = tree[i];
-        if (element.size) {
-          file = {};
-          file[i] = element;
-          totalSize = element.size;
-          return false;
-        }
-        return true;
-      });
-      if (!file) {
-        return;
-      }
-    }
-    UploadManager.startUpload(
-      tree,
-      nb,
-      totalSize,
-      this.props.parent,
-      this.props.uploadOptions,
-      this.props.driveCollectionKey,
-      this.props.onUploaded,
-    );
-  }
-
-  /**
-   *
    * @param event
    */
   change(event: any) {
@@ -200,27 +165,6 @@ export default class UploadZone extends React.Component<PropsType, StateType> {
 
       this.setCallback();
     });
-  }
-
-  /**
-   * @param {Blob[]} files
-   * @returns
-   */
-  uploadFiles(files: any = []) {
-    if (!this.props.allowPaste || !files.length) {
-      return;
-    }
-
-    const filesToUpload: any = {};
-
-    files.forEach((file: FileObjectType, index: number) => {
-      const filename = file.name
-        ? file.name.replace(/\.(png|jpeg|jpg|tiff|gif)$/i, '')
-        : `file-${index}`;
-      filesToUpload[filename] = file;
-    });
-
-    this.upload(filesToUpload);
   }
 
   /**

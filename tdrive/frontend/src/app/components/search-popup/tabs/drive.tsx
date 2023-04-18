@@ -1,7 +1,7 @@
 import * as Text from '@atoms/text';
-import Languages from 'app/features/global/services/languages-service';
-import { useSearchDriveItems } from 'app/features/search/hooks/use-search-drive-items';
-import { SearchInputState } from 'app/features/search/state/search-input';
+import Languages from '@features/global/services/languages-service';
+import { useSearchDriveItems } from '@features/search/hooks/use-search-drive-items';
+import { SearchInputState } from '@features/search/state/search-input';
 import { useRecoilValue } from 'recoil';
 import DriveItemResult from '../parts/drive-item-result';
 import NothingFound from '../parts/nothing-found';

@@ -1,6 +1,6 @@
 import { ViewGridIcon } from '@heroicons/react/outline';
-import { Button } from 'app/atoms/button/button';
-import Menu from 'app/components/menus/menu';
+import { Button } from '@atoms/button/button';
+import Menu from '@components/menus/menu';
 import { Base } from '../../../atoms/text';
 import InitService from '../../../features/global/services/init-service';
 

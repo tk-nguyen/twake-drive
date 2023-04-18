@@ -2,11 +2,11 @@
 import React, { Suspense } from 'react';
 import classNames from 'classnames';
 
-import { UserType } from 'app/features/users/types/user';
-import { useOnlineUser } from 'app/features/users/hooks/use-online-user';
+import { UserType } from '@features/users/types/user';
+import { useOnlineUser } from '@features/users/hooks/use-online-user';
 
 import './online-user-status.scss';
-import { useUser } from 'app/features/users/hooks/use-user';
+import { useUser } from '@features/users/hooks/use-user';
 
 type PropsType = {
   user: UserType;

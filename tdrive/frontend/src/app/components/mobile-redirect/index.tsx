@@ -5,7 +5,7 @@ import { Smartphone, X } from 'react-feather';
 import './style.scss';
 import { Button } from 'antd';
 import InitService from '../../features/global/services/init-service';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
 
 const environment = configuration;
 

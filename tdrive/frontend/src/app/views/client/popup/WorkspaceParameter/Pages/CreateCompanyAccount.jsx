@@ -1,18 +1,18 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import AlertManager from 'app/features/global/services/alert-manager-service';
+import Languages from '@features/global/services/languages-service';
+import AlertManager from '@features/global/services/alert-manager-service';
 import Input from 'components/inputs/input.jsx';
 import Button from 'components/buttons/button.jsx';
-import MediumPopupManager from 'app/components/modal/modal-manager';
+import MediumPopupManager from '@components/modal/modal-manager';
 import {
   ObjectModal,
   ObjectModalFormTitle,
   ObjectModalTitle,
 } from 'components/object-modal/deprecated-object-modal.jsx';
-import Api from 'app/features/global/framework/api-service';
-import Workspaces from 'app/deprecated/workspaces/workspaces.jsx';
+import Api from '@features/global/framework/api-service';
+import Workspaces from '@deprecated/workspaces/workspaces.jsx';
 import './pages.scss';
 
 export default class CreateCompanyAccount extends Component {

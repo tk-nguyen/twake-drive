@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import Logger from 'app/features/global/framework/logger-service';
+import Logger from '@features/global/framework/logger-service';
 
 const logger = Logger.getLogger('useInterval');
 

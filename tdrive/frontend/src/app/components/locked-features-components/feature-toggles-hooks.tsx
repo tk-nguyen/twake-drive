@@ -2,9 +2,9 @@
 import { useEffect } from 'react';
 import FeatureTogglesService, {
   FeatureNames,
-} from 'app/features/global/services/feature-toggles-service';
+} from '@features/global/services/feature-toggles-service';
 import { FeatureToggles, Feature, withFeatures } from '@paralleldrive/react-feature-toggles';
-import { useCurrentCompany } from 'app/features/companies/hooks/use-companies';
+import { useCurrentCompany } from '@features/companies/hooks/use-companies';
 
 export const useFeatureToggles = () => {
   const { activeFeatureNames } = FeatureTogglesService;

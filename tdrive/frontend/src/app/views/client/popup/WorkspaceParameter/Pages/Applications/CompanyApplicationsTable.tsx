@@ -7,18 +7,18 @@ import { Divider, Table, Typography, Row, Col, Button, Grid } from 'antd';
 import {
   useCompanyApplications,
   useCompanyApplicationsRealtime,
-} from 'app/features/applications/hooks/use-company-applications';
-import { Application } from 'app/features/applications/types/application';
-import Languages from 'app/features/global/services/languages-service';
-import ModalManager from 'app/components/modal/modal-manager';
-import AvatarComponent from 'app/components/avatar/avatar';
+} from '@features/applications/hooks/use-company-applications';
+import { Application } from '@features/applications/types/application';
+import Languages from '@features/global/services/languages-service';
+import ModalManager from '@components/modal/modal-manager';
+import AvatarComponent from '@components/avatar/avatar';
 import CompanyApplicationPopup from './CompanyApplicationPopup';
 import Menu from 'components/menus/menu';
-import WorkspacesApps from 'app/deprecated/workspaces/workspaces_apps.jsx';
-import AlertManager from 'app/features/global/services/alert-manager-service';
+import WorkspacesApps from '@deprecated/workspaces/workspaces_apps.jsx';
+import AlertManager from '@features/global/services/alert-manager-service';
 import ApplicationEditor from '../../../application-parameters/pages/application-editor';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import AccessRightsService from 'app/features/workspace-members/services/workspace-members-access-rights-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import AccessRightsService from '@features/workspace-members/services/workspace-members-access-rights-service';
 
 import './ApplicationsStyles.scss';
 

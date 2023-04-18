@@ -1,5 +1,5 @@
-import { Modal, ModalContent } from 'app/atoms/modal';
-import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
+import { Modal, ModalContent } from '@atoms/modal';
+import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { InternalAccessManager } from './internal-access';

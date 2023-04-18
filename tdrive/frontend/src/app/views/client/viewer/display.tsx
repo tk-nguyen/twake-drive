@@ -2,7 +2,7 @@ import {
   useFileViewerModal,
   useViewerDataLoading,
   useViewerDisplayData,
-} from 'app/features/viewer/hooks/use-viewer';
+} from '@features/viewer/hooks/use-viewer';
 import ImageDisplay from './images/display';
 import VideoDisplay from './videos/display';
 import PdfDisplay from './pdf/display';
@@ -20,7 +20,7 @@ export default () => {
   }
 
   if (type === 'image') {
-    return <ImageDisplay loading={loading} setLoading={setLoading}  download={download} />;
+    return <ImageDisplay loading={loading} setLoading={setLoading} download={download} />;
   }
 
   if (type === 'video' || type === 'audio') {

@@ -8,9 +8,9 @@ import {
   Application,
   ApplicationAccess as ApplicationAccessType,
   ApplicationScopes,
-} from 'app/features/applications/types/application';
+} from '@features/applications/types/application';
 import { ApplicationHelp } from './application-help';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
 const { Text, Title } = Typography;
 export const ApplicationAccess = ({

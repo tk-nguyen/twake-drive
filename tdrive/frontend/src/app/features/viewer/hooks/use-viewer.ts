@@ -1,10 +1,10 @@
-import { useGlobalEffect } from 'app/features/global/hooks/use-global-effect';
-import { MessageFileType } from 'app/features/messages/types/message';
+import { useGlobalEffect } from '@features/global/hooks/use-global-effect';
+import { AttachedFileType } from '@features/files/types/file';
 import ViewerAPIClient, { MessageFileDetails } from '../api/viewer-api-client';
 import { atom, useRecoilState } from 'recoil';
-import FileUploadApiClient from 'app/features/files/api/file-upload-api-client';
-import FileUploadService from 'app/features/files/services/file-upload-service';
-import { LoadingState } from 'app/features/global/state/atoms/Loading';
+import FileUploadApiClient from '@features/files/api/file-upload-api-client';
+import FileUploadService from '@features/files/services/file-upload-service';
+import { LoadingState } from '@features/global/state/atoms/Loading';
 
 export const FileViewerState = atom<{
   file: null | { company_id?: string; message_id?: string; id?: string; drive_id?: string };
@@ -23,7 +23,7 @@ export const useFileViewerModal = () => {
   const [status, setStatus] = useRecoilState(FileViewerState);
 
   return {
-    open: (file: MessageFileType) => {
+    open: (file: AttachedFileType) => {
       if (file.metadata?.source === 'internal') setStatus({ file, loading: true });
     },
     close: () => setStatus({ file: null, loading: true }),

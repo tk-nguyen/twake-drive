@@ -6,12 +6,12 @@ import {
   FolderDownloadIcon,
   LinkIcon,
 } from '@heroicons/react/outline';
-import Avatar from 'app/atoms/avatar';
-import A from 'app/atoms/link';
-import { Modal, ModalContent } from 'app/atoms/modal';
-import { Base } from 'app/atoms/text';
-import { useCompanyApplications } from 'app/features/applications/hooks/use-company-applications';
-import { Application } from 'app/features/applications/types/application';
+import Avatar from '@atoms/avatar';
+import A from '@atoms/link';
+import { Modal, ModalContent } from '@atoms/modal';
+import { Base } from '@atoms/text';
+import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
+import { Application } from '@features/applications/types/application';
 import { ReactNode } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { slideXTransition, slideXTransitionReverted } from 'src/utils/transitions';

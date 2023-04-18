@@ -1,6 +1,6 @@
-import Api from 'app/features/global/framework/api-service';
-import { TdriveService } from 'app/features/global/framework/registry-decorator-service';
-import JWTStorage, { JWTDataType } from 'app/features/auth/jwt-storage-service';
+import Api from '@features/global/framework/api-service';
+import { TdriveService } from '@features/global/framework/registry-decorator-service';
+import JWTStorage, { JWTDataType } from '@features/auth/jwt-storage-service';
 
 type LoginParams = {
   email: string;

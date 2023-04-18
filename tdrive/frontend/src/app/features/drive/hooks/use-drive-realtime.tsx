@@ -1,4 +1,4 @@
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
 import { useDriveActions } from './use-drive-actions';
 import { useDriveItem } from './use-drive-item';
 

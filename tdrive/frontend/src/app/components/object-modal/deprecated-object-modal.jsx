@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Tabs from 'components/tabs/tabs.jsx';
 import './deprecated-object-modal.scss';

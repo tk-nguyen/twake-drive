@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Button, Row, Typography } from 'antd';
-import { Application } from 'app/features/applications/types/application';
+import { Application } from '@features/applications/types/application';
 
-import Languages from 'app/features/global/services/languages-service';
-import Emojione from 'app/components/emojione/emojione';
-import AlertManager from 'app/features/global/services/alert-manager-service';
-import ApplicationsAPIClient from 'app/features/applications/api/applications-api-client';
-import { ToasterService } from 'app/features/global/services/toaster-service';
+import Languages from '@features/global/services/languages-service';
+import Emojione from '@components/emojione/emojione';
+import AlertManager from '@features/global/services/alert-manager-service';
+import ApplicationsAPIClient from '@features/applications/api/applications-api-client';
+import { ToasterService } from '@features/global/services/toaster-service';
 
 const { Title, Text } = Typography;
 

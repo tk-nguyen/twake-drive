@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography, Alert } from 'antd';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import { AlertTriangle } from 'react-feather';
-import { CompanyLimitsEnum, CompanyType } from 'app/features/companies/types/company';
-import consoleService from 'app/features/console/services/console-service';
+import { CompanyLimitsEnum, CompanyType } from '@features/companies/types/company';
+import consoleService from '@features/console/services/console-service';
 
 type PropsType = { company: Partial<CompanyType>; magicLink?: boolean };
 
@@ -11,10 +11,7 @@ const { Text, Link } = Typography;
 const LockedInviteAlert = (props: PropsType): JSX.Element => {
   const limit = props?.company?.plan?.limits?.[CompanyLimitsEnum.COMPANY_MEMBERS_LIMIT] || 0;
   const onClickBtn = () =>
-    window.open(
-      consoleService.getCompanySubscriptionUrl(props.company.id || ""),
-      'blank',
-    );
+    window.open(consoleService.getCompanySubscriptionUrl(props.company.id || ''), 'blank');
 
   return (
     <Alert
