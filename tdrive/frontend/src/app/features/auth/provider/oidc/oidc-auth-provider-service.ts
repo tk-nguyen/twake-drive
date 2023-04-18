@@ -3,14 +3,14 @@ import Oidc from 'oidc-client';
 import environment from '../../../../environment/environment';
 import { ConsoleConfiguration } from '../../../global/services/init-service';
 import Observable from '../../../../deprecated/Observable/Observable';
-import Logger from 'app/features/global/framework/logger-service';
-import { getAsFrontUrl } from 'app/features/global/utils/URLUtils';
+import Logger from '@features/global/framework/logger-service';
+import { getAsFrontUrl } from '@features/global/utils/URLUtils';
 import { TdriveService } from '../../../global/framework/registry-decorator-service';
 import EnvironmentService from '../../../global/framework/environment-service';
 import { AuthProvider, InitParameters } from '../auth-provider';
-import ConsoleService from 'app/features/console/services/console-service';
-import jwtStorageService, { JWTDataType } from 'app/features/auth/jwt-storage-service';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
+import ConsoleService from '@features/console/services/console-service';
+import jwtStorageService, { JWTDataType } from '@features/auth/jwt-storage-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
 
 const OIDC_CALLBACK_URL = '/oidccallback';
 const OIDC_SIGNOUT_URL = '/signout';
@@ -96,7 +96,7 @@ export default class OIDCAuthProviderService
     try {
       await this.userManager!.signinRedirectCallback();
     } catch (e) {
-      console.log("Not connected, connect through SSO");
+      console.log('Not connected, connect through SSO');
     }
 
     const user = await this.userManager?.getUser();

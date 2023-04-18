@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import Button from 'components/buttons/button.jsx';
 import Input from 'components/inputs/input.jsx';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import Select from 'components/select/select.jsx';
 import './reminder-selector.scss';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
 export default class ReminderSelector extends React.Component {
   constructor(props) {

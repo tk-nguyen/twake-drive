@@ -4,8 +4,8 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Divider, Layout, Typography, Col, Row } from 'antd';
 
-import ModalManager from 'app/components/modal/modal-manager';
-import Icon from 'app/components/icon/icon.jsx';
+import ModalManager from '@components/modal/modal-manager';
+import Icon from '@components/icon/icon.jsx';
 
 import './object-modal.scss';
 

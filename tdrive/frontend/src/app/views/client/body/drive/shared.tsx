@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import MenusBodyLayer from 'app/components/menus/menus-body-layer';
-import Api from 'app/features/global/framework/api-service';
-import Languages from 'app/features/global/services/languages-service';
-import { addApiUrlIfNeeded } from 'app/features/global/utils/URLUtils';
-import RouterService from 'app/features/router/services/router-service';
-import Drive from 'app/views/client/body/drive';
+import MenusBodyLayer from '@components/menus/menus-body-layer';
+import Api from '@features/global/framework/api-service';
+import Languages from '@features/global/services/languages-service';
+import { addApiUrlIfNeeded } from '@features/global/utils/URLUtils';
+import RouterService from '@features/router/services/router-service';
+import Drive from '@views/client/body/drive';
 import Avatar from '../../../../atoms/avatar';
 import { setPublicLinkToken } from '../../../../features/drive/api-client/api-client';
 import { useParams } from 'react-router-dom';

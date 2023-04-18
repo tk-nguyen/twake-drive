@@ -4,8 +4,8 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
-import Logger from 'app/features/global/framework/logger-service';
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
+import Logger from '@features/global/framework/logger-service';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
 import { OnlineUsersState, OnlineUserType } from '../state/atoms/online-users';
 import useWebSocket from '../../global/hooks/use-websocket';
 import {
@@ -14,7 +14,7 @@ import {
   RealtimeUpdateMessageType,
 } from '../../../features/users/api/online-user-realtime-api-client';
 import JWTStorage from '../../auth/jwt-storage-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 
 const logger = Logger.getLogger('useOnlineUsers');
 

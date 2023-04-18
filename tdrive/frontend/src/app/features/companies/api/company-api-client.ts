@@ -1,5 +1,5 @@
-import { CompanyType } from 'app/features/companies/types/company';
-import { WorkspaceType } from 'app/features/workspaces/types/workspace';
+import { CompanyType } from '@features/companies/types/company';
+import { WorkspaceType } from '@features/workspaces/types/workspace';
 import Api from '../../global/framework/api-service';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
 import { WebsocketRoom } from '../../global/types/websocket-types';

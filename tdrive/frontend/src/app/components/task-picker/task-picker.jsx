@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
-import Workspaces from 'app/deprecated/workspaces/workspaces.jsx';
+import Workspaces from '@deprecated/workspaces/workspaces.jsx';
 import Button from 'components/buttons/button.jsx';
-import Languages from 'app/features/global/services/languages-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
+import Languages from '@features/global/services/languages-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
 import Emojione from 'components/emojione/emojione';
 import Loader from 'components/loader/loader.jsx';
-import TasksService from 'app/deprecated/Apps/Tasks/Tasks.js';
+import TasksService from '@deprecated/Apps/Tasks/Tasks.js';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 
 import './task-picker.scss';

@@ -1,5 +1,5 @@
-import Electron from 'app/features/global/framework/electron-service';
-import { getDevice } from 'app/features/global/utils/device';
+import Electron from '@features/global/framework/electron-service';
+import { getDevice } from '@features/global/utils/device';
 import { getBrowserInformation } from './common';
 import { detect } from './detect';
 

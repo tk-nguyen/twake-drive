@@ -1,19 +1,12 @@
-import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
 import { SearchIcon } from '@heroicons/react/solid';
-import { Input } from 'app/atoms/input/input-text';
-import { Loader } from 'app/atoms/loader';
-import Languages from 'app/features/global/services/languages-service';
-import { useSearchChannelsLoading } from 'app/features/search/hooks/use-search-channels';
-import {
-  useSearchMessagesFilesLoading,
-  useSearchMessagesMediasLoading,
-} from 'app/features/search/hooks/use-search-files-or-medias';
-import { useSearchDriveItemsLoading } from 'app/features/search/hooks/use-search-drive-items';
-import { useSearchMessagesLoading } from 'app/features/search/hooks/use-search-messages';
-import { SearchInputState } from 'app/features/search/state/search-input';
-import _ from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
+import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
+import { Input } from '@atoms/input/input-text';
+import { Loader } from '@atoms/loader';
+import Languages from '@features/global/services/languages-service';
+import { useSearchDriveItemsLoading } from '@features/search/hooks/use-search-drive-items';
+import { SearchInputState } from '@features/search/state/search-input';
 
 export const SearchInput = () => {
   const [input, setInput] = useRecoilState(SearchInputState);
@@ -23,14 +16,9 @@ export const SearchInput = () => {
     if (inputElement.current) inputElement.current.focus();
   }, []);
 
-  const channelsLoading = useSearchChannelsLoading();
-  const messagesLoading = useSearchMessagesLoading();
-  const filesLoading = useSearchMessagesFilesLoading();
-  const mediasLoading = useSearchMessagesMediasLoading();
   const driveItemsLoading = useSearchDriveItemsLoading();
 
-  const loading =
-    channelsLoading || messagesLoading || filesLoading || mediasLoading || driveItemsLoading;
+  const loading = driveItemsLoading;
 
   return (
     <div className="relative flex mt-2 w-full">

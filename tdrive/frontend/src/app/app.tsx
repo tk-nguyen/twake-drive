@@ -6,13 +6,13 @@ import { RecoilRoot } from 'recoil';
 
 import MobileRedirect from './components/mobile-redirect';
 import RouterServices, { RouteType } from './features/router/services/router-service';
-import ErrorBoundary from 'app/views/error/error-boundary';
+import ErrorBoundary from '@views/error/error-boundary';
 import InitService from './features/global/services/init-service';
-import useTimeout from 'app/features/global/hooks/use-timeout';
+import useTimeout from '@features/global/hooks/use-timeout';
 import ApplicationLoader from './components/loader/application-loader';
 
 import DebugState from './components/debug/debug-state';
-import 'app/styles/index.less';
+import '@styles/index.less';
 
 const delayMessage = 5000;
 

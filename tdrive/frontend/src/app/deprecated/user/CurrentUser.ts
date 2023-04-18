@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import $ from 'jquery';
-import Login from 'app/features/auth/login-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
-import Api from 'app/features/global/framework/api-service';
-import ws from 'app/deprecated/websocket/websocket';
-import Observable from 'app/deprecated/CollectionsV1/observable';
-import Number from 'app/features/global/utils/Numbers';
-import AlertManager from 'app/features/global/services/alert-manager-service';
-import Languages from 'app/features/global/services/languages-service';
-import JWTStorage from 'app/features/auth/jwt-storage-service';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import Login from '@features/auth/login-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
+import Api from '@features/global/framework/api-service';
+import ws from '@deprecated/websocket/websocket';
+import Observable from '@deprecated/CollectionsV1/observable';
+import Number from '@features/global/utils/Numbers';
+import AlertManager from '@features/global/services/alert-manager-service';
+import Languages from '@features/global/services/languages-service';
+import JWTStorage from '@features/auth/jwt-storage-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
 import UserAPIClient from '../../features/users/api/user-api-client';
-import { getUser } from 'app/features/users/hooks/use-user-list';
+import { getUser } from '@features/users/hooks/use-user-list';
 
 class CurrentUser extends Observable {
   loading: boolean;

@@ -1,4 +1,4 @@
-import { UserCompanyType, UserType } from 'app/features/users/types/user';
+import { UserCompanyType, UserType } from '@features/users/types/user';
 
 export type WorkspaceType = {
   id: string;
@@ -33,4 +33,4 @@ export type WorkspacePendingUserType = {
 
 export type WorkspaceInviteDomainType = {
   invite_domain: string | null;
-}
+};

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Number from 'app/features/global/utils/Numbers';
+import Number from '@features/global/utils/Numbers';
 import AttributesManager from './attributes-manager.js';
 import './parameters.scss';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
 export default class Attribute extends React.Component {
   constructor(props) {

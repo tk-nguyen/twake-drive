@@ -1,22 +1,18 @@
 import React from 'react';
 import { Typography, Button } from 'antd';
-import Banner from 'app/components/banner/banner';
-import Emojione from 'app/components/emojione/emojione';
-import Languages from 'app/features/global/services/languages-service';
+import Banner from '@components/banner/banner';
+import Emojione from '@components/emojione/emojione';
+import Languages from '@features/global/services/languages-service';
 import './locked-history-banner.scss';
-import consoleService from 'app/features/console/services/console-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import consoleService from '@features/console/services/console-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 
 const { Title, Text } = Typography;
 const LockedHistoryBanner = (): JSX.Element => {
-
   const companyId = useRouterCompany();
 
   const onClickBtn = () =>
-    window.open(
-      consoleService.getCompanySubscriptionUrl(companyId),
-      'blank',
-    );
+    window.open(consoleService.getCompanySubscriptionUrl(companyId), 'blank');
 
   return (
     <Banner

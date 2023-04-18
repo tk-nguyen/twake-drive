@@ -1,11 +1,3 @@
-import { DriveApiClient } from 'app/features/drive/api-client/api-client';
-import { useDriveActions } from 'app/features/drive/hooks/use-drive-actions';
-import { getPublicLink } from 'app/features/drive/hooks/use-drive-item';
-import { useDrivePreview } from 'app/features/drive/hooks/use-drive-preview';
-import { DriveItemSelectedList } from 'app/features/drive/state/store';
-import { DriveItem, DriveItemDetails } from 'app/features/drive/types';
-import { ToasterService } from 'app/features/global/services/toaster-service';
-import { copyToClipboard } from 'app/features/global/utils/CopyClipboard';
 import { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { DriveCurrentFolderAtom } from './browser';
@@ -16,6 +8,14 @@ import { PropertiesModalAtom } from './modals/properties';
 import { SelectorModalAtom } from './modals/selector';
 import { AccessModalAtom } from './modals/update-access';
 import { VersionsModalAtom } from './modals/versions';
+import { DriveApiClient } from '@features/drive/api-client/api-client';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
+import { getPublicLink } from '@features/drive/hooks/use-drive-item';
+import { useDrivePreview } from '@features/drive/hooks/use-drive-preview';
+import { DriveItemSelectedList } from '@features/drive/state/store';
+import { DriveItem, DriveItemDetails } from '@features/drive/types';
+import { ToasterService } from '@features/global/services/toaster-service';
+import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 
 /**
  * This will build the context menu in different contexts
@@ -80,7 +80,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
               text: 'Copy public link',
               hide: !item.access_info.public?.level || item.access_info.public?.level === 'none',
               onClick: () => {
-                copyToClipboard(getPublicLink(item));
+                copyToClipboard(getPublicLink(item || parent?.item));
                 ToasterService.success('Public link copied to clipboard');
               },
             },
@@ -244,7 +244,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                     !parent?.item?.access_info?.public?.level ||
                     parent?.item?.access_info?.public?.level === 'none',
                   onClick: () => {
-                    copyToClipboard(getPublicLink(item));
+                    copyToClipboard(getPublicLink(item || parent?.item));
                     ToasterService.success('Public link copied to clipboard');
                   },
                 },

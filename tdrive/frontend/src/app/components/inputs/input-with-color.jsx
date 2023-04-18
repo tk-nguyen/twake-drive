@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
 import ColorPicker from 'components/color-picker/color-picker.jsx';
 import Input from 'components/inputs/input.jsx';
 import './inputs.scss';

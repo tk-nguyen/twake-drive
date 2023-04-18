@@ -2,12 +2,12 @@
 import React from 'react';
 import Emojione from 'components/emojione/emojione';
 import Button from 'components/buttons/button';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import User from 'components/user/user';
-import UserService from 'app/features/users/services/current-user-service';
-import { UserType } from 'app/features/users/types/user';
+import UserService from '@features/users/services/current-user-service';
+import { UserType } from '@features/users/types/user';
 import './user-card.scss';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import useRouterCompany from '@features/router/hooks/use-router-company';
 import { TrashIcon } from '@heroicons/react/outline';
 
 type PropsType = {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import Emojione from 'components/emojione/emojione';
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
 import './menu.scss';
 
 /*

@@ -2,13 +2,13 @@ import React from 'react';
 import { Avatar, Badge, Tag } from 'antd';
 import { DashOutlined } from '@ant-design/icons';
 import { User } from 'react-feather';
-import Languages from 'app/features/global/services/languages-service';
-import RouterServices from 'app/features/router/services/router-service';
-import { UserType } from 'app/features/users/types/user';
-import UserService from 'app/features/users/services/current-user-service';
-import UsersService from 'app/features/users/services/current-user-service';
+import Languages from '@features/global/services/languages-service';
+import RouterServices from '@features/router/services/router-service';
+import { UserType } from '@features/users/types/user';
+import UserService from '@features/users/services/current-user-service';
+import UsersService from '@features/users/services/current-user-service';
 import UserIcon from 'components/user/user';
-import { getUser } from 'app/features/users/hooks/use-user-list';
+import { getUser } from '@features/users/hooks/use-user-list';
 
 export type UserPartsType = {
   avatar: JSX.Element;

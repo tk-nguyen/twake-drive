@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { isArray } from 'lodash';
-import UserListenerService from 'app/features/users/services/listen-users-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
-import UsersService from 'app/features/users/services/current-user-service';
-import userAsyncGet from 'app/features/users/utils/async-get';
+import UserListenerService from '@features/users/services/listen-users-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
+import UsersService from '@features/users/services/current-user-service';
+import userAsyncGet from '@features/users/utils/async-get';
 
 export const useUsersListener = (usersIds: string[] = []) => {
   const users = (isArray(usersIds) ? usersIds : []).filter(

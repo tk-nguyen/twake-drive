@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import './tabs.scss';
 

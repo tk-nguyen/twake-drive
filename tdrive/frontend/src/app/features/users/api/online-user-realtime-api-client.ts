@@ -1,6 +1,6 @@
 import WebSocketService from '../../global/services/websocket-service';
 import Logger from '../../global/framework/logger-service';
-import UsersService from 'app/features/users/services/current-user-service';
+import UsersService from '@features/users/services/current-user-service';
 const logger = Logger.getLogger('OnlineUsersRealtimeAPI');
 
 export type GetUserRequestType = string;

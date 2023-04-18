@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import FileUploadService from 'app/features/files/services/file-upload-service';
-import { MessageFileType } from 'app/features/messages/types/message';
+import FileUploadService from '@features/files/services/file-upload-service';
+import { AttachedFileType } from '@features/files/types/file';
 import { useRecoilState } from 'recoil';
 import { PendingUploadZonesListState } from '../state/atoms/pending-upload-zones-list';
 import { useUpload } from './use-upload';
-import { FileType, PendingFileType } from 'app/features/files/types/file';
+import { FileType, PendingFileType } from '@features/files/types/file';
 
 export const useUploadZones = (zoneId: string) => {
   const { currentTask, getOnePendingFile } = useUpload();
@@ -51,7 +51,7 @@ export const useUploadZones = (zoneId: string) => {
   };
 };
 
-const pendingFileToMessageFile = (f: MessageFileType, upToDate: PendingFileType) => {
+const pendingFileToMessageFile = (f: AttachedFileType, upToDate: PendingFileType) => {
   return {
     ...f,
     company_id: upToDate.backendFile?.company_id,
@@ -67,5 +67,5 @@ const pendingFileToMessageFile = (f: MessageFileType, upToDate: PendingFileType)
       name: upToDate.backendFile?.metadata?.name,
       thumbnails: upToDate.backendFile?.thumbnails,
     },
-  } as MessageFileType;
+  } as AttachedFileType;
 };

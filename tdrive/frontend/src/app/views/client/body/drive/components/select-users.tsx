@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@atoms/input/input-text';
-import { useSearchUsers } from 'app/features/users/hooks/use-search-user-list';
-import User from 'app/components/ui/user';
+import { useSearchUsers } from '@features/users/hooks/use-search-user-list';
+import User from '@components/ui/user';
 import { Button } from '@atoms/button/button';
-import { UserType } from 'app/features/users/types/user';
-import { InputDecorationIcon } from 'app/atoms/input/input-decoration-icon';
+import { UserType } from '@features/users/types/user';
+import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
 import { SearchIcon } from '@heroicons/react/solid';
-import { Info } from 'app/atoms/text';
-import Languages from 'app/features/global/services/languages-service';
+import { Info } from '@atoms/text';
+import Languages from '@features/global/services/languages-service';
 import _ from 'lodash';
 
 export default (props: {

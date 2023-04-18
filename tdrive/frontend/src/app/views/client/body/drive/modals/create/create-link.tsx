@@ -1,7 +1,7 @@
-import { Button } from 'app/atoms/button/button';
-import { Input } from 'app/atoms/input/input-text';
-import { Info } from 'app/atoms/text';
-import { useDriveActions } from 'app/features/drive/hooks/use-drive-actions';
+import { Button } from '@atoms/button/button';
+import { Input } from '@atoms/input/input-text';
+import { Info } from '@atoms/text';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { CreateModalAtom } from '.';

@@ -1,4 +1,4 @@
-import { DriveItem } from 'app/features/drive/types';
+import { DriveItem } from '@features/drive/types';
 import { atomFamily, selectorFamily } from 'recoil';
 
 export type SearchDriveItemsResults = {

@@ -7,19 +7,19 @@ import { Button, Col, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import TrashIcon from '@material-ui/icons/DeleteOutlined';
 
-import Strings from 'app/features/global/utils/strings';
-import UsersService from 'app/features/users/services/current-user-service';
-import Languages from 'app/features/global/services/languages-service';
+import Strings from '@features/global/utils/strings';
+import UsersService from '@features/users/services/current-user-service';
+import Languages from '@features/global/services/languages-service';
 import UserOrMail from '../ui/user-or-mail';
 import Icon from '../icon/icon';
-import WorkspacesUsers from 'app/features/workspace-members/services/workspace-members-service';
+import WorkspacesUsers from '@features/workspace-members/services/workspace-members-service';
 import AutoCompleteExtended from 'components/auto-complete-extended/auto-complete-extended';
-import { UserType } from 'app/features/users/types/user';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import { useWorkspace } from 'app/features/workspaces/hooks/use-workspaces';
+import { UserType } from '@features/users/types/user';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import { useWorkspace } from '@features/workspaces/hooks/use-workspaces';
 
 import './user-list-manager.scss';
-import { useSearchUsers } from 'app/features/users/hooks/use-search-user-list';
+import { useSearchUsers } from '@features/users/hooks/use-search-user-list';
 
 type PropsType = {
   [key: string]: any;

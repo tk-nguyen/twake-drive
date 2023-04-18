@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
 
 /*
   One menu

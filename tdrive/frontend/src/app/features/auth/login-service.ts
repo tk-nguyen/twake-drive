@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import Logger from 'app/features/global/framework/logger-service';
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import WindowState from 'app/features/global/utils/window';
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Logger from '@features/global/framework/logger-service';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import WindowState from '@features/global/utils/window';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 import RouterServices from '../router/services/router-service';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
-import AuthService from 'app/features/auth/auth-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
+import AuthService from '@features/auth/auth-service';
 import Application from '../applications/services/application-service';
-import { UserType } from 'app/features/users/types/user';
+import { UserType } from '@features/users/types/user';
 import { Cookies } from 'react-cookie';
 import InitService from '../global/services/init-service';
 

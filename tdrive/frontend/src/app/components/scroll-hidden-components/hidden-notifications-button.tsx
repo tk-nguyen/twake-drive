@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { ArrowUp, ArrowDown } from 'react-feather';
 import { Button } from 'antd';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import './notifications.scss';
 
 type PropsType = {

@@ -1,7 +1,7 @@
 import { selectorFamily } from 'recoil';
-import { UserType } from 'app/features/users/types/user';
+import { UserType } from '@features/users/types/user';
 
-import { UserListState } from 'app/features/users/state/atoms/user-list';
+import { UserListState } from '@features/users/state/atoms/user-list';
 
 /**
  * Search users locally

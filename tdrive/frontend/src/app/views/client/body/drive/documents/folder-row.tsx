@@ -1,9 +1,9 @@
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 import { FolderIcon } from '@heroicons/react/solid';
-import { Button } from 'app/atoms/button/button';
-import { Base, BaseSmall } from 'app/atoms/text';
-import Menu from 'app/components/menus/menu';
-import { formatBytes } from 'app/features/drive/utils';
+import { Button } from '@atoms/button/button';
+import { Base, BaseSmall } from '@atoms/text';
+import Menu from '@components/menus/menu';
+import { formatBytes } from '@features/drive/utils';
 import { useState } from 'react';
 import { PublicIcon } from '../components/public-icon';
 import { CheckableIcon, DriveItemProps } from './common';

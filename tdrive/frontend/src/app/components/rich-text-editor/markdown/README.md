@@ -1,1 +1,0 @@
-This is a temporary folder, waiting for https://github.com/Rosey/markdown-draft-js/pull/160 to be merged so this folder can be removed.

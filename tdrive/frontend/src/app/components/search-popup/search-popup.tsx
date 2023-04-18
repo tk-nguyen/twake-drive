@@ -1,6 +1,6 @@
 import { Modal, ModalContent } from '@atoms/modal';
-import Languages from 'app/features/global/services/languages-service';
-import { useSearchModal } from 'app/features/search/hooks/use-search';
+import Languages from '@features/global/services/languages-service';
+import { useSearchModal } from '@features/search/hooks/use-search';
 import { SearchInput } from './search-input';
 import { SearchResultsIndex } from './search-tabs';
 

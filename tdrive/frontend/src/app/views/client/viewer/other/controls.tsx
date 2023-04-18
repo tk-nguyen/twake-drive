@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from 'app/atoms/button/button';
-import LockedOnlyOfficePopup from 'app/components/locked-features-components/locked-only-office-popup/locked-only-office-popup';
-import ModalManager from 'app/components/modal/modal-manager';
-import { useDrivePreview } from 'app/features/drive/hooks/use-drive-preview';
+import { Button } from '@atoms/button/button';
+import LockedOnlyOfficePopup from '@components/locked-features-components/locked-only-office-popup/locked-only-office-popup';
+import ModalManager from '@components/modal/modal-manager';
+import { useDrivePreview } from '@features/drive/hooks/use-drive-preview';
 import FeatureTogglesService, {
   FeatureNames,
-} from 'app/features/global/services/feature-toggles-service';
-import Languages from 'app/features/global/services/languages-service';
+} from '@features/global/services/feature-toggles-service';
+import Languages from '@features/global/services/languages-service';
 import MenuManager from 'components/menus/menus-manager';
 import { useEditors } from './editors-service';
 

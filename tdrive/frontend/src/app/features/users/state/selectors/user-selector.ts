@@ -1,6 +1,6 @@
 import { selectorFamily } from 'recoil';
-import { UserListState } from 'app/features/users/state/atoms/user-list';
-import { UserType } from 'app/features/users/types/user';
+import { UserListState } from '@features/users/state/atoms/user-list';
+import { UserType } from '@features/users/types/user';
 
 export const UserSelector = selectorFamily<UserType | undefined, string>({
   key: 'UserSelector',

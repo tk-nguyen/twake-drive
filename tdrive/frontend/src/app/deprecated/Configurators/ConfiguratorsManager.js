@@ -1,6 +1,6 @@
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
+import Observable from '@deprecated/CollectionsV1/observable.js';
 
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 
 class ConfiguratorsManager extends Observable {
   constructor() {

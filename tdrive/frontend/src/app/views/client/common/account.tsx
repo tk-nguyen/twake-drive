@@ -1,12 +1,12 @@
-import Avatar from 'app/atoms/avatar';
-import { Base, Info } from 'app/atoms/text';
-import Menu from 'app/components/menus/menu';
-import LoginService from 'app/features/auth/login-service';
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
-import currentUserService from 'app/features/users/services/current-user-service';
-import AccountParameter from 'app/views/client/popup/UserParameter/UserParameter';
+import Avatar from '@atoms/avatar';
+import { Base, Info } from '@atoms/text';
+import Menu from '@components/menus/menu';
+import LoginService from '@features/auth/login-service';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
+import currentUserService from '@features/users/services/current-user-service';
+import AccountParameter from '@views/client/popup/UserParameter/UserParameter';
 import Languages from '../../../features/global/services/languages-service';
-import ModalManagerDepreciated from 'app/deprecated/popupManager/popupManager';
+import ModalManagerDepreciated from '@deprecated/popupManager/popupManager';
 
 export default ({ sidebar }: { sidebar?: boolean }): JSX.Element => {
   const { user } = useCurrentUser();

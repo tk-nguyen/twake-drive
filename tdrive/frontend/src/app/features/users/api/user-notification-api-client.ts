@@ -1,7 +1,7 @@
 import Api from '../../global/framework/api-service';
-import { NotificationType } from 'app/features/users/types/notification-types';
+import { NotificationType } from '@features/users/types/notification-types';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
-import { WebsocketRoom } from 'app/features/global/types/websocket-types';
+import { WebsocketRoom } from '@features/global/types/websocket-types';
 
 @TdriveService('UserNotificationAPIClientService')
 class UserNotificationAPIClient {
@@ -29,15 +29,15 @@ class UserNotificationAPIClient {
 
   async acknowledge(notification: NotificationType): Promise<void> {
     const { message_id, channel_id, company_id, thread_id, workspace_id } = notification;
-    await Api.post<{ message_id: string, thread_id: string, channel_id: string, workspace_id: string}, boolean>(
-      `/internal/services/notifications/v1/badges/${company_id}/acknowledge`,
-      {
-        channel_id,
-        workspace_id,
-        thread_id,
-        message_id,
-      }
-    );
+    await Api.post<
+      { message_id: string; thread_id: string; channel_id: string; workspace_id: string },
+      boolean
+    >(`/internal/services/notifications/v1/badges/${company_id}/acknowledge`, {
+      channel_id,
+      workspace_id,
+      thread_id,
+      message_id,
+    });
   }
 }
 

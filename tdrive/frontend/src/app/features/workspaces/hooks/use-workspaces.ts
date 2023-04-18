@@ -1,22 +1,22 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { WorkspaceType } from 'app/features/workspaces/types/workspace';
+import { WorkspaceType } from '@features/workspaces/types/workspace';
 import { WorkspaceListStateFamily } from '../state/workspace-list';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import RouterService from 'app/features/router/services/router-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import RouterService from '@features/router/services/router-service';
 import _ from 'lodash';
-import WorkspacesService from 'app/deprecated/workspaces/workspaces.jsx';
+import WorkspacesService from '@deprecated/workspaces/workspaces.jsx';
 import AccessRightsService, {
   RightsOrNone,
-} from 'app/features/workspace-members/services/workspace-members-access-rights-service';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import WorkspaceAPIClient from 'app/features/workspaces/api/workspace-api-client';
-import Workspaces from 'app/deprecated/workspaces/workspaces.jsx';
+} from '@features/workspace-members/services/workspace-members-access-rights-service';
+import LocalStorage from '@features/global/framework/local-storage-service';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import WorkspaceAPIClient from '@features/workspaces/api/workspace-api-client';
+import Workspaces from '@deprecated/workspaces/workspaces.jsx';
 import { LoadingState } from '../../global/state/atoms/Loading';
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
 import { useEffect } from 'react';
 
 export const useWorkspacesCommons = (companyId = '') => {

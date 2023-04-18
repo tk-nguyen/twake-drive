@@ -1,6 +1,6 @@
 import Api from '../../global/framework/api-service';
-import { CompanyType } from 'app/features/companies/types/company';
-import { WorkspaceType } from 'app/features/workspaces/types/workspace';
+import { CompanyType } from '@features/companies/types/company';
+import { WorkspaceType } from '@features/workspaces/types/workspace';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
 import { WebsocketRoom } from '../../global/types/websocket-types';
 import _ from 'lodash';
@@ -15,11 +15,11 @@ export type UpdateWorkspaceBody = {
 
 export type UpdateWorkspaceInviteDomainBody = {
   domain: string;
-}
+};
 
 type UpdateWorkspaceInviteDomainResponse = {
   status: string;
-}
+};
 
 @TdriveService('WorkspaceAPIClientService')
 class WorkspaceAPIClient {
@@ -117,15 +117,20 @@ class WorkspaceAPIClient {
     ).then(result => result.resources);
   }
 
-  setInvitationDomain =  async (companyId: string, workspaceId: string, domain: string): Promise<void> => {
-    const response = await Api.post<UpdateWorkspaceInviteDomainBody, UpdateWorkspaceInviteDomainResponse>(
-      `${PREFIX}/${companyId}/workspaces/${workspaceId}/invite_domain`, { domain }
-    );
+  setInvitationDomain = async (
+    companyId: string,
+    workspaceId: string,
+    domain: string,
+  ): Promise<void> => {
+    const response = await Api.post<
+      UpdateWorkspaceInviteDomainBody,
+      UpdateWorkspaceInviteDomainResponse
+    >(`${PREFIX}/${companyId}/workspaces/${workspaceId}/invite_domain`, { domain });
 
-    if(response.status !== "success") {
-      throw Error("failed to set invitation domain")
+    if (response.status !== 'success') {
+      throw Error('failed to set invitation domain');
     }
-  }
+  };
 }
 
 export default new WorkspaceAPIClient();

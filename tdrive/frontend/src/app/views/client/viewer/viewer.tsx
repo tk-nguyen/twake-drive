@@ -1,32 +1,25 @@
-import { DownloadIcon, VerticalDotsIcon } from '@atoms/icons-agnostic';
-import { Modal } from '@atoms/modal';
-import * as Text from '@atoms/text';
 import { Transition } from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from '@heroicons/react/outline';
-import Avatar from 'app/atoms/avatar';
-import { Button } from 'app/atoms/button/button';
-import { Loader } from 'app/atoms/loader';
-import MenuManager from 'app/components/menus/menus-manager';
-import { openMessage } from 'app/components/search-popup/common';
-import { channelAttachmentListState } from 'app/features/channels/state/channel-attachment-list';
-import Languages from 'app/features/global/services/languages-service';
-import { addShortcut, removeShortcut } from 'app/features/global/services/shortcut-service';
-import { formatDate } from 'app/features/global/utils/format-date';
-import { formatSize } from 'app/features/global/utils/format-file-size';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import currentUserService from 'app/features/users/services/current-user-service';
-import { UserType } from 'app/features/users/types/user';
+import { useEffect, useState } from 'react';
+import { fadeTransition, fadeZoomTransition } from 'src/utils/transitions';
+import Controls from './controls';
+import Display from './display';
+import Avatar from '@atoms/avatar';
+import { Button } from '@atoms/button/button';
+import { DownloadIcon } from '@atoms/icons-agnostic';
+import { Loader } from '@atoms/loader';
+import { Modal } from '@atoms/modal';
+import * as Text from '@atoms/text';
+import { addShortcut, removeShortcut } from '@features/global/services/shortcut-service';
+import { formatSize } from '@features/global/utils/format-file-size';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import currentUserService from '@features/users/services/current-user-service';
+import { UserType } from '@features/users/types/user';
 import {
   useFileViewer,
   useViewerDataLoading,
   useViewerDisplayData,
-} from 'app/features/viewer/hooks/use-viewer';
-import { Message } from 'features/messages/types/message';
-import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { fadeTransition, fadeZoomTransition } from 'src/utils/transitions';
-import Controls from './controls';
-import Display from './display';
+} from '@features/viewer/hooks/use-viewer';
 
 let animationTimeout: number = setTimeout(() => undefined);
 
@@ -138,19 +131,10 @@ const Footer = () => {
   const user = status?.details?.user as UserType;
   const name = status.details?.metadata?.name;
   const extension = name?.split('.').pop();
-
   const workspaceId = useRouterWorkspace();
-  const setChannelAttachmentState = useSetRecoilState(channelAttachmentListState);
 
   return (
     <>
-      {status.details?.message && (
-        <div className="z-10 p-5 pb-0 bg-black w-full flex text-white">
-          <Text.Base noColor className="block text-white">
-            {status.details?.message.text.substring(0, 500)}
-          </Text.Base>
-        </div>
-      )}
       <div className="z-10 p-5 bg-black w-full flex text-white">
         <div className="mr-4 w-12">
           <Avatar
@@ -163,8 +147,7 @@ const Footer = () => {
             {name}
           </Text.Base>
           <Text.Info className="whitespace-nowrap">
-            {currentUserService.getFullName(user)} •{' '}
-            {formatDate(status.details?.message?.created_at)} • {extension?.toLocaleUpperCase()},{' '}
+            {currentUserService.getFullName(user)} • {extension?.toLocaleUpperCase()},{' '}
             {formatSize(status.details?.metadata?.size)}
           </Text.Info>
         </div>
@@ -180,43 +163,6 @@ const Footer = () => {
             icon={DownloadIcon}
             onClick={() => {
               download && (window.location.href = download);
-            }}
-          />
-
-          <Button
-            iconSize="lg"
-            className="ml-4 !rounded-full"
-            theme="dark"
-            size="lg"
-            icon={VerticalDotsIcon}
-            onClick={e => {
-              e.stopPropagation();
-
-              MenuManager.openMenu(
-                [
-                  {
-                    type: 'menu',
-                    text: Languages.t('scenes.apps.messages.jump'),
-                    onClick: () => {
-                      close();
-                      setChannelAttachmentState(false);
-                      openMessage(status.details?.message as unknown as Message, workspaceId);
-                    },
-                  },
-                  {
-                    type: 'menu',
-                    text: Languages.t('components.channel_attachement_list.open'),
-                    onClick: () => {
-                      close();
-                      setChannelAttachmentState(true);
-                    },
-                  },
-                ],
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (window as any).getBoundingClientRect(e.target),
-                'top',
-                { margin: 0 },
-              );
             }}
           />
         </div>

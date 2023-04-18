@@ -1,9 +1,9 @@
-import { Button } from 'app/atoms/button/button';
-import { InputLabel } from 'app/atoms/input/input-decoration-label';
-import { Input } from 'app/atoms/input/input-text';
-import { Modal, ModalContent } from 'app/atoms/modal';
-import { useDriveActions } from 'app/features/drive/hooks/use-drive-actions';
-import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
+import { Button } from '@atoms/button/button';
+import { InputLabel } from '@atoms/input/input-decoration-label';
+import { Input } from '@atoms/input/input-text';
+import { Modal, ModalContent } from '@atoms/modal';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
+import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 

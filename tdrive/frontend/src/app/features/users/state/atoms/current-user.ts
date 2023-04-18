@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
-import { UserType } from 'app/features/users/types/user';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
+import { UserType } from '@features/users/types/user';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
 import _ from 'lodash';
 
 export const CurrentUserState = atom<UserType | undefined>({

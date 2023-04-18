@@ -1,11 +1,11 @@
 import React, { ErrorInfo } from 'react';
-import RouterServices from 'app/features/router/services/router-service';
+import RouterServices from '@features/router/services/router-service';
 
-import 'app/styles/ui.less';
+import '@styles/ui.less';
 
 type PropsType = {
-  children: React.ReactElement
-}
+  children: React.ReactElement;
+};
 export default class ErrorBoundary extends React.Component<PropsType, { hasError: boolean }> {
   static lastError: Record<string, Record<string, Error | string>> | null = null;
 

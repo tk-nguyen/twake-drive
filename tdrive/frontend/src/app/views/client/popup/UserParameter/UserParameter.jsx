@@ -2,26 +2,25 @@
 /* eslint-disable react/jsx-key */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import LoginService from 'app/features/auth/login-service';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
-import userService from 'app/features/users/services/current-user-service';
-import currentUserService from 'app/deprecated/user/CurrentUser';
-import uploadService from 'app/deprecated/uploadManager/upload-manager.js';
+import Languages from '@features/global/services/languages-service';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import LoginService from '@features/auth/login-service';
+import popupManager from '@deprecated/popupManager/popupManager.js';
+import userService from '@features/users/services/current-user-service';
+import currentUserService from '@deprecated/user/CurrentUser';
+import uploadService from '@deprecated/uploadManager/upload-manager.js';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout.jsx';
 import Attribute from 'components/parameters/attribute.jsx';
-import Notifications from './Pages/Notifications';
 import Assistant from './Pages/Assistant';
 import MenuList from 'components/menus/menu-component.jsx';
 import './UserParameter.scss';
 import Input from 'components/inputs/input.jsx';
 import { Button } from '../../../../atoms/button/button';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
-import InitService from 'app/features/global/services/init-service';
+import InitService from '@features/global/services/init-service';
 import * as Text from '../../../../atoms/text';
-import workspaceService from 'app/deprecated/workspaces/workspaces.jsx';
-import { getFilesTree } from 'app/components/uploads/file-tree-utils';
+import workspaceService from '@deprecated/workspaces/workspaces.jsx';
+import { getFilesTree } from '@components/uploads/file-tree-utils';
 
 export default class UserParameter extends Component {
   constructor(props) {
@@ -606,9 +605,6 @@ export default class UserParameter extends Component {
         </div>
       );
     }
-    if (this.state.page === 3) {
-      return <Notifications />;
-    }
     if (this.state.page === 4) {
       return <Assistant />;
     }
@@ -644,15 +640,6 @@ export default class UserParameter extends Component {
                   selected: this.state.page === 4 ? 'selected' : '',
                   onClick: () => {
                     this.setPage(4);
-                  },
-                },
-                {
-                  type: 'menu',
-                  text: this.state.i18n.t('scenes.apps.account.notifications.title'),
-                  emoji: ':bell:',
-                  selected: this.state.page === 3 ? 'selected' : '',
-                  onClick: () => {
-                    this.setPage(3);
                   },
                 },
               ]}

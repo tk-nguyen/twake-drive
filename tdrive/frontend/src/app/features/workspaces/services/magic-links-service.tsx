@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CompanyType } from 'app/features/companies/types/company';
-import Api from 'app/features/global/framework/api-service';
+import { CompanyType } from '@features/companies/types/company';
+import Api from '@features/global/framework/api-service';
 
 export type MagicLinksGeneratorResponse = {
   token: string;

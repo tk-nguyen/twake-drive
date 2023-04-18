@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Api from 'app/features/global/framework/api-service';
-import InitService from 'app/features/global/services/init-service';
-import Languages from 'app/features/global/services/languages-service';
-import { ToasterService as Toaster } from 'app/features/global/services/toaster-service';
-import { ConsoleMemberRole } from 'app/features/console/types/types';
-import Logger from 'app/features/global/framework/logger-service';
-import { JWTDataType } from 'app/features/auth/jwt-storage-service';
+import Api from '@features/global/framework/api-service';
+import InitService from '@features/global/services/init-service';
+import Languages from '@features/global/services/languages-service';
+import { ToasterService as Toaster } from '@features/global/services/toaster-service';
+import { ConsoleMemberRole } from '@features/console/types/types';
+import Logger from '@features/global/framework/logger-service';
+import { JWTDataType } from '@features/auth/jwt-storage-service';
 
 class ConsoleService {
   logger: Logger.Logger;

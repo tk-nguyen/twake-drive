@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from 'app/atoms/button/button';
-import { Subtitle } from 'app/atoms/text';
+import { Button } from '@atoms/button/button';
+import { Subtitle } from '@atoms/text';
 import { X } from 'react-feather';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
 type PropsType = {
   onBannerClose: () => void;

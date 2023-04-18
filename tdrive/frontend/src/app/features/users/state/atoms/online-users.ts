@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { atom, DefaultValue, selector, selectorFamily } from 'recoil';
 
-import { UserType } from 'app/features/users/types/user';
+import { UserType } from '@features/users/types/user';
 import { CurrentUserState } from './current-user';
 
 export type OnlineUserType = Pick<UserType, 'id' | 'connected'> & {

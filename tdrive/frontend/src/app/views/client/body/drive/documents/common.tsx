@@ -1,5 +1,5 @@
-import { Checkbox } from 'app/atoms/input/input-checkbox';
-import { DriveItem } from 'app/features/drive/types';
+import { Checkbox } from '@atoms/input/input-checkbox';
+import { DriveItem } from '@features/drive/types';
 import { ReactNode } from 'react';
 
 export type DriveItemProps = {

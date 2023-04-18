@@ -1,8 +1,8 @@
-import A from 'app/atoms/link';
-import { Base, Info } from 'app/atoms/text';
-import { useDriveItem, getPublicLink } from 'app/features/drive/hooks/use-drive-item';
-import { ToasterService } from 'app/features/global/services/toaster-service';
-import { copyToClipboard } from 'app/features/global/utils/CopyClipboard';
+import A from '@atoms/link';
+import { Base, Info } from '@atoms/text';
+import { useDriveItem, getPublicLink } from '@features/drive/hooks/use-drive-item';
+import { ToasterService } from '@features/global/services/toaster-service';
+import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { AccessLevel } from './common';
 
 export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boolean }) => {

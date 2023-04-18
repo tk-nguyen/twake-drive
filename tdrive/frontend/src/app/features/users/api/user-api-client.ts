@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CompanyType } from 'app/features/companies/types/company';
-import { UserPreferencesType, UserType } from 'app/features/users/types/user';
+import { CompanyType } from '@features/companies/types/company';
+import { UserPreferencesType, UserType } from '@features/users/types/user';
 import Api from '../../global/framework/api-service';
 import { TdriveService } from '../../global/framework/registry-decorator-service';
 import { WebsocketRoom } from '../../global/types/websocket-types';

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import Emojione from 'components/emojione/emojione';
-import RouterServices from 'app/features/router/services/router-service';
-import InitService from 'app/features/global/services/init-service';
+import RouterServices from '@features/router/services/router-service';
+import InitService from '@features/global/services/init-service';
 import ErrorBoundary from './error-boundary';
 
 import './styles.scss';

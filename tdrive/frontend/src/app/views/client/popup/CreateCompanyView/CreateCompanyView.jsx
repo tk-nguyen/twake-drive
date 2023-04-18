@@ -2,18 +2,18 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
-import WorkspaceService from 'app/deprecated/workspaces/workspaces.jsx';
-import LoginService from 'app/features/auth/login-service';
-import popupManager from 'app/deprecated/popupManager/popupManager.js';
+import Languages from '@features/global/services/languages-service';
+import WorkspaceService from '@deprecated/workspaces/workspaces.jsx';
+import LoginService from '@features/auth/login-service';
+import popupManager from '@deprecated/popupManager/popupManager.js';
 import Emojione from 'components/emojione/emojione';
 import StepCounter from 'components/step-counter/step-counter.jsx';
 import ButtonWithTimeout from 'components/buttons/button-with-timeout.jsx';
 import './CreateCompanyView.scss';
 import Input from 'components/inputs/input.jsx';
-import CurrentUser from 'app/deprecated/user/CurrentUser';
-import InitService from 'app/features/global/services/init-service';
-import AddUserByEmail from 'app/views/client/popup/AddUser/AddUserByEmail';
+import CurrentUser from '@deprecated/user/CurrentUser';
+import InitService from '@features/global/services/init-service';
+import AddUserByEmail from '@views/client/popup/AddUser/AddUserByEmail';
 
 export default class CreateCompanyView extends Component {
   constructor() {

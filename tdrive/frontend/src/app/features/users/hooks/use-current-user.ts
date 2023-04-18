@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react';
-import LoginService from 'app/features/auth/login-service';
-import UserAPIClient from 'app/features/users/api/user-api-client';
+import LoginService from '@features/auth/login-service';
+import UserAPIClient from '@features/users/api/user-api-client';
 import { useRecoilState } from 'recoil';
 import { CurrentUserState } from '../state/atoms/current-user';
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
-import Languages from 'app/features/global/services/languages-service';
-import ConfiguratorsManager from 'app/deprecated/Configurators/ConfiguratorsManager.js';
-import { RealtimeApplicationEvent } from 'app/features/global/types/realtime-types';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
+import Languages from '@features/global/services/languages-service';
+import ConfiguratorsManager from '@deprecated/Configurators/ConfiguratorsManager.js';
+import { RealtimeApplicationEvent } from '@features/global/types/realtime-types';
 import { useSetUserList } from './use-user-list';
 
 export const useCurrentUser = () => {

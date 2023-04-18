@@ -1,8 +1,8 @@
-import Observable from 'app/deprecated/CollectionsV1/observable.js';
-import MenusManager from 'app/components/menus/menus-manager.jsx';
-import WindowService from 'app/features/global/utils/window';
+import Observable from '@deprecated/CollectionsV1/observable.js';
+import MenusManager from '@components/menus/menus-manager.jsx';
+import WindowService from '@features/global/utils/window';
 
-import Globals from 'app/features/global/services/globals-tdrive-app-service';
+import Globals from '@features/global/services/globals-tdrive-app-service';
 
 class PopupService extends Observable {
   constructor() {

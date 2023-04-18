@@ -1,5 +1,5 @@
 import { DesktopComputerIcon } from '@heroicons/react/solid';
-import { Base } from 'app/atoms/text';
+import { Base } from '@atoms/text';
 
 export const DriveItem = ({ className, onClick }: { className?: string; onClick: Function }) => {
   return (

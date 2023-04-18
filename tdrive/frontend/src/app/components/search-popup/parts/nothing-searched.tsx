@@ -1,5 +1,5 @@
-import { NotFoundIcon } from 'app/atoms/icons-colored';
-import Languages from 'app/features/global/services/languages-service';
+import { NotFoundIcon } from '@atoms/icons-colored';
+import Languages from '@features/global/services/languages-service';
 import * as Text from '@atoms/text';
 
 export default () => {

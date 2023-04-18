@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-use-before-define
 import React, { Component } from 'react';
 
-import UserService from 'app/features/users/services/current-user-service';
-import NotificationParameters from 'app/deprecated/user/notification_parameters.js';
-import ListenUsers from 'app/features/users/services/listen-users-service';
+import UserService from '@features/users/services/current-user-service';
+import NotificationParameters from '@deprecated/user/notification_parameters.js';
+import ListenUsers from '@features/users/services/listen-users-service';
 import UserOnlineStatus from '../online-user-status/online-user-status';
 
 import './user.scss';

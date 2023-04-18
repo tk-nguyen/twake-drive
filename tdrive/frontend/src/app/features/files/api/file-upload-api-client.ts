@@ -1,6 +1,6 @@
-import Api from 'app/features/global/framework/api-service';
-import { FileType } from 'app/features/files/types/file';
-import { MessageFileType } from 'app/features/messages/types/message';
+import Api from '@features/global/framework/api-service';
+import { FileType } from '@features/files/types/file';
+import { AttachedFileType } from '@features/files/types/file';
 import extensionToMime from '../utils/extension-to-mime';
 import { fileTypeMimes } from '../utils/type-mimes';
 import AceModeList from '@features/global/utils/ace_modelist.js';
@@ -70,7 +70,7 @@ class FileUploadAPIClient {
     })}/thumbnails/${file.thumbnails?.[0]?.index}`;
   }
 
-  public getFileThumbnailUrlFromMessageFile(file: MessageFileType): string {
+  public getFileThumbnailUrlFromMessageFile(file: AttachedFileType): string {
     if (file.metadata?.source !== 'internal') return file.metadata?.thumbnails?.[0]?.url || '';
     if (!file.metadata?.thumbnails?.[0]) {
       return '';

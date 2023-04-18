@@ -1,8 +1,8 @@
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import * as Text from '@atoms/text';
-import { ToasterService as Toaster } from 'app/features/global/services/toaster-service';
-import UserAPIClient from 'app/features/users/api/user-api-client';
-import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import { ToasterService as Toaster } from '@features/global/services/toaster-service';
+import UserAPIClient from '@features/users/api/user-api-client';
+import { useCurrentUser } from '@features/users/hooks/use-current-user';
 import Radio from 'components/inputs/radio.jsx';
 
 export type preferencesType = Record<string, unknown>;

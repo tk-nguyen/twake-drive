@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 import './input-with-button.scss';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import Input from './input.jsx';
 
 export default class InputWithButton extends Component {

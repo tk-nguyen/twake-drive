@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { cloneDeep, isEqual, uniqBy } from 'lodash';
 import { useRecoilCallback, useRecoilValueLoadable } from 'recoil';
 
-import useRouterCompany from 'app/features/router/hooks/use-router-company';
-import useRouterWorkspace from 'app/features/router/hooks/use-router-workspace';
-import { UserCompanyType, UserType, UserWorkspaceType } from 'app/features/users/types/user';
-import WorkspaceUserAPIClient from 'app/features/workspace-members/api/workspace-members-api-client';
+import useRouterCompany from '@features/router/hooks/use-router-company';
+import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
+import { UserCompanyType, UserType, UserWorkspaceType } from '@features/users/types/user';
+import WorkspaceUserAPIClient from '@features/workspace-members/api/workspace-members-api-client';
 import { UserListState } from '../state/atoms/user-list';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections';
 import _ from 'lodash';
 
 export const usePreloadSomeUsers = () => {
@@ -73,13 +73,7 @@ export function useSetUserList(key: string) {
 
     if (nextList && nextList.length) {
       const nextListMerged = nextList.map(u =>
-        cloneDeep(
-          _.merge(
-            {},
-            currentList.find(cu => cu.id === u.id) || {},
-            u,
-          ),
-        ),
+        cloneDeep(_.merge({}, currentList.find(cu => cu.id === u.id) || {}, u)),
       );
 
       const newList = _.uniqBy([...nextListMerged, ...currentList], 'id')

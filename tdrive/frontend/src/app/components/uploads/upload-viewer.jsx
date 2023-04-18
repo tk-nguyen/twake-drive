@@ -4,7 +4,7 @@ import UploadManager from './upload-manager.js';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 import './uploads.scss';
 import moment from 'moment';
-import Languages from 'app/features/global/services/languages-service';
+import Languages from '@features/global/services/languages-service';
 
 export default class UploadViewer extends React.Component {
   constructor(props) {
@@ -152,14 +152,6 @@ export default class UploadViewer extends React.Component {
                     </div>
                   )}
                   <div className="progress">{parseInt((item.progress || 0) * 100)}%</div>
-                  <div
-                    className="cancel"
-                    onClick={() => {
-                      UploadManager.abort(item.all_files || item);
-                    }}
-                  >
-                    <CloseIcon className="m-icon-small" />
-                  </div>
                 </div>
               );
             })}

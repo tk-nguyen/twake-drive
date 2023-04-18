@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import WebSocketFactory, { WebsocketEvents } from 'app/features/global/types/websocket-types';
-import WebSocketService from 'app/features/global/services/websocket-service';
+import WebSocketFactory, { WebsocketEvents } from '@features/global/types/websocket-types';
+import WebSocketService from '@features/global/services/websocket-service';
 
 const useWebSocket = () => {
   const wsRef = useRef<WebSocketService>();

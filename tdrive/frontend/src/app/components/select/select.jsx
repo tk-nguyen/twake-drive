@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import MenusManager from 'app/components/menus/menus-manager.jsx';
-import Icon from 'app/components/icon/icon.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
+import Icon from '@components/icon/icon.jsx';
 import './select.scss';
 
 export default class Select extends React.Component {

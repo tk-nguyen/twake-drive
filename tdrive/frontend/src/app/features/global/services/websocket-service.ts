@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import io from 'socket.io-client';
 import { EventEmitter } from 'events';
-import Logger from 'app/features/global/framework/logger-service';
+import Logger from '@features/global/framework/logger-service';
 import { WebsocketEvents, WebSocketListener, WebsocketRoomActions } from '../types/websocket-types';
-import { Maybe } from 'app/features/global/types/global-types';
+import { Maybe } from '@features/global/types/global-types';
 
 export type WebSocketOptions = {
   url: string;

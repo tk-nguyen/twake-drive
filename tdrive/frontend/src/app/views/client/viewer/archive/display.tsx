@@ -1,5 +1,5 @@
-import { Button } from 'app/atoms/button/button';
-import Languages from 'app/features/global/services/languages-service';
+import { Button } from '@atoms/button/button';
+import Languages from '@features/global/services/languages-service';
 
 export default (props: { download: string; name: string }) => {
   return (

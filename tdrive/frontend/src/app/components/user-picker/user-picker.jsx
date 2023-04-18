@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Picker from 'components/picker/picker.jsx';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import './user-picker.scss';
 import User from 'components/ui/user.jsx';
-import UsersService from 'app/features/users/services/current-user-service';
-import Languages from 'app/features/global/services/languages-service';
+import UsersService from '@features/users/services/current-user-service';
+import Languages from '@features/global/services/languages-service';
 
 export default class UserPicker extends React.Component {
   /*

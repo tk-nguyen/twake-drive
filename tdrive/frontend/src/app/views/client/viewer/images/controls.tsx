@@ -1,5 +1,5 @@
-import { Button } from 'app/atoms/button/button';
-import { ZoomOutIcon, ZoomInIcon, RotateCwIcon } from 'app/atoms/icons-agnostic';
+import { Button } from '@atoms/button/button';
+import { ZoomOutIcon, ZoomInIcon, RotateCwIcon } from '@atoms/icons-agnostic';
 import { getImageControls } from './display';
 
 export default () => {

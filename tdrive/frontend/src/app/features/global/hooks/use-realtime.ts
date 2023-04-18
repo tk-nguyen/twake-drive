@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import useWebSocket from 'app/features/global/hooks/use-websocket';
-import Logger from 'app/features/global/framework/logger-service';
+import useWebSocket from '@features/global/hooks/use-websocket';
+import Logger from '@features/global/framework/logger-service';
 import {
   RealtimeBaseAction,
   RealtimeBaseEvent,
   RealtimeResourceEvent,
 } from '../types/realtime-types';
-import { WebsocketRoom } from 'app/features/global/types/websocket-types';
+import { WebsocketRoom } from '@features/global/types/websocket-types';
 
 const logger = Logger.getLogger('useRealtimeRoom');
 

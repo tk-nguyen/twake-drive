@@ -2,19 +2,19 @@ import { CompaniesState } from '../state/companies';
 import useRouterCompany from '../../router/hooks/use-router-company';
 import { useRecoilState } from 'recoil';
 import { CurrentUserState } from '../../users/state/atoms/current-user';
-import { CompanyType } from 'app/features/companies/types/company';
-import LocalStorage from 'app/features/global/framework/local-storage-service';
-import { UserType } from 'app/features/users/types/user';
+import { CompanyType } from '@features/companies/types/company';
+import LocalStorage from '@features/global/framework/local-storage-service';
+import { UserType } from '@features/users/types/user';
 import { useCurrentUser } from '../../users/hooks/use-current-user';
 import _ from 'lodash';
-import RouterService from 'app/features/router/services/router-service';
-import WorkspacesService from 'app/deprecated/workspaces/workspaces.jsx';
-import AccessRightsService from 'app/features/workspace-members/services/workspace-members-access-rights-service';
-import Groups from 'app/deprecated/workspaces/groups.js';
-import LoginService from 'app/features/auth/login-service';
-import UserAPIClient from 'app/features/users/api/user-api-client';
-import { useRealtimeRoom } from 'app/features/global/hooks/use-realtime';
-import CompanyAPIClient from 'app/features/companies/api/company-api-client';
+import RouterService from '@features/router/services/router-service';
+import WorkspacesService from '@deprecated/workspaces/workspaces.jsx';
+import AccessRightsService from '@features/workspace-members/services/workspace-members-access-rights-service';
+import Groups from '@deprecated/workspaces/groups.js';
+import LoginService from '@features/auth/login-service';
+import UserAPIClient from '@features/users/api/user-api-client';
+import { useRealtimeRoom } from '@features/global/hooks/use-realtime';
+import CompanyAPIClient from '@features/companies/api/company-api-client';
 
 /**
  * Will return the companies of the current user

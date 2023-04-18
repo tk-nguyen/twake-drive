@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Avatar, Col, Typography } from 'antd';
-import UsersService from 'app/features/users/services/current-user-service';
+import UsersService from '@features/users/services/current-user-service';
 import './elements.scss';
-import { useUser } from 'app/features/users/hooks/use-user';
+import { useUser } from '@features/users/hooks/use-user';
 
 const { Text } = Typography;
 

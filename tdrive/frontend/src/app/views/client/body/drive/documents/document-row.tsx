@@ -1,5 +1,5 @@
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
-import { Button } from 'app/atoms/button/button';
+import { Button } from '@atoms/button/button';
 import {
   FileTypeArchiveIcon,
   FileTypeDocumentIcon,
@@ -9,12 +9,12 @@ import {
   FileTypeSlidesIcon,
   FileTypeSpreadsheetIcon,
   FileTypeUnknownIcon,
-} from 'app/atoms/icons-colored';
-import { Base, BaseSmall } from 'app/atoms/text';
-import Menu from 'app/components/menus/menu';
-import { useDrivePreview } from 'app/features/drive/hooks/use-drive-preview';
-import { formatBytes } from 'app/features/drive/utils';
-import fileUploadApiClient from 'app/features/files/api/file-upload-api-client';
+} from '@atoms/icons-colored';
+import { Base, BaseSmall } from '@atoms/text';
+import Menu from '@components/menus/menu';
+import { useDrivePreview } from '@features/drive/hooks/use-drive-preview';
+import { formatBytes } from '@features/drive/utils';
+import fileUploadApiClient from '@features/files/api/file-upload-api-client';
 import { useState } from 'react';
 import Avatar from '../../../../../atoms/avatar';
 import { PublicIcon } from '../components/public-icon';

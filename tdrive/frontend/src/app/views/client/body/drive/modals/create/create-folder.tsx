@@ -1,10 +1,10 @@
-import { Button } from 'app/atoms/button/button';
-import { Input } from 'app/atoms/input/input-text';
-import { Info } from 'app/atoms/text';
-import { useDriveActions } from 'app/features/drive/hooks/use-drive-actions';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { CreateModalAtom } from '.';
+import { Button } from '@atoms/button/button';
+import { Input } from '@atoms/input/input-text';
+import { Info } from '@atoms/text';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
 
 export const CreateFolder = () => {
   const [name, setName] = useState<string>('');
@@ -20,7 +20,7 @@ export const CreateFolder = () => {
         disabled={loading}
         placeholder="Folder name"
         className="w-full mt-4"
-        onChange={(e:any) => setName(e.target.value)}
+        onChange={(e: any) => setName(e.target.value)}
       />
 
       <Button

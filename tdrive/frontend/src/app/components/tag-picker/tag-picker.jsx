@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from 'react';
-import Icon from 'app/components/icon/icon.jsx';
+import Icon from '@components/icon/icon.jsx';
 import Button from 'components/buttons/button.jsx';
 import './tag-picker.scss';
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import MenusManager from '@components/menus/menus-manager.jsx';
 import TagSelector from './tag-selector.jsx';
-import Workspaces from 'app/deprecated/workspaces/workspaces.jsx';
-import Collections from 'app/deprecated/CollectionsV1/Collections/Collections.js';
-import Languages from 'app/features/global/services/languages-service';
+import Workspaces from '@deprecated/workspaces/workspaces.jsx';
+import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
+import Languages from '@features/global/services/languages-service';
 
 export default class TagPicker extends React.Component {
   constructor(props) {

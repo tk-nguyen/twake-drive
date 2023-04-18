@@ -1,9 +1,9 @@
-import FileUploadService from 'app/features/files/services/file-upload-service';
+import FileUploadService from '@features/files/services/file-upload-service';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { PendingFilesListState } from '../state/atoms/pending-files-list';
 import { CurrentTaskSelector } from '../state/selectors/current-task';
-import RouterServices from 'app/features/router/services/router-service';
-import { MessageFileType } from 'app/features/messages/types/message';
+import RouterServices from '@features/router/services/router-service';
+import { AttachedFileType } from '@features/files/types/file';
 
 export const useUpload = () => {
   const { companyId } = RouterServices.getStateFromRoute();
@@ -25,16 +25,12 @@ export const useUpload = () => {
   const downloadOneFile = ({
     companyId,
     fileId,
-    messageFile,
     blob,
   }: {
     companyId: string;
     fileId: string;
-    messageFile: MessageFileType;
     blob?: boolean;
   }) => {
-    if (messageFile) FileUploadService.markAsDownloadedFromMessage(messageFile);
-
     if (blob) {
       return FileUploadService.download({ companyId, fileId });
     }

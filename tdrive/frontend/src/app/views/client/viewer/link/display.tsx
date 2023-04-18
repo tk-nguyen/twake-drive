@@ -1,5 +1,5 @@
-import { Button } from 'app/atoms/button/button';
-import { useDrivePreviewDisplayData } from 'app/features/drive/hooks/use-drive-preview';
+import { Button } from '@atoms/button/button';
+import { useDrivePreviewDisplayData } from '@features/drive/hooks/use-drive-preview';
 import { useEffect, useState } from 'react';
 
 export default (props: { download: string; name: string }) => {

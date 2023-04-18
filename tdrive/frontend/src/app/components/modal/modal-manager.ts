@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Observable from 'app/deprecated/Observable/Observable';
-import MenusManager from 'app/components/menus/menus-manager.jsx';
+import Observable from '@deprecated/Observable/Observable';
+import MenusManager from '@components/menus/menus-manager.jsx';
 
 class ModalManagerService extends Observable {
   static service: ModalManagerService = new ModalManagerService();

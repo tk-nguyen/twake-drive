@@ -1,5 +1,5 @@
-import Select from 'app/atoms/input/input-select';
-import { DriveFileAccessLevel } from 'app/features/drive/types';
+import Select from '@atoms/input/input-select';
+import { DriveFileAccessLevel } from '@features/drive/types';
 
 export const AccessLevel = ({
   disabled,

@@ -1,6 +1,6 @@
-import { Button } from 'app/atoms/button/button';
-import { Title } from 'app/atoms/text';
-import { DriveItem } from 'app/features/drive/types';
+import { Button } from '@atoms/button/button';
+import { Title } from '@atoms/text';
+import { DriveItem } from '@features/drive/types';
 import { useEffect, useState } from 'react';
 import { PublicIcon } from './components/public-icon';
 
