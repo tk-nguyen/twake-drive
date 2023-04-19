@@ -84,6 +84,7 @@
 - `plugins.id` is mandatory and must be unique to each plusing
 - `plugins.internal_domain` (only if installed inside the same docker and same domain) is the internal domain of the plugin, it must be the same as the one in the docker-compose.yml file
 - `plugins.external_prefix` (only if installed outside of the docker) is the external prefix of the plugin. When the frontend will call https://tdrive.app/plugins/onlyoffice/ it will be redirected to the internal_domain.
+- **If your server and frontend runs on different urls** then you must replace all the /plugins[...] by http://my_server_url/plugins[...] except for the external_prefix URI.
 
 ## Add and run the docker container for the plugin
 

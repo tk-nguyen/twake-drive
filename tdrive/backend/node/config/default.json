@@ -139,76 +139,8 @@
     "sender": "noreply@twake.app"
   },
   "applications": {
-    "grid": [
-      {
-        "name": "Tmail",
-        "logo": "/public/img/grid/tmail.png",
-        "url": "https://tmail.linagora.com/"
-      },
-      {
-        "name": "Tdrive",
-        "logo": "/public/img/grid/tdrive.png",
-        "url": "https://twake.app/"
-      }
-    ],
-    "plugins": [
-      {
-        "id": "tdrive_onlyoffice",
-        "internal_domain": "http://plugins_onlyoffice:5000/",
-        "external_prefix": "/plugins/onlyoffice/",
-        "display": {
-          "tdrive": {
-            "version": 1,
-            "files": {
-              "editor": {
-                "preview_url": "/plugins/onlyoffice/?preview=1",
-                "edition_url": "/plugins/onlyoffice/",
-                "empty_files": [
-                  {
-                    "url": "/plugins/onlyoffice/assets/empty.docx",
-                    "filename": "Untitled.docx",
-                    "name": "ONLYOFFICE Word Document"
-                  },
-                  {
-                    "url": "/plugins/onlyoffice/assets/empty.xlsx",
-                    "filename": "Untitled.xlsx",
-                    "name": "ONLYOFFICE Excel Document"
-                  },
-                  {
-                    "url": "/plugins/onlyoffice/assets/empty.pptx",
-                    "filename": "Untitled.pptx",
-                    "name": "ONLYOFFICE PowerPoint Document"
-                  }
-                ],
-                "extensions": [
-                  "xlsx",
-                  "pptx",
-                  "docx",
-                  "xls",
-                  "ppt",
-                  "doc",
-                  "odt",
-                  "ods",
-                  "odp",
-                  "txt",
-                  "html",
-                  "csv"
-                ]
-              }
-            }
-          }
-        },
-        "identity": {
-          "code": "only_office",
-          "name": "Only Office",
-          "icon": "/plugins/onlyoffice/assets/logo.png",
-          "description": null,
-          "website": "http://twake.app/",
-          "categories": [],
-          "compatibility": ["tdrive"]
-        }
-      }
-    ]
+    "grid": [],
+    "plugins": []
   },
   "services": [
     "auth",
