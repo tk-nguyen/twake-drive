@@ -27,7 +27,7 @@ jobs:
              cp ./tdrive/coverage/merged/coverage-summary.json report.json
              echo '{ "numFailedTestSuites": 0, "numFailedTests": 0, "numPassedTestSuites": 1, "numPassedTests": 1, "numPendingTestSuites": 0, "numPendingTests": 0, "numRuntimeErrorTestSuites": 0, "numTodoTests": 0, "numTotalTestSuites": 56, "numTotalTests": 156, "openHandles": [], "snapshot": {}, "startTime": 0, "success": true, "testResults": [], "wasInterrupted": false, "coverageMap": ' > tmp.txt
              cat report.json >> tmp.txt
-             echo "}" > tmp.txt
+             echo "}" >> tmp.txt
              cat tmp.txt > report.json
              cat report.json
       - name: Coverage
