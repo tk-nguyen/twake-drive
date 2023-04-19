@@ -26,8 +26,9 @@ export default class ApplicationsApiService extends TdriveService<undefined> {
         const { proxy, close } = FastProxy({
           base: domain,
         });
+        console.log("Listening at ", "/" + prefix.replace(/(\/$|^\/)/gm, "") + "/*");
         fastify.addHook("onClose", close);
-        fastify.all("/" + prefix.replace(/(\/$|^\/)/, "") + "/*", (req, rep) => {
+        fastify.all("/" + prefix.replace(/(\/$|^\/)/gm, "") + "/*", (req, rep) => {
           proxy(req.raw, rep.raw, req.url, {});
         });
       }
