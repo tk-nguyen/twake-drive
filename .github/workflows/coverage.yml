@@ -22,17 +22,9 @@ jobs:
         run: cd tdrive && docker-compose -f docker-compose.tests.yml run -e NODE_OPTIONS=--unhandled-rejections=warn node npm run test:merge:json
       - name: generate coverage summary text
         run: cd tdrive && docker-compose -f docker-compose.tests.yml run -e NODE_OPTIONS=--unhandled-rejections=warn node npm run test:merge:text
-      - name: check generation
-        run: |
-             cp ./tdrive/coverage/merged/coverage-summary.json report.json
-             echo '{ "numFailedTestSuites": 0, "numFailedTests": 0, "numPassedTestSuites": 1, "numPassedTests": 1, "numPendingTestSuites": 0, "numPendingTests": 0, "numRuntimeErrorTestSuites": 0, "numTodoTests": 0, "numTotalTestSuites": 56, "numTotalTests": 156, "openHandles": [], "snapshot": {}, "startTime": 0, "success": true, "testResults": [], "wasInterrupted": false, "coverageMap": ' > tmp.txt
-             cat report.json >> tmp.txt
-             echo "}" >> tmp.txt
-             cat tmp.txt > report.json
-             cat report.json
-      - name: Coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2.2.2
+      - name: Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
         with:
-          coverage-file: report.json
-          base-coverage-file: report.json
-          skip-step: all
+          coverage-summary-path: tdrive/coverage/merged/coverage-summary.json
+          coverage-path: tdrive/coverage/coverage-report.txt
+
