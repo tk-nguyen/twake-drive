@@ -54,7 +54,7 @@ export class CompanyApplicationController
 
     return {
       resources: resources.getEntities().map(ca => ca.application),
-      next_page_token: resources.nextPage.page_token,
+      next_page_token: resources.nextPage?.page_token,
       websockets:
         gr.platformServices.realtime.sign(
           getCompanyApplicationRooms(request.params.company_id),
