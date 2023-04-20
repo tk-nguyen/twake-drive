@@ -28,5 +28,5 @@ jobs:
           branch-coverage-report-path: ./tdrive/coverage/merged/coverage-summary.json
           base-coverage-report-path: ./tdrive/coverage/merged/coverage-summary.json
           delta: 0.3
-          fullCoverageDiff: false
+          fullCoverageDiff: true
 
