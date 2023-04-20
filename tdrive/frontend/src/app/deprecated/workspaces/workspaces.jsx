@@ -39,36 +39,7 @@ class Workspaces extends Observable {
   }
 
   updateCurrentWorkspaceId(workspaceId, notify = false) {
-    if (this.currentWorkspaceId !== workspaceId && workspaceId) {
-      const workspace = DepreciatedCollections.get('workspaces').find(workspaceId);
-      if (!workspace) {
-        return;
-      }
-
-      this.currentWorkspaceId = workspaceId;
-      this.currentWorkspaceIdByGroup[workspace.company_id] = workspaceId;
-
-      if (!this.getting_details[workspaceId]) {
-        this.getting_details[workspaceId] = true;
-
-        WorkspaceAPIClient.get(workspace.company_id, workspaceId)
-          .then(workspace => {
-            if (!workspace) {
-              this.removeFromUser(workspaceId);
-            }
-            DepreciatedCollections.get('workspaces').updateObject(workspace);
-            notify && this.notify();
-
-            // FIXME: What is this???
-            setTimeout(() => {
-              this.getting_details[workspaceId] = false;
-            }, 10000);
-          })
-          .catch(() => {
-            this.removeFromUser(workspaceId);
-          });
-      }
-    }
+ 
   }
 
   updateCurrentCompanyId(companyId, notify = false) {
@@ -224,10 +195,7 @@ class Workspaces extends Observable {
         name,
       });
       this.logger.debug('Workspace updated', result);
-      DepreciatedCollections.get('workspaces').updateObject({
-        id: this.currentWorkspaceId,
-        name,
-      });
+
     } catch (err) {
       this.logger.error('Can not update the workspace', err);
     }
@@ -272,7 +240,6 @@ class Workspaces extends Observable {
               that.notify();
             } else {
               var update = resp.data;
-              DepreciatedCollections.get('workspaces').updateObject(update);
               ws.publish('workspace/' + update.id, { workspace: update });
               that.notify();
             }
@@ -295,10 +262,6 @@ class Workspaces extends Observable {
       });
     }
     window.location.reload();
-  }
-
-  getCurrentWorkspace() {
-    return DepreciatedCollections.get('workspaces').find(this.currentWorkspaceId) || {};
   }
 }
 
