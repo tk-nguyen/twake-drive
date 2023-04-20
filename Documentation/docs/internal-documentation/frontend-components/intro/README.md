@@ -1,9 +1,9 @@
 ---
-description: Get started with Twake frontend.
+description: Get started with TDrive frontend.
 ---
 
 # Storybook
 
-Twake components are available through our Storybook. You can find it here:
+TDrive components are available through our Storybook. You can find it here:
 
-[https://web.twake.app/storybook/index.html](https://web.twake.app/storybook/index.html)
+[https://web.tdrive.app/storybook/index.html](https://web.tdrive.app/storybook/index.html)

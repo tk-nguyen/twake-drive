@@ -2,24 +2,12 @@
   "general": {
     "help_url": false,
     "pricing_plan_url": "",
-    "app_download_url": "https://tdrive.app/download",
+    "app_download_url": "https://twake.app/download",
     "mobile": {
-      "mobile_redirect": "mobile.tdrive.app",
+      "mobile_redirect": "mobile.twake.app",
       "mobile_appstore": "https://apps.apple.com/fr/app/tdrive/id1588764852?l=en",
       "mobile_googleplay": "https://play.google.com/store/apps/details?id=com.tdrive.tdrive&gl=FR"
     },
-    "app_grid": [
-      {
-        "name": "Tmail",
-        "logo": "/public/img/grid/tmail.png",
-        "url": "https://tmail.linagora.com/"
-      },
-      {
-        "name": "Tdrive",
-        "logo": "/public/img/grid/tdrive.png",
-        "url": "https://tdrive.app/"
-      }
-    ],
     "accounts": {
       "_type": "remote",
       "type": "internal",
@@ -139,9 +127,6 @@
       "path": "/storage/"
     }
   },
-  "plugins": {
-    "server": "plugins:3100"
-  },
   "knowledge-graph": {
     "endpoint": "http://host-gateway:8888",
     "callback_token": "secret",
@@ -151,7 +136,11 @@
   "email-pusher": {
     "endpoint": "https://api.smtp2go.com/v3/email/send",
     "api_key": "secret",
-    "sender": "noreply@tdrive.app"
+    "sender": "noreply@twake.app"
+  },
+  "applications": {
+    "grid": [],
+    "plugins": []
   },
   "services": [
     "auth",
@@ -181,6 +170,8 @@
     "knowledge-graph-web",
     "email-pusher",
     "documents",
+    "applications",
+    "applications-api",
     "tags"
   ]
 }

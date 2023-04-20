@@ -32,7 +32,7 @@ export class ApplicationHooksService implements TdriveServiceProvider, Initializ
     workspace_id: string,
     context: ExecutionContext,
   ): Promise<void> {
-    const app = await gr.services.applications.marketplaceApps.get({ id: application_id }, context);
+    const app = await gr.services.applications.marketplaceApps.get(application_id, context);
     if (!app) {
       throw CrudException.notFound("Application not found");
     }

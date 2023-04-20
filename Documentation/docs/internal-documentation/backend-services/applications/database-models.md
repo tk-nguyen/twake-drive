@@ -5,7 +5,7 @@ description: Application models for backend
 # Database models
 
 **applications**\
-****Represent an application in the database
+\*\*\*\*Represent an application in the database
 
 ```javascript
 {
@@ -27,7 +27,7 @@ type ApplicationIdentity = {
   description: string;
   website: string;
   categories: string[];
-  compatibility: "twake"[];
+  compatibility: "tdrive"[];
 };
 
 type ApplicationPublication = {
@@ -53,7 +53,7 @@ type ApplicationAccess = {
 };
 
 type ApplicationDisplay = {
-  twake: {
+  tdrive: {
     "version": 1,
 
 		"files" : {
@@ -74,7 +74,7 @@ type ApplicationDisplay = {
 		//Chat plugin
 	  "chat": {
 	    "input": {
-				"icon": "", //If defined replace original icon url of your app 
+				"icon": "", //If defined replace original icon url of your app
 	      "type": "file" | "call" //To add in existing apps folder / default icon
 	    },
 	    "commands": [
@@ -113,18 +113,16 @@ type ApplicationDisplay = {
 };
 ```
 
-
-
-**company\_application**\
-****Represent an application in a company
+**company_application**\
+\*\*\*\*Represent an application in a company
 
 ```javascript
 {
 	"company_id": uuid;
 	"application_id": uuid;
 	"id": uuid;
-	
+
 	"created_at": number;
-	"created_by": string; //Will be the default delegated user when doing actions on Twake
+	"created_by": string; //Will be the default delegated user when doing actions on TDrive
 }
 ```

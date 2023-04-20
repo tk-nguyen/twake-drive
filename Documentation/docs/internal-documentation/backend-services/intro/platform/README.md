@@ -1,6 +1,6 @@
 ---
 description: >-
-  List of core shared components in Twake backend, available in
+  List of core shared components in TDrive backend, available in
   src/core/platform/services
 ---
 
@@ -8,7 +8,7 @@ description: >-
 
 ## **Database Technical Service**
 
-Twake uses a custom ORM to work with both MongoDB and CassandraDB/ScyllaDB.
+TDrive uses a custom ORM to work with both MongoDB and CassandraDB/ScyllaDB.
 
 [database-orm-platform-service](database-orm-platform-service.md)
 
@@ -106,7 +106,7 @@ Services annotated as described above automatically publish events to WebSockets
 ```javascript
 const io = require("socket.io-client");
 
-// Get a JWT token from the Twake API first
+// Get a JWT token from the TDrive API first
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTYwMzE5ODkzMn0.NvQoV9KeWuTNzRvzqbJ5uZCQ8Nmi2rCYQzcKk-WsJJ8";
 const socket = io.connect("http://localhost:3000", { path: "/socket" });
@@ -148,7 +148,7 @@ socket.on("connect", () => {
     .emit("authenticate", { token })
     .on("authenticated", () => {
       // join the /channels room
-      socket.emit("realtime:join", { name: "/channels", token: "twake" });
+      socket.emit("realtime:join", { name: "/channels", token: "tdrive" });
       socket.on("realtime:join:error", (message) => {
         // will fire when join does not provide a valid token
         console.log("Error on join", message);
@@ -229,7 +229,7 @@ socket.on("connect", () => {
     .emit("authenticate", { token })
     .on("authenticated", () => {
       // join the "/channels" room
-      socket.emit("realtime:join", { name: "/channels", token: "twake" });
+      socket.emit("realtime:join", { name: "/channels", token: "tdrive" });
 
       // will only occur when an action occured on a resource
       // and if and only if the client joined the room

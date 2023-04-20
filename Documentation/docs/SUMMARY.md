@@ -1,10 +1,10 @@
 # Table of contents
 
-- [☀️ Twake](index.md)
+- [☀️ TDrive](index.md)
 
 ## Getting started <a href="#gettingstarted" id="gettingstarted"></a>
 
-- [▶ Use Twake on twake.app](gettingstarted/use-twake-on-twake.app.md)
+- [▶ Use TDrive on tdrive.app](gettingstarted/use-tdrive-on-tdrive.app.md)
 - [🏗 Install on your server](onprem/installation.md)
 - [⚙ Configuration](onprem/configuration/index.md)
   - [🔒 Security](onprem/configuration/security.md)
@@ -15,11 +15,11 @@
   - [🔌 Connectors and plugins](onprem/configuration/connectors-and-plugins.md)
   - [👨‍💻 Authentication modes](onprem/configuration/authentication-modes/README.md)
     - [Using Keycloak (LDAP, OpenID and more)](onprem/configuration/authentication-modes/using-keycloak-ldap-openid-and-more.md)
-    - [Installing Twake with LemonLDAP (LDAP, OpenID and more)](onprem/configuration/authentication-modes/installing-twake-with-lemonldap-ldap-openid-and-more.md)
+    - [Installing TDrive with LemonLDAP (LDAP, OpenID and more)](onprem/configuration/authentication-modes/installing-tdrive-with-lemonldap-ldap-openid-and-more.md)
 
 ## How to use it
 
-- [👋 Welcome to Twake !](how-to-use-it/welcome.md)
+- [👋 Welcome to TDrive !](how-to-use-it/welcome.md)
 - [🧰 Console](how-to-use-it/console/README.md)
   - [Users](how-to-use-it/console/users.md)
 - [🏢 Company & workspace](how-to-use-it/company-and-workspace/README.md)
@@ -45,7 +45,7 @@
 - [🥇 Getting started](developers-api/get-started/README.md)
   - [Create your first application](developers-api/get-started/create-your-first-application.md)
   - [Authenticate with Postman](developers-api/get-started/authenticate-postman.md)
-  - [Send a message with your application](developers-api/get-started/send-a-message-for-twake.md)
+  - [Send a message with your application](developers-api/get-started/send-a-message-for-tdrive.md)
   - [Trigger action from command](developers-api/get-started/trigger-action-from-command.md)
 - [⚙ Application settings](developers-api/application-settings/README.md)
   - [Api](developers-api/application-settings/api.md)
@@ -61,8 +61,8 @@
 
 ## Internal Documentation
 
-- [🥇 Get started](developers-api/run-twake-as-developer.md)
-- [🎨 Twake Ecosystem Guidelines](internal-documentation/twake-ecosystem-guidelines.md)
+- [🥇 Get started](developers-api/run-tdrive-as-developer.md)
+- [🎨 TDrive Ecosystem Guidelines](internal-documentation/tdrive-ecosystem-guidelines.md)
 - [📚 Our stack](internal-documentation/our-stack.md)
 - [🧱 Backend and APIs](internal-documentation/backend-services/README.md)
   - [👥 Users, workspaces and companies](internal-documentation/backend-services/users/README.md)
@@ -78,9 +78,9 @@
     - [Resumable.js](internal-documentation/backend-services/files/resumablejs.md)
   - [📲 Notifications](internal-documentation/backend-services/notifications/README.md)
     - [Database models](internal-documentation/backend-services/notifications/database-models.md)
-  - [🛠 Twake service development](internal-documentation/backend-services/intro/README.md)
-    - [What is a service in Twake ?](internal-documentation/backend-services/intro/start-working-into-a-service.md)
-    - [Create a new service](internal-documentation/backend-services/intro/create-a-new-twake-service.md)
+  - [🛠 TDrive service development](internal-documentation/backend-services/intro/README.md)
+    - [What is a service in TDrive ?](internal-documentation/backend-services/intro/start-working-into-a-service.md)
+    - [Create a new service](internal-documentation/backend-services/intro/create-a-new-tdrive-service.md)
     - [Platform/Technical services](internal-documentation/backend-services/intro/platform/README.md)
       - [Database ORM platform service](internal-documentation/backend-services/intro/platform/database-orm-platform-service.md)
 - [🎭 Translation](internal-documentation/translation.md)

@@ -96,6 +96,11 @@
       "urls": "PUBSUB_URLS"
     }
   },
+  "applications": {
+    "__name": "APPLICATIONS",
+    "__format": "json",
+    "//": "//{\"grid\": [], \"plugins\": []}"
+  },
   "pusbub": {
     "//": "//deprecated",
     "type": "PUBSUB_TYPE",

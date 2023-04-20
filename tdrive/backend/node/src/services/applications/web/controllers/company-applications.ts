@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyRequest } from "fastify";
 
 import {
   PaginationQueryParameters,
@@ -54,51 +54,12 @@ export class CompanyApplicationController
 
     return {
       resources: resources.getEntities().map(ca => ca.application),
-      next_page_token: resources.nextPage.page_token,
+      next_page_token: resources.nextPage?.page_token,
       websockets:
         gr.platformServices.realtime.sign(
           getCompanyApplicationRooms(request.params.company_id),
           context.user.id,
         ) || [],
-    };
-  }
-
-  async save(
-    request: FastifyRequest<{
-      Params: { company_id: string; application_id: string };
-      Body: PublicApplicationObject;
-    }>,
-  ): Promise<ResourceGetResponse<PublicApplicationObject>> {
-    const context = getCompanyExecutionContext(request);
-
-    const resource = await gr.services.applications.companyApps.save(
-      { application_id: request.params.application_id, company_id: context.company.id },
-      {},
-      context,
-    );
-
-    const app = await gr.services.applications.companyApps.get(resource.entity);
-
-    return {
-      resource: app.application,
-    };
-  }
-
-  async delete(
-    request: FastifyRequest<{ Params: { company_id: string; application_id: string } }>,
-    _reply: FastifyReply,
-  ): Promise<ResourceDeleteResponse> {
-    const context = getCompanyExecutionContext(request);
-    const resource = await gr.services.applications.companyApps.delete(
-      {
-        application_id: request.params.application_id,
-        company_id: context.company.id,
-        id: undefined,
-      },
-      context,
-    );
-    return {
-      status: resource.deleted ? "success" : "error",
     };
   }
 }

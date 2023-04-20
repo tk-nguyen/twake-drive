@@ -1,11 +1,11 @@
 ---
-description: Get started with Twake service development
+description: Get started with TDrive service development
 ---
 
-# 🛠 Twake service development
+# 🛠 TDrive service development
 
 [start-working-into-a-service](start-working-into-a-service.md)
 
-[create-a-new-twake-service](create-a-new-twake-service.md)
+[create-a-new-tdrive-service](create-a-new-tdrive-service.md)
 
 [platform/](platform/README.md))

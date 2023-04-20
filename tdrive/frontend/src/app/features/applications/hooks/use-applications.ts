@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Application } from 'app/features/applications/types/application';
 import ApplicationsAPIClient from '../api/applications-api-client';
-import { replaceOnlyOfficeForCanary } from './temp-fix';
 
 export function useApplications() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,7 +20,7 @@ export function useApplications() {
   }, []);
 
   return {
-    applications: applications && replaceOnlyOfficeForCanary(applications),
+    applications: applications,
     loading,
     search,
   };
