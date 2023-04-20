@@ -2,8 +2,6 @@ import DepreciatedCollections from '@deprecated/CollectionsV1/Collections/Collec
 import Observable from '@deprecated/CollectionsV1/observable.js';
 import { default as popupManager, default as PopupManager } from '@deprecated/popupManager/popupManager.js';
 import ws from '@deprecated/websocket/websocket.js';
-import Groups from '@deprecated/workspaces/groups.js';
-import workspacesApps from '@deprecated/workspaces/workspaces_apps.jsx';
 import JWTStorage from '@features/auth/jwt-storage-service';
 import loginService from '@features/auth/login-service';
 import ConsoleService from '@features/console/services/console-service';
@@ -53,7 +51,6 @@ class Workspaces extends Observable {
       if (!this.getting_details[workspaceId]) {
         this.getting_details[workspaceId] = true;
 
-        workspacesApps.unload(this.currentWorkspaceId);
         WorkspaceAPIClient.get(workspace.company_id, workspaceId)
           .then(workspace => {
             if (!workspace) {
@@ -76,7 +73,6 @@ class Workspaces extends Observable {
 
   updateCurrentCompanyId(companyId, notify = false) {
     if (this.currentGroupId !== companyId && companyId) {
-      Groups.currentGroupId = companyId;
       this.currentGroupId = companyId;
       notify && this.notify();
     }
