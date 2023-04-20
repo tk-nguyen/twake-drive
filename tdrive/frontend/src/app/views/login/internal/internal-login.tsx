@@ -9,7 +9,6 @@ import Icon from '@components/icon/icon.jsx';
 
 import LoginView from './login-view/login-view';
 import Signin from './signin/signin.jsx';
-import ForgotPassword from './forgot-password/index.jsx';
 import Error from './error';
 
 import './login.scss';
@@ -44,7 +43,6 @@ export default () => {
       {LoginService.state === 'error' && <Error />}
       {LoginService.state === 'logged_out' && <LoginView />}
       {LoginService.state === 'signin' && <Signin />}
-      {LoginService.state === 'forgot_password' && <ForgotPassword />}
 
       <div className={'app_version_footer '}>
         <div className="version_name fade_in">Tdrive {Globals.version.version_name}</div>
