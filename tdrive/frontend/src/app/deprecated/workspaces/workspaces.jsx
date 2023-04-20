@@ -1,7 +1,6 @@
 import DepreciatedCollections from '@deprecated/CollectionsV1/Collections/Collections.js';
 import Observable from '@deprecated/CollectionsV1/observable.js';
 import { default as popupManager, default as PopupManager } from '@deprecated/popupManager/popupManager.js';
-import ws from '@deprecated/websocket/websocket.js';
 import JWTStorage from '@features/auth/jwt-storage-service';
 import loginService from '@features/auth/login-service';
 import ConsoleService from '@features/console/services/console-service';
@@ -239,8 +238,6 @@ class Workspaces extends Observable {
               that.error_identity_badimage = true;
               that.notify();
             } else {
-              var update = resp.data;
-              ws.publish('workspace/' + update.id, { workspace: update });
               that.notify();
             }
           }

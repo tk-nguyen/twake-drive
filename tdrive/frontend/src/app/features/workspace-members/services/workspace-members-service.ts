@@ -2,18 +2,14 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Languages from '@features/global/services/languages-service';
 import Observable from '@deprecated/CollectionsV1/observable.js';
-import User from '@features/users/services/current-user-service';
-import Api from '@features/global/framework/api-service';
-import ws from '@deprecated/websocket/websocket.js';
-import Collections from '@deprecated/CollectionsV1/Collections/Collections.js';
 import workspaceService from '@deprecated/workspaces/workspaces.jsx';
-import Numbers from '@features/global/utils/Numbers';
-import WorkspaceUserRights from '@features/workspaces/services/workspace-user-rights-service';
-import CurrentUser from '@deprecated/user/CurrentUser';
+import Api from '@features/global/framework/api-service';
 import AlertManager from '@features/global/services/alert-manager-service';
 import Globals from '@features/global/services/globals-tdrive-app-service';
+import Languages from '@features/global/services/languages-service';
+import User from '@features/users/services/current-user-service';
+import WorkspaceUserRights from '@features/workspaces/services/workspace-user-rights-service';
 
 const prefixRoute = '/internal/services/workspaces/v1';
 
@@ -68,11 +64,6 @@ class WorkspacesUsers extends Observable {
     return (this.users_by_workspace || {})[workspace_id] || {};
   }
 
-  unload(workspace_id: string) {
-    ws.unsubscribe('workspace_users/' + workspace_id, null, null);
-  }
-
-  load(workspace_id: string, reset_offset: string, options: any) {}
   canShowUserInWorkspaceList(member: any) {
     // if user is interne or wexterne => no restriction
     if (!WorkspaceUserRights.isInvite()) {
