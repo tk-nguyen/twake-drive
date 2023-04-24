@@ -50,6 +50,6 @@ export function encrypt(
   encryptionKey: any,
   options: { disableSalts?: boolean } = {},
 ): CryptoResult {
-  if (!encryptionKey) return { data:ˋ${value}`, done: true };
+  if (!encryptionKey) return { data: `${value}`, done: true };
   return v2.encrypt(value, encryptionKey, options);
 }
