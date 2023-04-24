@@ -34,6 +34,8 @@ export function decrypt(data: string, encryptionKey: string): CryptoResult {
     if (result.done) {
       return result;
     }
+
+    return result;
   }
 
   return { data, done: true };
@@ -48,6 +50,6 @@ export function encrypt(
   encryptionKey: any,
   options: { disableSalts?: boolean } = {},
 ): CryptoResult {
-  if (!encryptionKey) return value;
+  if (!encryptionKey) return ˋ${value}`;
   return v2.encrypt(value, encryptionKey, options);
 }
