@@ -1,5 +1,4 @@
 import config from "config";
-import FastProxy from "@fastify/http-proxy";
 import { Prefix, TdriveService } from "../../core/platform/framework";
 import WebServerAPI from "../../core/platform/services/webserver/provider";
 import Application from "../applications/entities/application";
@@ -24,7 +23,7 @@ export default class ApplicationsApiService extends TdriveService<undefined> {
       const prefix = app.external_prefix.replace(/(\/$|^\/)/gm, "");
       if (domain && prefix) {
         console.log("Listening at ", "/" + prefix + "/*");
-        fastify.register(FastProxy, {
+        fastify.register(require("@fastify/http-proxy"), {
           upstream: domain + "/" + prefix,
           prefix: "/" + prefix,
         });
