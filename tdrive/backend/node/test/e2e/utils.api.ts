@@ -1,6 +1,10 @@
 import { TestPlatform } from "./setup";
 import { InjectPayload, Response } from "light-my-request";
 import { logger as log } from "../../src/core/platform/framework";
+import { AbortSignal } from "node-abort-controller";
+
+// fix for Reference error AbortSignal in `lru-cache`
+global.AbortSignal = AbortSignal as any;
 
 declare global {
   interface ApiResponse extends Response {
