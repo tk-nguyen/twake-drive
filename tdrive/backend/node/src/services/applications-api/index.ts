@@ -3,7 +3,7 @@ import { Prefix, TdriveService } from "../../core/platform/framework";
 import WebServerAPI from "../../core/platform/services/webserver/provider";
 import Application from "../applications/entities/application";
 import web from "./web/index";
-const httpProxy = require("@fastify/http-proxy");
+import httpProxy from "@fastify/http-proxy";
 
 @Prefix("/api")
 export default class ApplicationsApiService extends TdriveService<undefined> {
