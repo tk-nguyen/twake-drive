@@ -5,7 +5,16 @@ import WebServerAPI from "../../core/platform/services/webserver/provider";
 import Application from "../applications/entities/application";
 import web from "./web/index";
 
-var proxy = httpProxy.createProxyServer({});
+const proxy = httpProxy.createProxyServer({});
+// https://github.com/http-party/node-http-proxy/issues/1471
+proxy.on("proxyReq", (proxyReq, req: any) => {
+  if (req.body && ["POST", "PATCH", "PUT"].includes(req.method)) {
+    const bodyData = JSON.stringify(req.body);
+    proxyReq.setHeader("content-type", "application/json");
+    proxyReq.setHeader("content-length", Buffer.byteLength(bodyData));
+    proxyReq.write(bodyData);
+  }
+});
 
 @Prefix("/api")
 export default class ApplicationsApiService extends TdriveService<undefined> {
