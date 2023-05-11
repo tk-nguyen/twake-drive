@@ -1979,10 +1979,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-14.18.21.tgz"
   integrity sha512-x5W9s+8P4XteaxT/jKF0PSb7XEvo5VmqEWgsMlyeY4ZlLK8I6aH6g5TPPyDlLAep+GYf4kefb7HFyc7PAO3m+Q==
 
-"@types/node@20":
-  version "20.1.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.1.2.tgz#8fd63447e3f99aba6c3168fd2ec4580d5b97886f"
-  integrity sha512-CTO/wa8x+rZU626cL2BlbCDzydgnFNgc19h4YvizpTO88MFQxab8wqisxaofQJ/9bLGugRdWIuX/TbIs6VVF6g==
+"@types/node@16":
+  version "16.18.28"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.28.tgz#f674e1577827c5282e5005c3fa99ea06df835c49"
+  integrity sha512-SNMfiPqsiPoYfmyi+2qnDO4nZyMIOCab/CW+Slcml0lhIzkOizYzWtt/A7tgB3TSitd+YJKi8fSC2Cpm/VCp7A==
 
 "@types/node@^15.0.1":
   version "15.14.9"
