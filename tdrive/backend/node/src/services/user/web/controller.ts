@@ -5,7 +5,6 @@ import {
   ListResult,
   Pagination,
 } from "../../../core/platform/framework/api/crud-service";
-import { uniq } from "lodash";
 
 import { CrudController } from "../../../core/platform/services/webserver/types";
 import {
