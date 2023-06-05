@@ -44,7 +44,7 @@ jobs:
           path: tdrive/frontend/build/
 
   publish-frontend:
-#    needs: build-frontend
+    #    needs: build-frontend
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/qa' || github.ref == 'refs/heads/canary'
     steps:

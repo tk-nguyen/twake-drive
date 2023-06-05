@@ -95,7 +95,7 @@ const PathItem = ({
         href="#"
         className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
         onClick={evt => {
-          if (first) {
+        if (first && user?.id) {
             MenusManager.openMenu(
               [
                 { type: 'menu', text: 'Home', onClick: () => onClick('root') },
@@ -114,7 +114,7 @@ const PathItem = ({
       {item?.access_info?.public?.level && item?.access_info?.public?.level !== 'none' && (
         <PublicIcon className="h-5 w-5 ml-2" />
       )}
-      {first && (
+      {first && !!user?.id && (
         <span className="ml-2 -mr-1 text-gray-700">
           <ChevronDownIcon className="w-4 h-4" />
         </span>
