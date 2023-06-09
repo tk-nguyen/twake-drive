@@ -43,6 +43,7 @@ export const hasAccessLevel = (
 
 /**
  * checks the current user is a guest
+ * Company guests can be users accessing with a public link
  *
  * @param {CompanyExecutionContext} context
  * @returns {Promise<boolean>}
@@ -149,7 +150,7 @@ export const getAccessLevel = async (
   context: CompanyExecutionContext & { public_token?: string; tdrive_tab_token?: string },
 ): Promise<DriveFileAccessLevel | "none"> => {
   if (!id || id === "root")
-    return !context?.user?.id ? "none" : (await isCompanyGuest(context)) ? "read" : "manage";
+    return !context?.user?.id || (await isCompanyGuest(context)) ? "none" : "manage";
   if (id === "trash")
     return (await isCompanyGuest(context)) || !context?.user?.id
       ? "none"
@@ -164,6 +165,7 @@ export const getAccessLevel = async (
   }
 
   let publicToken = context.public_token;
+  const prevalidatedPublicTokenDocumentId = context?.user?.public_token_document_id;
 
   try {
     item =
@@ -187,10 +189,13 @@ export const getAccessLevel = async (
      */
 
     //Public access
-    if (publicToken) {
+    if (publicToken || prevalidatedPublicTokenDocumentId === item.id) {
       if (!item.access_info.public.token) return "none";
       const { token: itemToken, level: itemLevel, password, expiration } = item.access_info.public;
       if (expiration && expiration < Date.now()) return "none";
+      if (prevalidatedPublicTokenDocumentId) {
+        return itemLevel;
+      }
       if (password) {
         const data = publicToken.split("+");
         if (data.length !== 2) return "none";
@@ -227,7 +232,7 @@ export const getAccessLevel = async (
       const matchingCompany = accessEntities.find(
         a => a.type === "company" && a.id === context.company.id,
       );
-      if (matchingCompany) otherLevels.push(matchingCompany.level);
+      if (matchingCompany && !isCompanyGuest(context)) otherLevels.push(matchingCompany.level);
     }
 
     //Parent folder

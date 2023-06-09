@@ -1,15 +1,13 @@
 import { ExecutionContext } from "../../core/platform/framework/api/crud-service";
 import { DriveFile } from "./entities/drive-file";
 import { FileVersion } from "./entities/file-version";
-import { SortType } from "src/core/platform/services/search/api";
+import { SortType } from "../../core/platform/services/search/api";
 
 export interface CompanyExecutionContext extends ExecutionContext {
   company: { id: string };
 }
 
-export type DriveExecutionContext = CompanyExecutionContext & {
-  public_token?: string;
-};
+export type DriveExecutionContext = CompanyExecutionContext;
 
 export type RequestParams = {
   company_id: string;
