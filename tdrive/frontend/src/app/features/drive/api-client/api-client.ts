@@ -132,15 +132,30 @@ export class DriveApiClient {
     );
   }
 
-  static async search(searchString: string, options?: BaseSearchOptions) {
+  static async search(searchString: string, view?: string,options?: BaseSearchOptions) {
     const companyId = options?.company_id ? options.company_id : Workspace.currentGroupId;
     const query = `/internal/services/documents/v1/companies/${companyId}/search`;
     const searchData = {
       search: searchString,
+      view: view
     };
     const res = await Api.post<SearchDocumentsBody, { entities: DriveItem[] }>(query, searchData);
     this.logger.debug(
       `Drive search by text "${searchString}". Found`,
+      res.entities.length,
+      'drive item(s)',
+    );
+
+    return res;
+  }
+
+  static async sharedWithMe(options?: BaseSearchOptions) {
+    const companyId = options?.company_id ? options.company_id : Workspace.currentGroupId;
+    const query = `/internal/services/documents/v1/companies/${companyId}/shared-with-me`;
+    const filterData = {};
+    const res = await Api.post<SearchDocumentsBody, { entities: DriveItem[] }>(query, filterData);
+    this.logger.debug(
+      `Drive shared with me by filter "${JSON.stringify(filterData)}". Found`,
       res.entities.length,
       'drive item(s)',
     );
