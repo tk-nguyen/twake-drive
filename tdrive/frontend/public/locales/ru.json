@@ -257,5 +257,18 @@
     "components.item_context_menu.trash.empty": "Очистить корзину",
     "components.item_context_menu.add_documents": "Добавить документ в папку",
     "components.item_context_menu.download_folder": "Скачать папку",
-    "components.item_context_menu.go_to_trash": "Перейти в корзину"
+    "components.item_context_menu.go_to_trash": "Перейти в корзину",
+    "components.item_context_menu.all": "Все",
+    "components.item_context_menu.today": "Сегодня",
+    "components.item_context_menu.last_week": "За неделю",
+    "components.item_context_menu.last_month": "За месяц",
+    "scenes.app.shared_with_me.shared_with_me": "Доступные мне",
+    "scenes.app.shared_with_me.file_type": "Тип файла",
+    "scenes.app.shared_with_me.people": "Люди",
+    "scenes.app.shared_with_me.last_modified": "Последнее изменение",
+    "scenes.app.shared_with_me.documents": "Файлы",
+    "scenes.app.shared_with_me.name": "Название",
+    "scenes.app.shared_with_me.shared_by": "Кто открыл доступ",
+    "scenes.app.shared_with_me.shared_date": "Дата предоставления доступа",
+    "scenes.app.shared_with_me.edit": "Редактировать"
 }

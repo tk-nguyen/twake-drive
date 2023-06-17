@@ -1,17 +1,19 @@
-import { DriveFile } from "../../entities/drive-file";
-import { DriveFileDTO } from "./drive-file-dto";
+import { DriveFile } from "../entities/drive-file";
+import { DriveFileDTO } from "../web/dto/drive-file-dto";
 import {
   ListResult,
   Paginable,
   Pagination,
-} from "../../../../core/platform/framework/api/crud-service";
+} from "../../../core/platform/framework/api/crud-service";
 import _ from "lodash";
-import { CompanyExecutionContext } from "../../types";
-import globalResolver from "../../../../services/global-resolver";
-import User from "../../../../services/user/entities/user";
-import { getSharedByUser } from "../../services/access-check";
+import { CompanyExecutionContext } from "../types";
+import User from "../../user/entities/user";
+import { getSharedByUser } from "./access-check";
+import globalResolver from "../../../services/global-resolver";
 
 export class DriveFileDTOBuilder {
+  static VIEW_SHARED_WITH_ME = "shared_with_me";
+
   private views: Map<string, string[]> = new Map([
     [
       "default",
@@ -35,7 +37,7 @@ export class DriveFileDTOBuilder {
       ],
     ],
     [
-      "shared_with_me",
+      DriveFileDTOBuilder.VIEW_SHARED_WITH_ME,
       [
         "id",
         "name",
@@ -51,7 +53,6 @@ export class DriveFileDTOBuilder {
       ],
     ],
   ]);
-  usersService = globalResolver.services?.users;
 
   public async build(
     files: ListResult<DriveFile>,
@@ -59,8 +60,6 @@ export class DriveFileDTOBuilder {
     fields?: string[],
     view?: string,
   ): Promise<ListResult<DriveFileDTO>> {
-    const file = new DriveFile();
-    file.id = "1";
     if (view) {
       fields = this.views.get(view);
     }
@@ -110,9 +109,10 @@ export class DriveFileDTOBuilder {
     });
   }
 
-  private async fetchUsers(ids: string[]) {
+  async fetchUsers(ids: string[]) {
+    ids.filter(id => id != null);
     return (
-      await this.usersService.list(
+      await globalResolver.services.users.list(
         {
           limitStr: ids.length.toString(),
         } as Pagination,

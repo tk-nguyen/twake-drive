@@ -7,16 +7,16 @@ import _ from 'lodash';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { SharedWithMeDriveItemsResultsState } from '../state/shared-with-me-drive-items-result';
 import { SearchInputState } from '../../search/state/search-input';
+import { SharedWithMeFilterState } from '../state/shared-with-me-filter';
 
 export const useSharedWithMeDriveItemsLoading = () => {
   return useRecoilValue(LoadingState('useSearchDriveItems'));
 };
 
-let currentQuery = '';
-
 export const useSharedWithMeDriveItems = () => {
   const companyId = useRouterCompany();
   const searchInput = useRecoilValue(SearchInputState);
+  const sharedFilter = useRecoilValue(SharedWithMeFilterState);
   const [loading, setLoading] = useRecoilState(LoadingState('useSearchDriveItems'));
 
   const [items, setItems] = useRecoilState(SharedWithMeDriveItemsResultsState(companyId));
@@ -34,11 +34,24 @@ export const useSharedWithMeDriveItems = () => {
   const refresh = async () => {
     setLoading(true);
 
-    const query = searchInput.query;
-    currentQuery = query;
+    let filter:any = {...sharedFilter};
+    if (filter.date) {
+      if (filter.date === "today") {
+        filter = { ...filter, added_lt: '', added_gt: '' };
+      }
+      if (filter.date === "last_week") {
+        const today = new Date();
+        const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        filter = { ...filter, added_lt: lastWeek.toISOString(), added_gt: '' };
+      }
+      if (filter.date === "last_month") {
+        const today = new Date();
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        filter = { ...filter, added_lt: lastMonth.toISOString(), added_gt: '' };
+      }
+    }
 
-    const response = await DriveApiClient.sharedWithMe(opt);
-    console.log("response is: ", response);
+    const response = await DriveApiClient.sharedWithMe(filter, opt);
     const results = response.entities || [];
 
     const update = {
@@ -47,9 +60,6 @@ export const useSharedWithMeDriveItems = () => {
       // nextPage: response.next_page_token,
     };
 
-    if (currentQuery !== query) {
-      return;
-    }
     setItems(update);
     setLoading(false);
   };
@@ -62,18 +72,18 @@ export const useSharedWithMeDriveItems = () => {
   useGlobalEffect(
     'useSearchDriveItems',
     () => {
-        (async () => {
-          setLoading(true);
-          if (searchInput.query) {
-            delayRequest('useSearchDriveItems', async () => {
-              await refresh();
-            });
-          } else {
-            refresh();
-          }
-        })();
+      (async () => {
+        setLoading(true);
+        if (sharedFilter.mimeType) {
+          delayRequest('useSearchDriveItems', async () => {
+            await refresh();
+          });
+        } else {
+          refresh();
+        }
+      })();
     },
-    [searchInput.channelId, searchInput.workspaceId],
+    [sharedFilter, searchInput.channelId, searchInput.workspaceId],
   );
 
   return { loading, driveItems: [...items.results], loadMore, refresh };
