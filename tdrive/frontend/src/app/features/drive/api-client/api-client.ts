@@ -1,5 +1,5 @@
 import Api from '../../global/framework/api-service';
-import { DriveItem, DriveItemDetails, DriveItemVersion } from '../types';
+import { BrowseFilter, DriveItem, DriveItemDetails, DriveItemVersion } from '../types';
 import Workspace from '@deprecated/workspaces/workspaces';
 import Logger from 'features/global/framework/logger-service';
 import { JWTDataType } from 'app/features/auth/jwt-storage-service';
@@ -67,6 +67,13 @@ export class DriveApiClient {
   static async get(companyId: string, id: string | 'trash' | '') {
     return await Api.get<DriveItemDetails>(
       `/internal/services/documents/v1/companies/${companyId}/item/${id}${appendTdriveToken()}`,
+    );
+  }
+
+  static async browse(companyId: string, id: string | 'trash' | '', filter: BrowseFilter) {
+    return await Api.post<BrowseFilter, DriveItemDetails>(
+      `/internal/services/documents/v1/companies/${companyId}/browse/${id}${appendTdriveToken()}`,
+      filter,
     );
   }
 
@@ -156,7 +163,11 @@ export class DriveApiClient {
   static async sharedWithMe(filter?: any, options?: BaseSearchOptions) {
     const companyId = options?.company_id ? options.company_id : Workspace.currentGroupId;
     const query = `/internal/services/documents/v1/companies/${companyId}/shared-with-me`;
-    const filterData = { mime_type: filter.mimeType, creator: filter.creator, view: "shared_with_me" };
+    const filterData = {
+      mime_type: filter.mimeType,
+      creator: filter.creator,
+      view: 'shared_with_me',
+    };
     const res = await Api.post<sharedWithMeFilterBody, { entities: DriveItem[] }>(
       query,
       filterData,
