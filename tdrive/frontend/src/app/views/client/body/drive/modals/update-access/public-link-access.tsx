@@ -5,13 +5,14 @@ import { ToasterService } from '@features/global/services/toaster-service';
 import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { Checkbox } from 'app/atoms/input/input-checkbox';
 import { Input } from 'app/atoms/input/input-text';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AccessLevel } from './common';
 import moment from 'moment';
 
 export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boolean }) => {
   const { item, loading, update } = useDriveItem(id);
   const publicLink = getPublicLink(item);
+
   return (
     <>
       <Base className="block mt-2 mb-1">Public link access</Base>
@@ -100,10 +101,14 @@ const PublicLinkOptions = (props: {
   const [password, setPassword] = useState(props.password);
   const [useExpiration, setUseExpiration] = useState((props.expiration || 0) > 0);
   const [expiration, setExpiration] = useState(props.expiration);
+  const handlePasswordBlur = () => {
+    props.onChangePassword(password);
+  };
+  
 
-  useEffect(() => {
+  /* useEffect(() => {
     props.onChangePassword(usePassword ? password : '');
-  }, [usePassword, password]);
+  }, [usePassword, password]); */
 
   useEffect(() => {
     props.onChangeExpiration(useExpiration ? expiration : 0);
@@ -129,6 +134,19 @@ const PublicLinkOptions = (props: {
             className="max-w-xs"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            onBlur={handlePasswordBlur}
+            // changes password only when press enter
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                props.onChangePassword(password);
+                e.preventDefault();
+                if (password) {
+                  copyToClipboard(password);
+                  ToasterService.success('Password copied to clipboard');
+                }
+              }
+            }}
+            // saves and copies password
             onClick={() => {
               if (password) copyToClipboard(password);
               ToasterService.success('Password copied to clipboard');
