@@ -133,6 +133,9 @@
 }
 
 .upload_drop_zone {
+  position: relative;
+  width: 100%;
+  height: 130%;
 
   &.input-drag-focus > .on_drag_over_background.dragover > * {
     background: var(--primary-background);

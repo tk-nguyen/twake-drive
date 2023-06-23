@@ -94,6 +94,8 @@ export default memo(
       [_setParentId],
     );
 
+    
+
     //In case we are kicked out of the current folder, we need to reset the parent id
     useEffect(() => {
       if (!loading && !path?.length && !inPublicSharing) setParentId('root');
@@ -127,6 +129,22 @@ export default memo(
     const onBuildContextMenu = useOnBuildContextMenu(children, initialParentId);
     const { viewId } = useRouteState();
 
+    const handleDragOver = (event: { preventDefault: () => void; }) => {
+      event.preventDefault();
+    }
+    const handleDrop = async (event: {dataTransfer: any; preventDefault: () => void;}) => {
+      event.preventDefault();
+      const dataTransfer = event.dataTransfer;
+              if (dataTransfer) {
+                const tree = await getFilesTree(dataTransfer);
+                setCreationModalState({ parent_id: '', open: false });
+                uploadTree(tree, {
+                  companyId,
+                  parentId,
+              });
+              }
+    }
+
     return (
       <>
         {viewId == 'shared-with-me' ? (
@@ -139,8 +157,8 @@ export default memo(
         ) : (
           <UploadZone
             overClassName={''}
-            className="h-full overflow-hidden"
-            disableClick
+            className="overflow-hidden .upload_drop_zone"
+            //disableClick
             parent={''}
             multiple={true}
             allowPaste={true}
@@ -154,6 +172,9 @@ export default memo(
                 parentId,
               });
             }}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+
           >
             <DriveRealtimeObject id={parentId} key={parentId} />
             <VersionsModal />
