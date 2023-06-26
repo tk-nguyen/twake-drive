@@ -101,8 +101,12 @@ const PublicLinkOptions = (props: {
   const [password, setPassword] = useState(props.password);
   const [useExpiration, setUseExpiration] = useState((props.expiration || 0) > 0);
   const [expiration, setExpiration] = useState(props.expiration);
+  const handlePasswordBlur = () => {
+    props.onChangePassword(password);
+  };
+  
 
-  useEffect(() => {
+  /* useEffect(() => {
     props.onChangePassword(usePassword ? password : '');
   }, [usePassword, password]); */
 
