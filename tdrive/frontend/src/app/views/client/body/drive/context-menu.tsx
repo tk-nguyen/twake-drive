@@ -44,7 +44,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
 
   return useCallback(
     async (parent?: Partial<DriveItemDetails> | null, item?: DriveItem) => {
-      if (!parent || !parent.item || !parent.access) return [];
+      if (!parent || !parent.access) return [];
 
       try {
         const inTrash = parent.path?.[0]?.id === 'trash';
@@ -65,44 +65,21 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             },
             {
               type: 'menu',
-              text: Languages.t('components.item_context_menu.download'),
-              onClick: () => download(item.id),
-            },
-            { type: 'separator' },
-            {
-              type: 'menu',
-              text: Languages.t('components.item_context_menu.rename'),
-              hide: access === 'read',
-              onClick: () => setPropertiesModalState({ open: true, id: item.id }),
-            },
-            {
-              type: 'menu',
-              text: Languages.t('components.item_context_menu.manage_access'),
-              hide: access === 'read' || getPublicLinkToken(),
-              onClick: () => setAccessModalState({ open: true, id: item.id }),
-            },
-            {
-              type: 'menu',
               text: Languages.t('components.item_context_menu.share'),
               hide: access === 'read' || getPublicLinkToken(),
               onClick: () => setAccessModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
-              text: Languages.t('components.item_context_menu.copy_link'),
-              hide: !item.access_info.public?.level || item.access_info.public?.level === 'none',
-              onClick: () => {
-                copyToClipboard(getPublicLink(item || parent?.item));
-                ToasterService.success(
-                  Languages.t('components.item_context_menu.copy_link.success'),
-                );
-              },
+              text: Languages.t('components.item_context_menu.download'),
+              onClick: () => download(item.last_version_cache.file_metadata.external_id),
             },
+            { type: 'separator' },
             {
               type: 'menu',
-              text: Languages.t('components.item_context_menu.versions'),
-              hide: item.is_directory,
-              onClick: () => setVersionModal({ open: true, id: item.id }),
+              text: Languages.t('components.item_context_menu.manage_access'),
+              hide: access === 'read' || getPublicLinkToken(),
+              onClick: () => setAccessModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
@@ -126,6 +103,29 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                     );
                   },
                 }),
+            },
+            {
+              type: 'menu',
+              text: Languages.t('components.item_context_menu.rename'),
+              hide: access === 'read',
+              onClick: () => setPropertiesModalState({ open: true, id: item.id }),
+            },
+            {
+              type: 'menu',
+              text: Languages.t('components.item_context_menu.copy_link'),
+              hide: !item.access_info.public?.level || item.access_info.public?.level === 'none',
+              onClick: () => {
+                copyToClipboard(getPublicLink(item || parent?.item));
+                ToasterService.success(
+                  Languages.t('components.item_context_menu.copy_link.success'),
+                );
+              },
+            },
+            {
+              type: 'menu',
+              text: Languages.t('components.item_context_menu.versions'),
+              hide: item.is_directory,
+              onClick: () => setVersionModal({ open: true, id: item.id }),
             },
             { type: 'separator', hide: access !== 'manage' },
             {
@@ -310,9 +310,17 @@ export const useOnBuildFileTypeContextMenu = () => {
   const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
   const mimeTypes = [
     { key: Languages.t('components.item_context_menu.all'), value: '' },
-    { key: 'PDF', value: 'application/pdf' },
+    { key: 'CSV', value: 'text/csv' },
     { key: 'DOC', value: 'application/msword' },
+    { key: 'GIF', value: 'image/gif' },
+    { key: 'JPEG', value: 'image/jpeg' },
+    { key: 'JPG', value: 'image/jpeg' },
+    { key: 'PDF', value: 'application/pdf' },
     { key: 'PNG', value: 'image/png' },
+    { key: 'PPT', value: 'application/vnd.ms-powerpoint' },
+    { key: 'TXT', value: 'text/plain' },
+    { key: 'XLS', value: 'application/vnd.ms-excel' },
+    { key: 'ZIP', value: 'application/zip' },
   ];
   return useCallback(() => {
     const menuItems = mimeTypes.map(item => {
@@ -323,7 +331,7 @@ export const useOnBuildFileTypeContextMenu = () => {
           setFilter(prevFilter => {
             const newFilter = {
               ...prevFilter,
-              mimeType: item.value,
+              mimeType: item,
             };
             return newFilter;
           });
@@ -370,7 +378,10 @@ export const useOnBuildDateContextMenu = () => {
           setFilter(prevFilter => {
             const newFilter = {
               ...prevFilter,
-              date: '',
+              date: {
+                key: 'All',
+                value: ''
+              },
             };
             return newFilter;
           });
@@ -383,7 +394,10 @@ export const useOnBuildDateContextMenu = () => {
           setFilter(prevFilter => {
             const newFilter = {
               ...prevFilter,
-              date: 'today',
+              date: {
+                key: 'Today',
+                value: 'today'
+              }
             };
             return newFilter;
           });
@@ -396,7 +410,10 @@ export const useOnBuildDateContextMenu = () => {
           setFilter(prevFilter => {
             const newFilter = {
               ...prevFilter,
-              date: 'last_week',
+              date: {
+                key: 'Last week',
+                value: 'last_week'
+              }
             };
             return newFilter;
           });
@@ -409,7 +426,10 @@ export const useOnBuildDateContextMenu = () => {
           setFilter(prevFilter => {
             const newFilter = {
               ...prevFilter,
-              date: 'last_month',
+              date: {
+                key: 'Last month',
+                value: 'last_month'
+              }
             };
             return newFilter;
           });
@@ -424,6 +444,7 @@ export const useOnBuildFileContextMenu = () => {
   const { open: preview } = useDrivePreview();
   return useCallback(
     (item: DriveItem) => {
+      console.log(item);
       const menuItems = [
         {
           type: 'menu',

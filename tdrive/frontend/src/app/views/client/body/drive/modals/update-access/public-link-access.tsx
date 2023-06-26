@@ -101,17 +101,8 @@ const PublicLinkOptions = (props: {
   const [password, setPassword] = useState(props.password);
   const [useExpiration, setUseExpiration] = useState((props.expiration || 0) > 0);
   const [expiration, setExpiration] = useState(props.expiration);
-  
-  const handlePasswordBlur = () => {
-    props.onChangePassword(password);
-    if (password) {
-      copyToClipboard(password);
-      ToasterService.success('Password copied to clipboard');
-    }
-  };
-  
 
-  /* useEffect(() => {
+  useEffect(() => {
     props.onChangePassword(usePassword ? password : '');
   }, [usePassword, password]); */
 

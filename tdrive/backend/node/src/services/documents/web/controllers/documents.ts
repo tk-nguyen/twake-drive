@@ -141,6 +141,42 @@ export class DocumentsController {
     };
   };
 
+  /**
+   * Browse file, special endpoint for TDrive application widget.
+   * Returns the current folder with the filtered content
+   *
+   * @param {FastifyRequest} request
+   * @returns {Promise<DriveItemDetails>}
+   */
+  browse = async (
+    request: FastifyRequest<{
+      Params: ItemRequestParams;
+      Body: SearchDocumentsBody;
+      Querystring: PaginationQueryParameters & { public_token?: string };
+    }>,
+  ): Promise<DriveItemDetails & { websockets: ResourceWebsocket[] }> => {
+    const context = getDriveExecutionContext(request);
+    const { id } = request.params;
+
+    const options: SearchDocumentsOptions = {
+      ...request.body,
+      company_id: request.body.company_id || context.company.id,
+      view: DriveFileDTOBuilder.VIEW_SHARED_WITH_ME,
+      onlyDirectlyShared: true,
+      onlyUploadedNotByMe: true,
+    };
+
+    return {
+      ...(await globalResolver.services.documents.documents.browse(id, options, context)),
+      websockets: request.currentUser?.id
+        ? globalResolver.platformServices.realtime.sign(
+            [{ room: `/companies/${context.company.id}/documents/item/${id}` }],
+            request.currentUser?.id,
+          )
+        : [],
+    };
+  };
+
   sharedWithMe = async (
     request: FastifyRequest<{
       Params: RequestParams;
@@ -464,7 +500,7 @@ export class DocumentsController {
     if (!document || !document.access || document.access === "none")
       throw new CrudException("You don't have access to this document", 401);
 
-    const email = document.item.company_id + "-anonymous@tdrive.com";
+    const email = `anonymous@${document.item.company_id}.tdrive.com`;
     let user = await globalResolver.services.users.getByEmail(email);
     if (!user) {
       user = (
