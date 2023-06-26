@@ -7,6 +7,8 @@ import { DriveItem } from '@features/drive/types';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { PathRender } from '../../header-path';
+import Languages from '@features/global/services/languages-service';
+
 
 export type SelectorModalType = {
   open: boolean;
@@ -134,13 +136,13 @@ const SelectorModalContent = () => {
         }}
       >
         {selected.length === 0 ? (
-          <>No item selected</>
+          <>{Languages.t('components.SelectorModalContent_no_items')}</>
         ) : state.mode === 'move' ? (
-          <>Move to '{selected[0]?.name}'</>
+          <>{Languages.t('components.SelectorModalContent_move_to')} '{selected[0]?.name}'</>
         ) : selected.length > 1 ? (
-          <>Select {selected.length} files</>
+          <> {selected.length} {Languages.t('components.SelectorModalContent_select')} {Languages.t('components.SelectorModalContent_files')}</>
         ) : (
-          <>Select '{selected[0]?.name}'</>
+          <>{Languages.t('components.SelectorModalContent_select')} '{selected[0]?.name}'</>
         )}
       </Button>
     </ModalContent>

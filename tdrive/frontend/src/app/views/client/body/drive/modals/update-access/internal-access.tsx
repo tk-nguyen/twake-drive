@@ -11,6 +11,8 @@ import { UserType } from '@features/users/types/user';
 import { useState } from 'react';
 import SelectUsers from '../../components/select-users';
 import { AccessLevel } from './common';
+import Languages from 'features/global/services/languages-service';
+
 
 export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: boolean }) => {
   const { item, loading, update } = useDriveItem(id);
@@ -26,15 +28,15 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
 
   return (
     <>
-      <Base className="block mt-4 mb-1">General access management</Base>
+      <Base className="block mt-4 mb-1">{Languages.t('components.internal-access_access_manage')}</Base>
 
       <div className="rounded-md border overflow-hidden">
         {folderEntity && (
           <div className="p-4 border-b flex flex-row items-center justify-center">
             <div className="grow">
-              <Base>Inherit parent folder</Base>
+              <Base>{Languages.t('components.internal-access_inherit_parent')}</Base>
               <br />
-              <Info>Choose to inherit or not the parent folder permissions.</Info>
+              <Info>{Languages.t('components.internal-access_inherit_parent_perm')}</Info>
             </div>
             <div className="shrink-0 ml-2">
               <Checkbox
@@ -59,7 +61,7 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
         {companyEntity && folderEntity.level === 'none' && (
           <div className="p-4 border-b flex flex-row items-center justify-center">
             <div className="grow">
-              <Base>Every member from the company</Base>
+              <Base>{Languages.t('components.internal-access_company_member')}</Base>
             </div>
             <div className="shrink-0 ml-2">
               <AccessLevel
@@ -84,10 +86,10 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
         {channelEntities.length > 0 && (
           <div className="p-4 border-b flex flex-row items-center justify-center">
             <div className="grow">
-              <Base>Channel access</Base>
+              <Base>{Languages.t('components.internal-access_cannal')}</Base>
               <br />
               <Info>
-                {channelEntities.length} channel(s) from Tdrive chat have access to this item.
+                {channelEntities.length} {Languages.t('components.internal-access_cannal_info')}
               </Info>
             </div>
             <div className="shrink-0 ml-2">
@@ -112,7 +114,7 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
                         //Do nothing
                       },
                       {
-                        text: 'You will need to go to Tdrive chat to give back access to this item.',
+                        text:  Languages.t('components.internal-access_cannal_info_give_back'),
                       },
                     );
                   } else {
@@ -139,7 +141,7 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
         <div className="-mb-px" />
       </div>
 
-      <Base className="block mt-4 mb-1">Specific access rules</Base>
+      <Base className="block mt-4 mb-1">{Languages.t('components.internal-access_specific_rules')}</Base>
       <div className="rounded-md border mt-2">
         <UserAccessSelector id={id} disabled={disabled} />
 
@@ -219,7 +221,7 @@ const UserAccessLevel = ({
       </div>
       <div className="grow ml-2">
         <Base>{!!user && currentUserService.getFullName(user)}</Base>{' '}
-        {user?.id === currentUser?.id && <Info>(you)</Info>}
+        {user?.id === currentUser?.id && <Info>{Languages.t('components.internal-access_specific_rules_you')}</Info>}
       </div>
       <div className="shrink-0 ml-2">
         <AccessLevel

@@ -10,6 +10,7 @@ import { Info } from '@atoms/text';
 import Languages from '@features/global/services/languages-service';
 import _ from 'lodash';
 
+
 export default (props: {
   className?: string;
   onChange: (users: UserType[]) => void;
@@ -38,7 +39,7 @@ export default (props: {
                 }
               }, 200);
             }}
-            placeholder="Search users"
+            placeholder={Languages.t('components.select-users_search_users')}
             className={props.className + ' ' + className + ' w-full'}
             theme="plain"
             onChange={e => search(e.target.value)}

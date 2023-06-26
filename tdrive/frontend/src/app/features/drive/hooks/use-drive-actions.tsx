@@ -6,6 +6,8 @@ import { DriveApiClient } from '../api-client/api-client';
 import { DriveItemAtom, DriveItemChildrenAtom } from '../state/store';
 import { BrowseFilter, DriveItem, DriveItemVersion } from '../types';
 import { SharedWithMeFilterState } from '../state/shared-with-me-filter';
+import Languages from "features/global/services/languages-service";
+
 /**
  * Returns the children of a drive item
  * @param id
@@ -36,7 +38,7 @@ export const useDriveActions = () => {
             }
             return details;
           } catch (e) {
-            ToasterService.error('Unable to load your files.');
+            ToasterService.error(Languages.t('hooks.use-drive-actions.unable_load_file'));
           }
         }
       },
@@ -51,7 +53,7 @@ export const useDriveActions = () => {
         driveFile = await DriveApiClient.create(companyId, { item, version });
         await refresh(item.parent_id!);
       } catch (e) {
-        ToasterService.error('Unable to create a new file.');
+        ToasterService.error(Languages.t('hooks.use-drive-actions.unable_create_file'));
       }
       return driveFile;
     },
@@ -64,7 +66,7 @@ export const useDriveActions = () => {
         const url = await DriveApiClient.getDownloadUrl(companyId, id, versionId);
         (window as any).open(url, '_blank').focus();
       } catch (e) {
-        ToasterService.error('Unable to download this file.');
+        ToasterService.error(Languages.t('hooks.use-drive-actions.unable_download_file'));
       }
     },
     [companyId],
@@ -76,7 +78,7 @@ export const useDriveActions = () => {
         const url = await DriveApiClient.getDownloadZipUrl(companyId, ids);
         (window as any).open(url, '_blank').focus();
       } catch (e) {
-        ToasterService.error('Unable to download this files.');
+        ToasterService.error(Languages.t('hooks.use-drive-actions.unable_download_file'));
       }
     },
     [companyId],
@@ -88,7 +90,7 @@ export const useDriveActions = () => {
         await DriveApiClient.remove(companyId, id);
         await refresh(parentId || '');
       } catch (e) {
-        ToasterService.error('Unable to remove this file.');
+        ToasterService.error(Languages.t('hooks.use-drive-actions.unable_remove_file'));
       }
     },
     [refresh],
@@ -102,7 +104,7 @@ export const useDriveActions = () => {
         await refresh(parentId || '');
         if (update?.parent_id !== parentId) await refresh(update?.parent_id || '');
       } catch (e) {
-        ToasterService.error('Unable to update this file.');
+        ToasterService.error(Languages.t('hooks.use-drive-actions.unable_update_file'));
       }
     },
     [refresh],
