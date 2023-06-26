@@ -79,7 +79,7 @@ export default () => {
           </a>
         </div>
       </div>
-      <div className="main-view public p-4">
+      <div className="h-full main-view public p-4">
         <AccessChecker folderId={documentId} token={token}>
           <Drive initialParentId={documentId} inPublicSharing />
         </AccessChecker>

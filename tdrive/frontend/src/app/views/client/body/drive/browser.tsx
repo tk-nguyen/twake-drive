@@ -168,7 +168,7 @@ export default memo(
         ) : (
           <UploadZone
             overClassName={''}
-            className="overflow-hidden .upload_drop_zone"
+            className="h-full overflow-hidden"
             //disableClick
             parent={''}
             multiple={true}
