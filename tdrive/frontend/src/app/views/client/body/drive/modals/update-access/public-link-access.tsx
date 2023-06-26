@@ -8,6 +8,7 @@ import { Input } from 'app/atoms/input/input-text';
 import { useEffect, useRef, useState } from 'react';
 import { AccessLevel } from './common';
 import moment from 'moment';
+import Languages from 'features/global/services/languages-service';
 
 export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boolean }) => {
   const { item, loading, update } = useDriveItem(id);
@@ -15,15 +16,15 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
 
   return (
     <>
-      <Base className="block mt-2 mb-1">Public link access</Base>
+      <Base className="block mt-2 mb-1">{Languages.t('components.public-link-acess.public_link_acess')}</Base>
       <div className="p-4 rounded-md border">
         <div className="flex flex-row overflow-hidden w-full">
           <div className="grow">
             {item?.access_info?.public?.level !== 'none' && (
-              <Info>Anyone with this link will have access to this item.</Info>
+              <Info>{Languages.t('components.public-link-acess.info_acess_true')}</Info>
             )}
             {item?.access_info?.public?.level === 'none' && (
-              <Info>This item is not available by public link.</Info>
+              <Info>{Languages.t('components.public-link-acess.info_acess_false')}</Info>
             )}
             {item?.access_info?.public?.level !== 'none' && (
               <>
@@ -32,10 +33,10 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
                   className="inline-block"
                   onClick={() => {
                     copyToClipboard(publicLink);
-                    ToasterService.success('Public link copied to clipboard');
+                    ToasterService.success(Languages.t('components.public-link-copied-info'));
                   }}
                 >
-                  Copy public link to clip board
+                  {Languages.t('components.public-link-copy')}
                 </A>
               </>
             )}
@@ -116,7 +117,7 @@ const PublicLinkOptions = (props: {
 
   return (
     <>
-      <Subtitle className="block mt-4 mb-1">Public link security</Subtitle>
+      <Subtitle className="block mt-4 mb-1">{Languages.t('components.public-link-security')}</Subtitle>
       <div className="flex items-center justify-center w-full h-10">
         <Checkbox
           disabled={props.disabled}
@@ -125,7 +126,7 @@ const PublicLinkOptions = (props: {
             if (!password && s) setPassword(Math.random().toString(36).slice(-8));
           }}
           value={!!usePassword}
-          label="Password"
+          label={Languages.t('components.public-link-security_password')}
         />
         <div className="grow mr-2" />
         {!!usePassword && (
@@ -142,14 +143,14 @@ const PublicLinkOptions = (props: {
                 e.preventDefault();
                 if (password) {
                   copyToClipboard(password);
-                  ToasterService.success('Password copied to clipboard');
+                  ToasterService.success(Languages.t('components.public-link-security_password_copied'));
                 }
               }
             }}
             // saves and copies password
             onClick={() => {
               if (password) copyToClipboard(password);
-              ToasterService.success('Password copied to clipboard');
+              ToasterService.success(Languages.t('components.public-link-security_password_copied'));
             }}
           />
         )}
@@ -162,13 +163,13 @@ const PublicLinkOptions = (props: {
             if (!expiration && s) setExpiration(Date.now() + 1000 * 60 * 60 * 24 * 7);
           }}
           value={!!useExpiration}
-          label="Expiration"
+          label={Languages.t('components.public-link-security_expired')}
         />
         {useExpiration && (expiration || 0) < Date.now() && (
-          <Info className="ml-2 text-red-500">(Expired)</Info>
+          <Info className="ml-2 text-red-500">({Languages.t('components.public-link-security_expired')})</Info>
         )}
         {useExpiration && (expiration || 0) > Date.now() && (
-          <Info className="ml-2">({moment(expiration).fromNow(true)})</Info>
+          <Info className="ml-2">({moment(expiration).fromNow(true).toLocaleString()})</Info>
         )}{' '}
         <div className="grow mr-2" />
         {!!useExpiration && (

@@ -7,6 +7,8 @@ import { DriveItemSelectedList } from '@features/drive/state/store';
 import { DriveItem } from '@features/drive/types';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
+import Languages from '@features/global/services/languages-service';
+
 
 export type ConfirmTrashModalType = {
   open: boolean;
@@ -45,12 +47,11 @@ const ConfirmTrashModalContent = ({ items }: { items: DriveItem[] }) => {
   return (
     <ModalContent
       title={
-        items.length === 1 ? `Move ${item?.name} to trash` : `Move ${items.length} items to trash`
+        items.length === 1 ? Languages.t('compenents.ConfirmTrashModalContent_move') + "  '" + item?.name + "' " + Languages.t('compenents.ConfirmTrashModalContent_to_trash') : Languages.t('compenents.ConfirmTrashModalContent_move') + " " + items.length + " " + Languages.t('compenents.ConfirmTrashModalContent_items_to_trash')
       }
     >
       <Base className="block my-3">
-        Click 'Move to trash' to move the selected items to the trash folder. You can restore them
-        later from the trash.
+        {Languages.t('compenents.ConfirmTrashModalContent_move_to_trash_desc')}
       </Base>
       <br />
       <Button
@@ -65,7 +66,7 @@ const ConfirmTrashModalContent = ({ items }: { items: DriveItem[] }) => {
           setState({ ...state, open: false });
         }}
       >
-        Move to trash
+        {Languages.t('compenents.ConfirmTrashModalContent_move_to_trash')}
       </Button>
     </ModalContent>
   );

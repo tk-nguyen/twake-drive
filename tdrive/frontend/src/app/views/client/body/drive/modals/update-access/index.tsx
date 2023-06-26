@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { InternalAccessManager } from './internal-access';
 import { PublicLinkManager } from './public-link-access';
+import Languages from 'features/global/services/languages-service';
+
 
 export type AccessModalType = {
   open: boolean;
@@ -38,7 +40,7 @@ const AccessModalContent = ({ id }: { id: string }) => {
   console.log(item?.access_info?.public?.level, 'item');
 
   return (
-    <ModalContent title={'Manage access to ' + item?.name}>
+    <ModalContent title={Languages.t('components.item_context_menu.manage_access_to') + " " + item?.name}>
       <PublicLinkManager id={id} disabled={access !== 'manage'} />
       <InternalAccessManager id={id} disabled={access !== 'manage'} />
     </ModalContent>

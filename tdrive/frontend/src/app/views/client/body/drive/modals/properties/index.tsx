@@ -6,6 +6,7 @@ import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
+import Languages from '@features/global/services/languages-service';
 
 export type PropertiesModalType = {
   open: boolean;
@@ -47,15 +48,15 @@ const PropertiesModalContent = ({ id, onClose }: { id: string; onClose: () => vo
   }, [item?.name]);
 
   return (
-    <ModalContent title={'Rename ' + item?.name}>
+    <ModalContent title={Languages.t('compenents.ProprietiesModalContent_rename') + " " + item?.name}>
       <InputLabel
         className="mt-4"
-        label={'Name'}
+        label={Languages.t('compenents.ProprietiesModalContent_name')}
         input={
           <Input
             value={name}
             onChange={e => setName(e.target.value)}
-            placeholder="Document or folder name"
+            placeholder={Languages.t('compenents.ProprietiesModalContent_place_holder')}
           />
         }
       />
@@ -79,7 +80,7 @@ const PropertiesModalContent = ({ id, onClose }: { id: string; onClose: () => vo
           setLoading(false);
         }}
       >
-        Update name
+        {Languages.t('compenents.ProprietiesModalContent_update_button')}
       </Button>
     </ModalContent>
   );

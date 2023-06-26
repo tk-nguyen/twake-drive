@@ -9,6 +9,8 @@ import { formatDate } from '@features/global/utils/format-date';
 import _ from 'lodash';
 import { useEffect, useRef } from 'react';
 import { atom, useRecoilState } from 'recoil';
+import Languages from '@features/global/services/languages-service';
+
 
 export type VersionsModalType = {
   open: boolean;
@@ -47,7 +49,7 @@ const VersionModalContent = ({ id }: { id: string }) => {
   if (!item?.last_version_cache) return <></>;
 
   return (
-    <ModalContent title={'Versions of ' + item?.name}>
+    <ModalContent title={Languages.t('compenents.VersionModalContent_version') + " " + item?.name}>
       <UploadZone
         overClassName={'!m-4'}
         disableClick
@@ -68,8 +70,7 @@ const VersionModalContent = ({ id }: { id: string }) => {
             <div className="flex flex-row">
               <div className="grow flex items-center">
                 <Base>
-                  Manage your document version here: Download older version of this document or
-                  upload a new version now.
+                {Languages.t('compenents.VersionModalContent_version_dec')}
                 </Base>
               </div>
               <div className="shrink-0 ml-4 flex items-center">
@@ -78,7 +79,7 @@ const VersionModalContent = ({ id }: { id: string }) => {
                   onClick={() => uploadZoneRef.current?.open()}
                   loading={loading}
                 >
-                  Create version
+                  {Languages.t('compenents.VersionModalContent_create')}
                 </Button>
               </div>
             </div>
@@ -108,7 +109,7 @@ const VersionModalContent = ({ id }: { id: string }) => {
             </div>
             <div className="shrink-0 ml-4">
               <Button theme="outline" onClick={() => download(id, version.id)}>
-                Download
+              {Languages.t('compenents.VersionModalContent_donwload')}
               </Button>
             </div>
           </div>

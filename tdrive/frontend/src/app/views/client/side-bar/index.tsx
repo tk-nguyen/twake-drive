@@ -84,7 +84,7 @@ export default () => {
           theme="white"
           className={'w-full mb-1 ' + (folderType === 'shared' && viewId == ''? activeClass : '')}
         >
-          <UserGroupIcon className="w-5 h-5 mr-4" /> Shared with me
+          <UserGroupIcon className="w-5 h-5 mr-4" /> {Languages.t('components.side_menu.shared_with_me')}
         </Button>
         {false && (
           <>
