@@ -12,18 +12,32 @@ export function buildSearchQuery<Entity>(
 
   let project: any = false;
   let query: any = {};
-  try {
-    query = buildSelectQuery(entityType, filters, options);
-  } catch (e) {
-    console.log(e);
-  }
   let sort: any = {};
+  // Build regex query
+  if (options.$regex) {
+    options.$regex.forEach(r => {
+      // r: [Field, regex, options]
+      if (r.length >= 2) {
+        const field = r[0];
+        query[field] = query[field] || {};
+        query[field].$regex = r[1];
+        if (r[2]) query[field].$options = r[2];
+      }
+    });
 
-  //Build text searches
+    // Apply sorting if provided
+    if (options.$sort) {
+      sort = options.$sort;
+    }
+
+    return { project, query, sort };
+  }
+
+  // Build text search query
   if (options.$text) {
     const prefixMapping = entityDefinition?.options?.search?.mongoMapping?.prefix || {};
     const textMapping = entityDefinition?.options?.search?.mongoMapping?.text || {};
-    //Try to detect when we need prefix search
+    // Try to detect when we need prefix search
     if (Object.values(prefixMapping).length > 0 && options.$text.$search.indexOf(" ") < 0) {
       query.$or = [...Object.keys(prefixMapping), ...Object.keys(textMapping)].map(k => {
         if (prefixMapping[k] === "prefix") {
@@ -43,28 +57,20 @@ export function buildSearchQuery<Entity>(
         options.$text.$search = asciiFold(options.$text.$search || "").toLocaleLowerCase();
       query.$text = options.$text || undefined;
     }
+
+    // Apply sorting if provided
+    if (options.$sort) {
+      sort = options.$sort;
+    }
+
+    return { project, query, sort };
   }
 
-  //Build regexes
-  if (options.$regex) {
-    options.$regex.forEach(r => {
-      //r: [Field, regex, options]
-      if (r.length >= 2) {
-        const field = r[0];
-        query[field] = query[field] || {};
-        query[field].$regex = r[1];
-        if (r[2]) query[field].$options = r[2];
-      }
-    });
+  try {
+    query = buildSelectQuery(entityType, filters, options);
+  } catch (e) {
+    console.log(e);
   }
 
-  if (options.$sort) {
-    sort = options.$sort;
-  }
-
-  return {
-    project,
-    query,
-    sort,
-  };
+  return { project, query, sort };
 }

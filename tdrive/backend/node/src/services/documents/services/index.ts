@@ -832,11 +832,23 @@ export class DocumentsService {
         ],
         ...(options.search
           ? {
-              $text: {
-                $search: options.search,
-              },
-            }
-          : {}),
+            $or: [
+              options.search
+                ? {
+                    $text: {
+                      $search: options.search,
+                    },
+                  }
+                : {},
+              options.search
+                ? {
+                    name: {
+                      $regex: options.search,
+                    },
+                  }
+                : {},
+            ],
+          }:{}),
         ...(options.sort ? { $sort: options.sort } : {}),
       },
       context,
