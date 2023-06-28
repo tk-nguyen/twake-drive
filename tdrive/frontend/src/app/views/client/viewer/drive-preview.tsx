@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react';
-import { DownloadIcon, XIcon } from '@heroicons/react/outline';
+import { DownloadIcon, XIcon, ArrowCircleLeftIcon, ArrowCircleRightIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { fadeTransition } from 'src/utils/transitions';
 import Controls from './controls';
@@ -103,6 +103,30 @@ const Footer = (): React.ReactElement => {
                 status.details?.item.size,
             )}
           </Text.Info>
+        </div>
+        <div className="whitespace-nowrap flex items-center">
+          <Button
+            iconSize="lg"
+            className="ml-4 !rounded-full"
+            theme="dark"
+            size="lg"
+            icon={ArrowCircleLeftIcon}
+            /*
+            onClick={() => {
+            }}
+            */
+          />
+          <Button
+            iconSize="lg"
+            className="ml-4 !rounded-full"
+            theme="dark"
+            size="lg"
+            icon={ArrowCircleRightIcon}
+            /*
+            onClick={() => {
+            }}
+            */
+          />
         </div>
         <div className="whitespace-nowrap flex items-center">
           <Controls type={type} />
