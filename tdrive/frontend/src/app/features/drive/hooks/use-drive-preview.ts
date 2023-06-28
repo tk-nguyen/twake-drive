@@ -16,9 +16,21 @@ export const useDrivePreviewModal = () => {
     }
   };
 
-  const close = () => setStatus({ item: null, loading: true });
+  const openNewWindow: (item: DriveItem) => void = (item: DriveItem) => {
+    if (item.last_version_cache?.file_metadata?.source === 'internal') {
+      const previewWindow = window.open('', '_blank');
+      setStatus({ item, loading: true, previewWindow });
+    }
+  };
 
-  return { open, close, isOpen: !!status.item };
+  const close = () => {
+    if (status.previewWindow) {
+      status.previewWindow.close();
+    }
+  }
+  setStatus({ item: null, loading: true, previewWindow: null});
+
+  return { open, openNewWindow, close, isOpen: !!status.item };
 };
 
 export const useDrivePreview = () => {
@@ -29,21 +41,21 @@ export const useDrivePreview = () => {
     'useDrivePreview',
     async () => {
       if (modal.isOpen && status.item) {
-        setStatus({
-          ...status,
+        setStatus((prevStatus) => ({
+          ...prevStatus,
           loading: true,
-        });
+        }));
 
         const details = await DriveApiClient.get(status.item.company_id, status.item.id);
 
-        setStatus({
-          ...status,
+        setStatus((prevStatus) => ({
+          ...prevStatus,
           details,
           loading: false,
-        });
+        }));
       }
     },
-    [status.item?.id],
+    [modal.isOpen, status.item?.id],
   );
 
   return {
