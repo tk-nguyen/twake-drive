@@ -43,7 +43,6 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
   const setAccessModalState = useSetRecoilState(AccessModalAtom);
   const setPropertiesModalState = useSetRecoilState(PropertiesModalAtom);
   const { open: preview } = useDrivePreview();
-  const { openNewWindow: previewWindow } = useDrivePreview();
 
   return useCallback(
     async (parent?: Partial<DriveItemDetails> | null, item?: DriveItem) => {
@@ -65,12 +64,6 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
               text: Languages.t('components.item_context_menu.preview'),
               hide: item.is_directory,
               onClick: () => preview(item),
-            },
-            {
-              type: 'menu',
-              text: Languages.t('components.item_context_menu.new_window'),
-              //hide: 
-              onClick: () => previewWindow(item),
             },
             {
               type: 'menu',

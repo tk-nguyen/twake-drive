@@ -16,21 +16,9 @@ export const useDrivePreviewModal = () => {
     }
   };
 
-  const openNewWindow: (item: DriveItem) => void = (item: DriveItem) => {
-    if (item.last_version_cache?.file_metadata?.source === 'internal') {
-      const previewWindow = window.open('', '_blank');
-      setStatus({ item, loading: true, previewWindow });
-    }
-  };
+  const close = () => setStatus({ item: null, loading: true});
 
-  const close = () => {
-    if (status.previewWindow) {
-      status.previewWindow.close();
-    }
-  }
-  setStatus({ item: null, loading: true, previewWindow: null});
-
-  return { open, openNewWindow, close, isOpen: !!status.item };
+  return { open, close, isOpen: !!status.item };
 };
 
 export const useDrivePreview = () => {
