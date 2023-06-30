@@ -13,7 +13,7 @@ import Languages from '@features/global/services/languages-service';
 export type SelectorModalType = {
   open: boolean;
   parent_id: string;
-  mode: 'move' | 'select-file' | 'select-files';
+  mode: 'copy' | 'move' | 'select-file' | 'select-files';
   title: string;
   onSelected: (ids: string[]) => Promise<void>;
 };
@@ -50,6 +50,7 @@ const SelectorModalContent = () => {
   useEffect(() => {
     if (state.mode === 'select-file' && parent) setSelected([]);
     if (state.mode === 'move' && parent) setSelected([parent]);
+    if (state.mode === 'copy' && parent) setSelected([parent]);
     refresh(parentId);
   }, [parentId, parent?.id]);
 
@@ -107,7 +108,7 @@ const SelectorModalContent = () => {
                 }
               } else if (state.mode === 'select-file') {
                 setSelected([file]);
-              }
+              } 
             }}
           >
             <div className="grow flex flex-row items-center">
@@ -139,6 +140,8 @@ const SelectorModalContent = () => {
           <>{Languages.t('components.SelectorModalContent_no_items')}</>
         ) : state.mode === 'move' ? (
           <>{Languages.t('components.SelectorModalContent_move_to')} '{selected[0]?.name}'</>
+        ) : state.mode === 'copy' ? (
+          <>{Languages.t('components.SelectorModalContent_copy_to')} '{selected[0]?.name}'</>
         ) : selected.length > 1 ? (
           <> {selected.length} {Languages.t('components.SelectorModalContent_select')} {Languages.t('components.SelectorModalContent_files')}</>
         ) : (

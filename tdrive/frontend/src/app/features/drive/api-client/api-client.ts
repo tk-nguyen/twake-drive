@@ -104,6 +104,28 @@ export class DriveApiClient {
     );
   }
 
+  static async createCopy(
+    companyId: string,
+    item: Partial<DriveItem>,
+    targetParentID: string,
+    version?: Partial<DriveItemVersion>,
+  ) {
+    const newItem = { ...item };
+    newItem.parent_id = targetParentID;
+    newItem.id = item.id + '-' + Date.now();
+  
+    return await Api.post<
+      { item: Partial<DriveItem>; version: Partial<DriveItemVersion> },
+      DriveItem
+    >(
+      `/internal/services/documents/v1/companies/${companyId}/item${appendTdriveToken()}`,
+      {
+        item: newItem,
+        version: version || {},
+      }
+    );
+  } 
+
   static async createVersion(companyId: string, id: string, version: Partial<DriveItemVersion>) {
     return await Api.post<Partial<DriveItemVersion>, DriveItemVersion>(
       `/internal/services/documents/v1/companies/${companyId}/item/${id}/version${appendTdriveToken()}`,
