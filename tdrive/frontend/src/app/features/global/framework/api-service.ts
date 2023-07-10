@@ -110,6 +110,7 @@ export default class Api {
       disableJWTAuthentication?: boolean;
     } = {},
   ): Promise<Response> {
+    console.log("api service");
     return Api.request<Request, Response>(route, data, callback, raw, {
       ...options,
       requestType: 'post',

@@ -106,23 +106,24 @@ export class DriveApiClient {
 
   static async createCopy(
     companyId: string,
-    item: Partial<DriveItem>,
+    data: { item: Partial<DriveItem>,
     targetParentID: string,
-    version?: Partial<DriveItemVersion>,
+    version?: Partial<DriveItemVersion> },
   ) {
-    const newItem = { ...item };
+    /* const newItem = { ...item };
     newItem.parent_id = targetParentID;
-    newItem.id = item.id + '-' + Date.now();
-  
+    newItem.id = item.id + '-' + Date.now(); */
+    console.log("api client");
     return await Api.post<
-      { item: Partial<DriveItem>; version: Partial<DriveItemVersion> },
+      { item: Partial<DriveItem>; targetParentID: string, version: Partial<DriveItemVersion> },
       DriveItem
     >(
-      `/internal/services/documents/v1/companies/${companyId}/item${appendTdriveToken()}`,
-      {
-        item: newItem,
-        version: version || {},
-      }
+      `/internal/services/documents/v1/companies/${companyId}/item/copy`,
+      data as {
+        item: Partial<DriveItem>,
+        targetParentID: string,
+        version: Partial<DriveItemVersion>,
+      },
     );
   } 
 

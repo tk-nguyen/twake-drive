@@ -95,11 +95,12 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                     ` '${item.name}'`,
                   onSelected: async ids => {
                     const targetParentID = ids[0];
+                    const version = item.last_version_cache;
                     await DriveApiClient.createCopy(
                       item.company_id,
-                      item,
+                      { item,
                       targetParentID,
-                      item.last_version_cache
+                      version }
                     );
                   },
                 }),
@@ -174,7 +175,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
         if (selectedCount && (selectedCount >= 2 || !item)) {
           // Add selected items related menus
           const newMenuActions: any[] = [
-            {
+            /* {
               type: 'menu',
               text: Languages.t('components.item_context_menu.copy_multiple'),
               hide: parent.access === 'read',
@@ -198,7 +199,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                     setChecked({});
                   },
                 }),
-            },
+            }, */
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.move_multiple'),

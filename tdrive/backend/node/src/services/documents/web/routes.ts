@@ -80,6 +80,14 @@ const routes: FastifyPluginCallback = (fastify: FastifyInstance, _options, next)
     handler: documentsController.downloadZip.bind(documentsController),
   });
 
+  console.log("debug routes");
+  fastify.route({
+    method: "POST",
+    url: `${serviceUrl}/copy`,
+    preValidation: [fastify.authenticateOptional],
+    handler: documentsController.copy.bind(documentsController),
+  });
+
   fastify.route({
     method: "POST",
     url: `${baseUrl}/search`,
