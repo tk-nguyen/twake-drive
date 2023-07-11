@@ -90,13 +90,12 @@ export class DocumentsController {
       };
     }>,
   ): Promise<DriveFile> => {
-    console.log("documents");
     try {
       const context = getDriveExecutionContext(request);
       const { item, targetParentID, version}= request.body;
       const copiedFile: Partial<DriveFile> = {
         ...item,
-        //id: item.id + '-' + Date.now(),
+        id: null,
         parent_id: targetParentID,
       }
       let createdFile: File = null;
@@ -115,9 +114,6 @@ export class DocumentsController {
 
         createdFile = await globalResolver.services.files.save(null, file, options, context);
       }
-
-      console.log("createdfileid" + createdFile.id);
-      console.log("copiedfileid" +copiedFile.id);
 
       return await globalResolver.services.documents.documents.create(
         createdFile,

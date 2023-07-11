@@ -493,7 +493,6 @@ export const useOnBuildFileContextMenu = () => {
   const { open: preview } = useDrivePreview();
   return useCallback(
     (item: DriveItem) => {
-      console.log(item);
       const menuItems = [
         {
           type: 'menu',

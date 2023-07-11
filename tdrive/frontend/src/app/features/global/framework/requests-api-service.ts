@@ -17,10 +17,6 @@ class Requests {
     options: { disableJWTAuthentication?: boolean; withBlob?: boolean } = {},
   ) {
     this.logger.trace(`${type} ${route}`);
-    console.log("type " + `${type}`);
-    console.log("route " + `${route}`);
-    console.log("data " + `${data}`);
-    console.log("option " + `${options}`);
     if (options?.disableJWTAuthentication) {
       fetch(route, {
         credentials: 'same-origin',

@@ -110,10 +110,6 @@ export class DriveApiClient {
     targetParentID: string,
     version?: Partial<DriveItemVersion> },
   ) {
-    /* const newItem = { ...item };
-    newItem.parent_id = targetParentID;
-    newItem.id = item.id + '-' + Date.now(); */
-    console.log("api client");
     return await Api.post<
       { item: Partial<DriveItem>; targetParentID: string, version: Partial<DriveItemVersion> },
       DriveItem
