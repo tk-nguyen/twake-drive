@@ -91,9 +91,9 @@ export class DocumentsController {
     }>,
   ): Promise<DriveFile> => {
     try {
-       const context = getDriveExecutionContext(request);
+      const context = getDriveExecutionContext(request);
       const { item, targetParentID, version}= request.body;
-      
+      const myrequest = request;
       const copiedFile: Partial<DriveFile> = {
         ...item,
         id: null,
@@ -123,20 +123,10 @@ export class DocumentsController {
           version,
           context,
         );
-        //logger.error("Copied folder");
         const items = await globalResolver.services.documents.documents.get(item.id, context);
         for (const child of items.children) {
-          
-          //logger.error("boucle for" + child.name);
-          await this.copy({ 
-              params: request.params,
-              query: request.query,
-              body: {
-                item: child,
-                targetParentID: folder.id,
-                version: child.last_version_cache,
-              },
-          } as FastifyRequest<{
+          request.body = { item: child, targetParentID: folder.id, version: child.last_version_cache }
+          await this.copy( request as FastifyRequest<{
             Params: RequestParams;
             Querystring: Record<string, string>;
             Body: {
