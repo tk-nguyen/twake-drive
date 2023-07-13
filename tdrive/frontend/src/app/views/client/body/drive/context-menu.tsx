@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { DriveCurrentFolderAtom } from './browser';
 import { ConfirmDeleteModalAtom } from './modals/confirm-delete';
 import { ConfirmTrashModalAtom } from './modals/confirm-trash';
@@ -10,7 +10,7 @@ import { AccessModalAtom } from './modals/update-access';
 import { VersionsModalAtom } from './modals/versions';
 import { DriveApiClient, getPublicLinkToken } from '@features/drive/api-client/api-client';
 import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
-import { getPublicLink } from '@features/drive/hooks/use-drive-item';
+import { getPublicLink, useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useDrivePreview } from '@features/drive/hooks/use-drive-preview';
 import { DriveItemSelectedList } from '@features/drive/state/store';
 import { DriveItem, DriveItemDetails } from '@features/drive/types';
@@ -32,7 +32,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
     DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'root' }),
   );
 
-  const { download, downloadZip, update, create } = useDriveActions();
+  const { download, downloadZip, update } = useDriveActions();
   const setCreationModalState = useSetRecoilState(CreateModalAtom);
   const setSelectorModalState = useSetRecoilState(SelectorModalAtom);
   const setConfirmDeleteModalState = useSetRecoilState(ConfirmDeleteModalAtom);
@@ -102,6 +102,15 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                       targetParentID,
                       version }
                     );
+                    if (targetParentID === parent.item!.id) {
+                      await update(
+                        {
+                          parent_id: ids[0],
+                        },
+                        item.id,
+                        item.parent_id,
+                      );
+                    }
                   },
                 }),
             },
@@ -196,6 +205,15 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                         targetParentID,
                         version }
                       );
+                      if (targetParentID === parent.item!.id) {
+                        await update(
+                          {
+                            parent_id: targetParentID,
+                          },
+                          item.id,
+                          item.parent_id,
+                        );
+                      }
                     }
                     setChecked({});
                   },
@@ -315,6 +333,39 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                       Languages.t('components.item_context_menu.copy_link.success'),
                     );
                   },
+                },
+                {
+                  type: 'menu',
+                  text: Languages.t('components.item_context_menu.copy_folder'),
+                  hide: parent.access === 'read',
+                  onClick: () =>
+                    setSelectorModalState({
+                      open: true,
+                      parent_id: inTrash ? 'root' : parent.item!.id,
+                      mode: 'copy',
+                      title:
+                        Languages.t('components.item_context_menu.copy.modal_header') +
+                        ` '${parent.item!.name}'`,
+                      onSelected: async ids => {
+                        const targetParentID = ids[0];
+                        const version = parent.item!.last_version_cache;
+                        await DriveApiClient.createCopy(
+                          parent.item!.company_id,
+                          { item: parent.item!,
+                          targetParentID,
+                          version }
+                        );
+                        if (targetParentID === parent.item!.id) {
+                          await update(
+                            {
+                              parent_id: targetParentID,
+                            },
+                            parent.item!.id,
+                            parent.item!.parent_id,
+                          );
+                        }
+                      },
+                    }),
                 },
                 { type: 'separator', hide: inTrash || parent.access === 'read' },
                 {
