@@ -10,6 +10,7 @@ import {
   e2e_createDocumentFile,
   e2e_createVersion,
   e2e_deleteDocument,
+  e2e_downloadFile,
   e2e_getDocument,
   e2e_searchDocument,
   e2e_updateDocument,
@@ -219,6 +220,38 @@ describe("the Drive feature", () => {
       expect(child).toBeDefined();
       expect(child.name === "file2" || copiedItemResult.name === "file3").toBe(true);
     }
+  });
+  it("did copy a single file and able to download it",async () => {
+    const createItemResult = await createItem();
+    const copiedItemResult = await copyItem(createItemResult, 'root');
+
+    const download = await e2e_downloadFile(platform, copiedItemResult.id);
+
+    expect(copiedItemResult).toBeDefined();
+    expect(download).toHaveReturned();
+  });
+  it("did copy a single file and able to search it",async () => {
+    const createItemResult = await createItem();
+    const copiedItemResult = await copyItem(createItemResult, 'root');
+
+    expect(copiedItemResult).toBeDefined();
+
+    await e2e_getDocument(platform, "root");
+    await e2e_getDocument(platform, copiedItemResult.id);
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const searchPayload = {
+      search: "test",
+    };
+
+    const searchResponse = await e2e_searchDocument(platform, searchPayload);
+    const searchResult = deserialize<SearchResultMockClass>(
+      SearchResultMockClass,
+      searchResponse.body,
+    );
+
+    expect(searchResult.entities.length).toBeGreaterThanOrEqual(1);
   });
 
   it("did search for an item", async () => {

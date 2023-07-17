@@ -134,3 +134,15 @@ export const e2e_createDocumentFile = async (platform: TestPlatform) => {
     ...form,
   });
 };
+
+export const e2e_downloadFile = async (platform: TestPlatform, id: string) => {
+  const token = await platform.auth.getJWTToken();
+
+  return await platform.app.inject({
+    method: "GET",
+    url: `${url}/companies/${platform.workspace.company_id}/item/${id}/download`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  })
+}
