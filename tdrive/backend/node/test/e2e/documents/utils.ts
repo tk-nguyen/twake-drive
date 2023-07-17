@@ -26,6 +26,28 @@ export const e2e_createDocument = async (
   });
 };
 
+export const e2e_copyDocument = async (
+  platform: TestPlatform,
+  item: Partial<DriveFile>,
+  targetParentID: string,
+  version: Partial<FileVersion>,
+) => {
+  const token = await platform.auth.getJWTToken();
+
+  return await platform.app.inject({
+    method: "POST",
+    url: `${url}/companies/${platform.workspace.company_id}/item/copy`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    payload: {
+      item,
+      targetParentID,
+      version,
+    },
+  });
+};
+
 export const e2e_getDocument = async (platform: TestPlatform, id: string | "root" | "trash") => {
   const token = await platform.auth.getJWTToken();
 

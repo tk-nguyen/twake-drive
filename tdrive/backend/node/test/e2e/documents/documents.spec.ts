@@ -5,6 +5,7 @@ import { ResourceUpdateResponse } from "../../../src/utils/types";
 import { init, TestPlatform } from "../setup";
 import { TestDbService } from "../utils.prepare.db";
 import {
+  e2e_copyDocument,
   e2e_createDocument,
   e2e_createDocumentFile,
   e2e_createVersion,
@@ -64,6 +65,22 @@ describe("the Drive feature", () => {
       name: "new test file",
       parent_id: "root",
       company_id: platform.workspace.company_id,
+    };
+
+    const version = {};
+
+    const response = await e2e_createDocument(platform, item, version);
+    return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
+  };
+
+  const createItem2 = async (name, parent_id, is_directory): Promise<DriveFileMockClass> => {
+    await TestDbService.getInstance(platform, true);
+
+    const item = {
+      name: name,
+      parent_id: parent_id,
+      company_id: platform.workspace.company_id,
+      is_directory: is_directory
     };
 
     const version = {};
@@ -144,6 +161,64 @@ describe("the Drive feature", () => {
 
     expect(listTrashResult.item.name).toEqual("Trash");
     expect(listTrashResult.children.some(({ id }) => id === createItemResult.id)).toBeTruthy();
+  });
+
+  //tests for copy function
+  const copyItem = async (item, targetParentID: string): Promise<DriveFileMockClass> => {
+    await TestDbService.getInstance(platform, true);
+
+    const version = {};
+
+    const response = await e2e_copyDocument(platform, item, targetParentID, version);
+    return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
+  };
+  it("did copy a single file",async () => {
+    const createItemResult = await createItem();
+    const folder = await createItem2("folder", "root", true);
+
+    const copiedItemResult = await copyItem(createItemResult, folder.id);
+
+    expect(copiedItemResult).toBeDefined();
+    expect(copiedItemResult.name).toEqual("new test file");
+    expect(copiedItemResult.parent_id).toEqual(folder.id);
+    expect(copiedItemResult.added).toBeDefined();
+  });
+  it("did copy a folder",async () => {
+    const folder = await createItem2("folder", "root", true);
+    const file1 = await createItem2("file1", folder.id, false);
+    const subfolder = await createItem2("subfolder", folder.id, true);
+    const file2 = await createItem2("file2", subfolder.id, false);
+    const file3 = await createItem2("file3", subfolder.id, false);
+
+    const copiedItemResult = await copyItem(folder, "root");
+
+    expect(copiedItemResult).toBeDefined();
+    expect(copiedItemResult.name).toMatch(/^folder.+/);
+    expect(copiedItemResult.parent_id).toEqual(folder.id);
+    expect(copiedItemResult.added).toBeDefined();
+
+    const fetchItemResponse = await e2e_getDocument(platform, copiedItemResult.id);
+    const info = deserialize<DriveItemDetailsMockClass>(
+      DriveItemDetailsMockClass,
+      fetchItemResponse.body,
+    );
+    expect(info.children).toHaveLength(2);
+    for (const child of info.children) {
+      expect(child).toBeDefined();
+      expect(child.name === "file1" || copiedItemResult.name === "subfolder").toBe(true);
+    }
+
+    const fetchItemResponse2 = await e2e_getDocument(platform, copiedItemResult.id);
+    const info2 = deserialize<DriveItemDetailsMockClass>(
+      DriveItemDetailsMockClass,
+      fetchItemResponse2.body,
+    );
+    expect(info2.children).toHaveLength(2);
+    expect(info2.children).toHaveLength(2);
+    for (const child of info.children) {
+      expect(child).toBeDefined();
+      expect(child.name === "file2" || copiedItemResult.name === "file3").toBe(true);
+    }
   });
 
   it("did search for an item", async () => {

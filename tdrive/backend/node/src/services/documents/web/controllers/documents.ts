@@ -93,7 +93,6 @@ export class DocumentsController {
     try {
       const context = getDriveExecutionContext(request);
       const { item, targetParentID, version}= request.body;
-      const myrequest = request;
       const copiedFile: Partial<DriveFile> = {
         ...item,
         id: null,
