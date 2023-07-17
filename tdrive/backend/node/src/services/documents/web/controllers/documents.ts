@@ -92,12 +92,12 @@ export class DocumentsController {
   ): Promise<DriveFile> => {
     try {
       const context = getDriveExecutionContext(request);
-      const { item, targetParentID, version}= request.body;
+      const { item, targetParentID, version } = request.body;
       const copiedFile: Partial<DriveFile> = {
         ...item,
         id: null,
         parent_id: targetParentID,
-      }
+      };
       let createdFile: File = null;
       if (request.isMultipart()) {
         const file = await request.file();
@@ -124,24 +124,30 @@ export class DocumentsController {
         );
         const items = await globalResolver.services.documents.documents.get(item.id, context);
         for (const child of items.children) {
-          request.body = { item: child, targetParentID: folder.id, version: child.last_version_cache }
-          await this.copy( request as FastifyRequest<{
-            Params: RequestParams;
-            Querystring: Record<string, string>;
-            Body: {
-              item: Partial<DriveFile>;
-              targetParentID: string;
-              version: Partial<FileVersion>;
-            };
-          }>);
+          request.body = {
+            item: child,
+            targetParentID: folder.id,
+            version: child.last_version_cache,
+          };
+          await this.copy(
+            request as FastifyRequest<{
+              Params: RequestParams;
+              Querystring: Record<string, string>;
+              Body: {
+                item: Partial<DriveFile>;
+                targetParentID: string;
+                version: Partial<FileVersion>;
+              };
+            }>,
+          );
         }
       } else {
-      return await globalResolver.services.documents.documents.create(
-        createdFile,
-        copiedFile,
-        version,
-        context,
-      );
+        return await globalResolver.services.documents.documents.create(
+          createdFile,
+          copiedFile,
+          version,
+          context,
+        );
       }
     } catch (error) {
       logger.error({ error: `${error}` }, "Failed to copy Drive item");
