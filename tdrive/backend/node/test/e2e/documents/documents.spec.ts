@@ -174,70 +174,58 @@ describe("the Drive feature", () => {
     return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
   };
   it("did copy a single file",async () => {
-    const createItemResult = await createItem();
-    const folder = await createItem2("folder", "root", true);
+    const myDriveId = "user_" + currentUser.user.id;
+    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
+    const folder = await currentUser.createDirectory(myDriveId);
 
-    const copiedItemResult = await copyItem(createItemResult, folder.id);
+    const copiedFile = await copyItem(sourceFile, folder.id);
 
-    expect(copiedItemResult).toBeDefined();
-    expect(copiedItemResult.name).toEqual("new test file");
-    expect(copiedItemResult.parent_id).toEqual(folder.id);
-    expect(copiedItemResult.added).toBeDefined();
+    expect(copiedFile).toBeDefined();
+    expect(copiedFile.name).toEqual("test-file");
+    expect(copiedFile.parent_id).toEqual(folder.id);
   });
   it("did copy a folder",async () => {
-    const folder = await createItem2("folder", "root", true);
-    const file1 = await createItem2("file1", folder.id, false);
-    const subfolder = await createItem2("subfolder", folder.id, true);
-    const file2 = await createItem2("file2", subfolder.id, false);
-    const file3 = await createItem2("file3", subfolder.id, false);
+    const myDriveId = "user_" + currentUser.user.id;
+    const folder = await currentUser.createDirectory(myDriveId);
+    await currentUser.uploadAllFilesOneByOne(folder.id);
+    const subfolder = await currentUser.createDirectory(folder.id);
+    await currentUser.uploadFileAndCreateDocument("subfolder-file", subfolder.id);
 
-    const copiedItemResult = await copyItem(folder, "root");
+    const copiedFolder = await copyItem(folder, myDriveId);
 
-    expect(copiedItemResult).toBeDefined();
-    expect(copiedItemResult.name).toMatch(/^folder.+/);
-    expect(copiedItemResult.parent_id).toEqual(folder.id);
-    expect(copiedItemResult.added).toBeDefined();
-
-    const fetchItemResponse = await e2e_getDocument(platform, copiedItemResult.id);
-    const info = deserialize<DriveItemDetailsMockClass>(
-      DriveItemDetailsMockClass,
-      fetchItemResponse.body,
-    );
-    expect(info.children).toHaveLength(2);
-    for (const child of info.children) {
-      expect(child).toBeDefined();
-      expect(child.name === "file1" || copiedItemResult.name === "subfolder").toBe(true);
-    }
-
-    const fetchItemResponse2 = await e2e_getDocument(platform, copiedItemResult.id);
-    const info2 = deserialize<DriveItemDetailsMockClass>(
-      DriveItemDetailsMockClass,
-      fetchItemResponse2.body,
-    );
-    expect(info2.children).toHaveLength(2);
-    expect(info2.children).toHaveLength(2);
-    for (const child of info.children) {
-      expect(child).toBeDefined();
-      expect(child.name === "file2" || copiedItemResult.name === "file3").toBe(true);
+    expect(copiedFolder).toBeDefined();
+    expect(copiedFolder.name).toMatch(/Test Folder Name+/);
+    const docs = await currentUser.browseDocuments(copiedFolder.id, {});
+    expect(docs).toBeDefined();
+    expect(docs.children).toBeDefined();
+    expect(docs.children.length).toEqual(TestHelpers.ALL_FILES.length + 1);
+    for (const child of docs.children) {
+      const info = await currentUser.browseDocuments(child.id, {});
+      if (info.children) {
+        expect(info.children.length).toEqual(1);
+      }
     }
   });
   it("did copy a single file and able to download it",async () => {
-    const createItemResult = await createItem();
-    const copiedItemResult = await copyItem(createItemResult, 'root');
+    const myDriveId = "user_" + currentUser.user.id;
+    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
 
-    const download = await e2e_downloadFile(platform, copiedItemResult.id);
+    const copiedFile = await copyItem(sourceFile, myDriveId);
+    const download = await e2e_downloadFile(platform, copiedFile.id);
 
-    expect(copiedItemResult).toBeDefined();
+    expect(copiedFile).toBeDefined();
     expect(download).toHaveReturned();
   });
   it("did copy a single file and able to search it",async () => {
-    const createItemResult = await createItem();
-    const copiedItemResult = await copyItem(createItemResult, 'root');
+    const myDriveId = "user_" + currentUser.user.id;
+    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
 
-    expect(copiedItemResult).toBeDefined();
+    const copiedFile = await copyItem(sourceFile, myDriveId);
+
+    expect(copiedFile).toBeDefined();
 
     await e2e_getDocument(platform, "root");
-    await e2e_getDocument(platform, copiedItemResult.id);
+    await e2e_getDocument(platform, copiedFile.id);
 
     await new Promise(resolve => setTimeout(resolve, 3000));
 
