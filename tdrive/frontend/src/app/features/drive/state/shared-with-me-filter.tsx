@@ -11,6 +11,14 @@ export type SharedWithMeFilter = {
     key: string;
     value: string;
   };
+  dateCreation: {
+    key: string;
+    value: string;
+  };
+  sort: {
+    key: string;
+    value: string;
+  };
 };
 
 export const SharedWithMeFilterState = atom<SharedWithMeFilter>({
@@ -24,6 +32,14 @@ export const SharedWithMeFilterState = atom<SharedWithMeFilter>({
     date: {
       key: '',
       value: ''
+    },
+    dateCreation: {
+      key: '',
+      value: ''
+    },
+    sort: {
+      key: '',
+      value: '',
     }
   },
 });

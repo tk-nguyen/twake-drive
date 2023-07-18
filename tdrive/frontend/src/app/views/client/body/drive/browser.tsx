@@ -35,6 +35,7 @@ import useRouteState from 'app/features/router/hooks/use-route-state';
 import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
 import MenusManager from '@components/menus/menus-manager.jsx';
 import Languages from 'features/global/services/languages-service';
+import { sort } from './filter';
 
 export const DriveCurrentFolderAtom = atomFamily<
   string,
@@ -100,9 +101,6 @@ export default memo(
       },
       [_setParentId],
     );
-
-    
-
     //In case we are kicked out of the current folder, we need to reset the parent id
     useEffect(() => {
       if (!loading && !path?.length && !inPublicSharing && !sharedWithMe) setParentId('root');
@@ -119,10 +117,9 @@ export default memo(
     }, [item?.id, setCreationModalState]);
 
     const selectedCount = Object.values(checked).filter(v => v).length;
-    const folders = children
-      .filter(i => i.is_directory)
-      .sort((a, b) => a.name.localeCompare(b.name));
-    const documents = (
+    const folders = sort(children
+      .filter(i => i.is_directory));
+    const documents = sort((
       item?.is_directory === false
         ? //We use this hack for public shared single file
           item
@@ -130,8 +127,7 @@ export default memo(
           : []
         : children
     )
-      .filter(i => !i.is_directory)
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .filter(i => !i.is_directory));
 
     const onBuildContextMenu = useOnBuildContextMenu(children, initialParentId);
     const { viewId } = useRouteState();
@@ -158,14 +154,7 @@ export default memo(
 
     return (
       <>
-        {viewId == 'shared-with-me' ? (
-          <>
-            <Suspense fallback={<></>}>
-              <DrivePreview />
-            </Suspense>
-            <SharedFilesTable />
-          </>
-        ) : (
+        {
           <UploadZone
             overClassName={''}
             className="h-full overflow-hidden"
@@ -203,94 +192,9 @@ export default memo(
               }
             >
               <div className="flex flex-row shrink-0 items-center mb-4">
-                {sharedWithMe ? (
-                  <div>
-                    <Title className="mb-4 block">
-                      {Languages.t('scenes.app.shared_with_me.shared_with_me')}
-                    </Title>
-                    {/* Filters */}
-                    <div className="flex items-center space-x-4 mb-6">
-                      <div className="">
-                        <Button
-                          theme="secondary"
-                          className="flex items-center"
-                          onClick={evt => {
-                            MenusManager.openMenu(
-                              buildFileTypeContextMenu(),
-                              { x: evt.clientX, y: evt.clientY },
-                              'center',
-                            );
-                          }}
-                        >
-                          <span>
-                            {filter.mimeType.key && filter.mimeType.key != 'All'
-                              ? filter.mimeType.key
-                              : Languages.t('scenes.app.shared_with_me.file_type')}
-                          </span>
-                          <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
-                        </Button>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          theme="secondary"
-                          className="flex items-center"
-                          onClick={evt => {
-                            MenusManager.openMenu(
-                              buildPeopleContextMen(),
-                              { x: evt.clientX, y: evt.clientY },
-                              'center',
-                            );
-                          }}
-                        >
-                          <span>{Languages.t('scenes.app.shared_with_me.people')}</span>
-                          <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
-                        </Button>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          theme="secondary"
-                          className="flex items-center"
-                          onClick={evt => {
-                            MenusManager.openMenu(
-                              buildDateContextMenu(),
-                              { x: evt.clientX, y: evt.clientY },
-                              'center',
-                            );
-                          }}
-                        >
-                          <span>
-                            {filter.date.key && filter.date.key != 'All'
-                              ? filter.date.key
-                              : Languages.t('scenes.app.shared_with_me.last_modified')}
-                          </span>
-                          <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <HeaderPath path={path || []} inTrash={inTrash} setParentId={setParentId} />
-                )}
-                <div className="grow" />
-
-                {access !== 'read' && (
-                  <BaseSmall>
-                    {formatBytes(item?.size || 0)} {Languages.t('scenes.app.drive.used')}
-                  </BaseSmall>
-                )}
-                <Menu menu={() => onBuildContextMenu(details)}>
-                  {' '}
-                  <Button theme="secondary" className="ml-4 flex flex-row items-center">
-                    <span>
-                      {selectedCount > 1
-                        ? `${selectedCount} items`
-                        : Languages.t('scenes.app.drive.context_menu')}{' '}
-                    </span>
-
-                    <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
-                  </Button>
-                </Menu>
+                <div className="grow">
+                    <HeaderPath path={path || []} inTrash={inTrash} setParentId={setParentId} />
+                </div>
               </div>
 
               <div className="grow overflow-auto">
@@ -355,7 +259,7 @@ export default memo(
               </div>
             </div>
           </UploadZone>
-        )}
+        }
       </>
     );
   },

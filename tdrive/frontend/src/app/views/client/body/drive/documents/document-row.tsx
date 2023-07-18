@@ -21,6 +21,7 @@ import Avatar from '../../../../../atoms/avatar';
 import { PublicIcon } from '../components/public-icon';
 import { CheckableIcon, DriveItemProps } from './common';
 import { getDevice } from '../../../../../features/global/utils/device';
+import { selectItemByExt, selectItemByLastModificationDate, selectItemByCreationDate } from '../filter';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 import RouterServices from '@features/router/services/router-service';
@@ -69,7 +70,7 @@ export const DocumentRow = ({
         (checked
           ? 'bg-blue-500 bg-opacity-10 hover:bg-opacity-25  '
           : 'hover:bg-zinc-500 hover:bg-opacity-10 ') +
-        (className || '')
+        (className || '') + selectItemByExt(item.extension) + selectItemByLastModificationDate(item.last_modified) + selectItemByCreationDate(item.added)
       }
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

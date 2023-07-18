@@ -309,9 +309,10 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
 export const useOnBuildFileTypeContextMenu = () => {
   const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
   const mimeTypes = [
-    { key: Languages.t('components.item_context_menu.all'), value: '' },
+    { key: Languages.t('components.item_context_menu.all'), value: 'All' },
     { key: 'CSV', value: 'text/csv' },
     { key: 'DOC', value: 'application/msword' },
+    { key: 'DOCX', value: 'application/ooword' },
     { key: 'GIF', value: 'image/gif' },
     { key: 'JPEG', value: 'image/jpeg' },
     { key: 'JPG', value: 'image/jpeg' },
@@ -439,6 +440,201 @@ export const useOnBuildDateContextMenu = () => {
     return menuItems;
   }, [setFilter]);
 };
+
+export const useOnBuildDateCreationContextMenu = () => {
+  const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
+  return useCallback(() => {
+    const menuItems = [
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.all'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              dateCreation: {
+                key: 'All',
+                value: ''
+              },
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.today'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              dateCreation: {
+                key: 'Today',
+                value: 'today'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.last_week'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              dateCreation: {
+                key: 'Last week',
+                value: 'last_week'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.last_month'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              dateCreation: {
+                key: 'Last month',
+                value: 'last_month'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+    ];
+    return menuItems;
+  }, [setFilter]);
+};
+
+export const useOnBuildSortingContextMenu = () => {
+  const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
+  return useCallback(() => {
+    const menuItems = [
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.all'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'All',
+                value: ''
+              },
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.alphabetical_order'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Alphabetical order',
+                value: 'alphabetical_order'
+              },
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.anti_alphabetical_order'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Anti-alphabetical order',
+                value: 'anti_alphabetical_order'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.ascending_modification_date'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Ascending modification date',
+                value: 'ascending_modification_date'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.descending_modification_date'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Descending modification date',
+                value: 'descending_modification_date'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.ascending_creation_date'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Ascending creation date',
+                value: 'ascending_creation_date'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+      {
+        type: 'menu',
+        text: Languages.t('components.item_context_menu.descending_creation_date'),
+        onClick: () => {
+          setFilter(prevFilter => {
+            const newFilter = {
+              ...prevFilter,
+              sort: {
+                key: 'Descending creation date',
+                value: 'descending_creation_date'
+              }
+            };
+            return newFilter;
+          });
+        },
+      },
+    ];
+    return menuItems;
+  }, [setFilter]);
+};
+
 export const useOnBuildFileContextMenu = () => {
   const { download } = useDriveActions();
   const { open: preview } = useDrivePreview();
