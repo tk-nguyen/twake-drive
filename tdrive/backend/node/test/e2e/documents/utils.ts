@@ -30,7 +30,7 @@ export const e2e_copyDocument = async (
   platform: TestPlatform,
   item: Partial<DriveFile>,
   targetParentID: string,
-  version: Partial<FileVersion>,
+  version?: Partial<FileVersion>,
 ) => {
   const token = await platform.auth.getJWTToken();
 

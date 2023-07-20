@@ -21,6 +21,7 @@ import {
   DriveItemDetailsMockClass,
   SearchResultMockClass,
 } from "../common/entities/mock_entities";
+import { DriveFile } from "../../../src/services/documents/entities/drive-file";
 
 describe("the Drive feature", () => {
   let platform: TestPlatform;
@@ -66,22 +67,6 @@ describe("the Drive feature", () => {
       name: "new test file",
       parent_id: "root",
       company_id: platform.workspace.company_id,
-    };
-
-    const version = {};
-
-    const response = await e2e_createDocument(platform, item, version);
-    return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
-  };
-
-  const createItem2 = async (name, parent_id, is_directory): Promise<DriveFileMockClass> => {
-    await TestDbService.getInstance(platform, true);
-
-    const item = {
-      name: name,
-      parent_id: parent_id,
-      company_id: platform.workspace.company_id,
-      is_directory: is_directory
     };
 
     const version = {};
@@ -165,31 +150,32 @@ describe("the Drive feature", () => {
   });
 
   //tests for copy function
-  const copyItem = async (item, targetParentID: string): Promise<DriveFileMockClass> => {
+  const copyItem = async (item: DriveFile, targetParentID: string): Promise<DriveFileMockClass> => {
     await TestDbService.getInstance(platform, true);
 
-    const version = {};
+    const version = item.last_version_cache;
 
     const response = await e2e_copyDocument(platform, item, targetParentID, version);
     return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
   };
+
   it("did copy a single file",async () => {
     const myDriveId = "user_" + currentUser.user.id;
-    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
+    const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
     const folder = await currentUser.createDirectory(myDriveId);
-
+    
     const copiedFile = await copyItem(sourceFile, folder.id);
 
     expect(copiedFile).toBeDefined();
-    expect(copiedFile.name).toEqual("test-file");
+    expect(copiedFile.name).toEqual(sourceFile.name);
     expect(copiedFile.parent_id).toEqual(folder.id);
   });
   it("did copy a folder",async () => {
     const myDriveId = "user_" + currentUser.user.id;
     const folder = await currentUser.createDirectory(myDriveId);
-    await currentUser.uploadAllFilesOneByOne(folder.id);
+    await currentUser.uploadAllFilesAndCreateDocuments(folder.id);
     const subfolder = await currentUser.createDirectory(folder.id);
-    await currentUser.uploadFileAndCreateDocument("subfolder-file", subfolder.id);
+    await currentUser.uploadRandomFileAndCreateDocument(subfolder.id);
 
     const copiedFolder = await copyItem(folder, myDriveId);
 
@@ -208,17 +194,17 @@ describe("the Drive feature", () => {
   });
   it("did copy a single file and able to download it",async () => {
     const myDriveId = "user_" + currentUser.user.id;
-    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
+    const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
 
     const copiedFile = await copyItem(sourceFile, myDriveId);
-    const download = await e2e_downloadFile(platform, copiedFile.id);
+    const response = await e2e_downloadFile(platform, copiedFile.id);
 
     expect(copiedFile).toBeDefined();
-    expect(download).toHaveReturned();
+    expect(response).toBeDefined();
   });
   it("did copy a single file and able to search it",async () => {
     const myDriveId = "user_" + currentUser.user.id;
-    const sourceFile = await currentUser.uploadFileAndCreateDocument("test-file", myDriveId);
+    const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
 
     const copiedFile = await copyItem(sourceFile, myDriveId);
 
@@ -230,7 +216,7 @@ describe("the Drive feature", () => {
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     const searchPayload = {
-      search: "test",
+      search: "sample",
     };
 
     const searchResponse = await e2e_searchDocument(platform, searchPayload);
