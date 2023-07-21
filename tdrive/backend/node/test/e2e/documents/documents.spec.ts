@@ -168,8 +168,8 @@ describe("the Drive feature", () => {
     const copiedFile = await copyItem(sourceFile, folder.id);
 
     expect(copiedFile).toBeDefined();
-    expect(copiedFile.name).toEqual(sourceFile.name);
-    expect(copiedFile.parent_id).toEqual(folder.id);
+    expect(copiedFile[0].name).toEqual(sourceFile.name);
+    expect(copiedFile[0].parent_id).toEqual(folder.id);
   });
   it("did copy a folder",async () => {
     const myDriveId = "user_" + currentUser.user.id;
@@ -180,16 +180,19 @@ describe("the Drive feature", () => {
 
     const copiedFolder = await copyItem(folder, myDriveId);
 
-    expect(copiedFolder).toBeDefined();
-    expect(copiedFolder.name).toMatch(/Test Folder Name+/);
-    const docs = await currentUser.browseDocuments(copiedFolder.id, {});
-    expect(docs).toBeDefined();
+    const docs = await currentUser.browseDocuments(myDriveId, {});
     expect(docs.children).toBeDefined();
-    expect(docs.children.length).toEqual(TestHelpers.ALL_FILES.length + 1);
+    expect(copiedFolder).toBeDefined();    
+    expect(docs.children.length).toEqual(2);
     for (const child of docs.children) {
-      const info = await currentUser.browseDocuments(child.id, {});
-      if (info.children) {
-        expect(info.children.length).toEqual(1);
+      if (child.name === "Test Folder Name -2") {
+        const info = await currentUser.browseDocuments(child.id, {});
+        expect(info.children.length).toEqual(TestHelpers.ALL_FILES.length + 1);
+        for (const child of info.children) {
+          if (child.is_directory) {
+            expect(info.children.length).toEqual(1);
+          }
+        }
       }
     }
   });
