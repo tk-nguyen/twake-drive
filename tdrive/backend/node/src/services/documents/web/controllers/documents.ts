@@ -123,7 +123,7 @@ export class DocumentsController {
           context,
         );
         const items = await globalResolver.services.documents.documents.get(item.id, context);
-        const files : DriveFile[] = [];
+        const files: DriveFile[] = [];
         if (items.children && items.children.length > 0) {
           for (const child of items.children) {
             request.body = {

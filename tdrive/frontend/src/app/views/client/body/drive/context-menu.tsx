@@ -32,7 +32,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
     DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'root' }),
   );
 
-  const { download, downloadZip, update } = useDriveActions();
+  const { download, downloadZip, update, refresh } = useDriveActions();
   const setCreationModalState = useSetRecoilState(CreateModalAtom);
   const setSelectorModalState = useSetRecoilState(SelectorModalAtom);
   const setConfirmDeleteModalState = useSetRecoilState(ConfirmDeleteModalAtom);
@@ -102,15 +102,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                       targetParentID,
                       version }
                     );
-                    if (targetParentID === parent.item!.id) {
-                      await update(
-                        {
-                          parent_id: ids[0],
-                        },
-                        item.id,
-                        item.parent_id,
-                      );
-                    }
+                    refresh(item!.parent_id);
                   },
                 }),
             },
@@ -205,15 +197,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                         targetParentID,
                         version }
                       );
-                      if (targetParentID === parent.item!.id) {
-                        await update(
-                          {
-                            parent_id: targetParentID,
-                          },
-                          item.id,
-                          item.parent_id,
-                        );
-                      }
+                      refresh(parent.item!.id);
                     }
                     setChecked({});
                   },
@@ -355,15 +339,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                           targetParentID,
                           version }
                         );
-                        if (targetParentID === parent.item!.id) {
-                          await update(
-                            {
-                              parent_id: targetParentID,
-                            },
-                            parent.item!.id,
-                            parent.item!.parent_id,
-                          );
-                        }
+                        refresh(parent.item!.id);
                       },
                     }),
                 },
