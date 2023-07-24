@@ -21,6 +21,8 @@ import {
 } from "../../types";
 import { DriveFileDTO } from "../dto/drive-file-dto";
 import { DriveFileDTOBuilder } from "../../services/drive-file-dto-builder";
+import { makeStandaloneAccessLevel } from "../../services/access-check";
+import DatabaseService from "src/core/platform/services/database/services";
 
 export class DocumentsController {
   private driveFileDTOBuilder = new DriveFileDTOBuilder();
@@ -93,10 +95,15 @@ export class DocumentsController {
     try {
       const context = getDriveExecutionContext(request);
       const { item, targetParentID, version } = request.body;
+      const parent = (
+        await globalResolver.services.documents.documents.get(targetParentID, context)
+      ).item;
       const copiedFile: Partial<DriveFile> = {
         ...item,
         id: null,
         parent_id: targetParentID,
+        access_info: parent.access_info,
+        last_modified: null,
       };
       let createdFile: File = null;
       if (request.isMultipart()) {

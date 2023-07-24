@@ -201,21 +201,21 @@ describe("the Drive feature", () => {
     const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
 
     const copiedFile = await copyItem(sourceFile, myDriveId);
-    const response = await e2e_downloadFile(platform, copiedFile.id);
+    const response = await e2e_downloadFile(platform, copiedFile[0].id);
 
-    expect(copiedFile).toBeDefined();
+    expect(copiedFile[0]).toBeDefined();
     expect(response).toBeDefined();
   });
-  it("did copy a single file and able to search it",async () => {
+  it("did copy a single file and able to search it", async () => {
     const myDriveId = "user_" + currentUser.user.id;
     const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
 
     const copiedFile = await copyItem(sourceFile, myDriveId);
 
-    expect(copiedFile).toBeDefined();
+    expect(copiedFile[0]).toBeDefined();
 
     await e2e_getDocument(platform, "root");
-    await e2e_getDocument(platform, copiedFile.id);
+    await e2e_getDocument(platform, copiedFile[0].id);
 
     await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -229,7 +229,39 @@ describe("the Drive feature", () => {
       searchResponse.body,
     );
 
-    expect(searchResult.entities.length).toBeGreaterThanOrEqual(1);
+    expect(searchResult.entities.length).toBeGreaterThanOrEqual(2);
+  });
+  it("did copy a file but does not share it", async () => {
+    const myDriveId = "user_" + currentUser.user.id;
+    const folder = await currentUser.createDirectory(myDriveId);
+    const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
+    const anotherUser = await TestHelpers.getInstance(platform, true);
+    sourceFile.access_info.entities.push({
+      type: "user",
+      id: anotherUser.user.id,
+      level: "read",
+      grantor: null,
+    });
+    await currentUser.updateDocument(sourceFile.id, sourceFile);
+    await new Promise(r => setTimeout(r, 3000));
+
+    const copiedFile = await copyItem(sourceFile, folder.id);
+    expect(copiedFile[0]).toBeDefined();
+    expect((await anotherUser.browseDocuments("shared_with_me", {})).children).toHaveLength(1);
+    expect(copiedFile[0].access_info).toEqual(folder.access_info);
+  });
+  it("did copy a single file and able to download it, deleted the original",async () => {
+    const myDriveId = "user_" + currentUser.user.id;
+    const sourceFile = await currentUser.uploadRandomFileAndCreateDocument(myDriveId);
+
+    const copiedFile = await copyItem(sourceFile, myDriveId);
+    const deleteResponse = await e2e_deleteDocument(platform, sourceFile.id);
+    expect(deleteResponse.statusCode).toEqual(200);
+    
+    const response = await e2e_downloadFile(platform, copiedFile[0].id);
+
+    expect(copiedFile[0]).toBeDefined();
+    expect(response).toBeDefined();
   });
 
   it("did search for an item", async () => {
