@@ -5,8 +5,9 @@ import { useRecoilValue, useRecoilCallback } from 'recoil';
 import { DriveApiClient } from '../api-client/api-client';
 import { DriveItemAtom, DriveItemChildrenAtom } from '../state/store';
 import { BrowseFilter, DriveItem, DriveItemVersion } from '../types';
-import { SharedWithMeFilterState } from '../state/shared-with-me-filter';
+import { FilterState } from '../state/filter';
 import Languages from "features/global/services/languages-service";
+import { filterSortService } from "features/users/services/filter-service";
 
 /**
  * Returns the children of a drive item
@@ -15,7 +16,7 @@ import Languages from "features/global/services/languages-service";
  */
 export const useDriveActions = () => {
   const companyId = useRouterCompany();
-  const sharedFilter = useRecoilValue(SharedWithMeFilterState);
+  const sharedFilter = useRecoilValue(FilterState);
 
   const refresh = useRecoilCallback(
     ({ set, snapshot }) =>
@@ -42,7 +43,7 @@ export const useDriveActions = () => {
           }
         }
       },
-    [companyId],
+    [companyId, sharedFilter],
   );
 
   const create = useCallback(

@@ -33,6 +33,7 @@ export type ClientStateType = {
   threadId?: string;
   tabId?: string;
   directoryId?: string;
+  filterSortId?:string;
 };
 
 export type Pathnames = {
@@ -50,7 +51,10 @@ class RouterServices extends Observable {
   clientSubPathnames: Readonly<string[]> = [
     '/client/:companyId',
     '/client/:companyId/v/:viewId',
+    '/client/:companyId/v/:viewId/filter/:filterSortId',
     '/client/:companyId/preview/:itemId',
+    '/client/:companyId/preview/:itemId/filter/:filterSortId',
+    '/client/:companyId/filter/:filterSortId',
     '/client/:companyId/w/:workspaceId',
     '/client/:companyId/w/:workspaceId/c/:channelId',
     '/client/:companyId/w/:workspaceId/c/:channelId/t/:threadId',
@@ -83,6 +87,7 @@ class RouterServices extends Observable {
     'tabId',
     'directoryId',
     'documentId',
+    'filterSortId',
   ];
 
   readonly routes: RouteType[] = [
@@ -184,6 +189,7 @@ class RouterServices extends Observable {
       companyId: match?.params?.companyId || '',
       viewId: match?.params?.viewId || '',
       itemId: match?.params?.itemId || '',
+      filterSortId: match?.params?.filterSortId || '',
       workspaceId: match?.params?.workspaceId || '',
       channelId: match?.params?.channelId || '',
       messageId: match?.params?.messageId || '',
@@ -290,6 +296,7 @@ class RouterServices extends Observable {
       (state.companyId ? `/${state.companyId}` : '') +
       (state.viewId ? `/v/${state.viewId}` : '') +
       (state.itemId ? `/preview/${state.itemId}` : '') +
+      (state.filterSortId ? `/filter/${state.filterSortId}` : '') +
       (state.sharedWithMe ? `/shared-with-me` : '') +
       (state.workspaceId ? `/w/${state.workspaceId}` : '') +
       (state.channelId ? `/c/${state.channelId}` : '') +

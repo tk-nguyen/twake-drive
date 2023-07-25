@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { SharedWithMeDriveItemsResultsState } from '../state/shared-with-me-drive-items-result';
 import { SearchInputState } from '../../search/state/search-input';
-import { SharedWithMeFilterState } from '../state/shared-with-me-filter';
+import { FilterState } from '../state/filter';
 
 export const useSharedWithMeDriveItemsLoading = () => {
   return useRecoilValue(LoadingState('useSearchDriveItems'));
@@ -16,7 +16,7 @@ export const useSharedWithMeDriveItemsLoading = () => {
 export const useSharedWithMeDriveItems = () => {
   const companyId = useRouterCompany();
   const searchInput = useRecoilValue(SearchInputState);
-  const sharedFilter = useRecoilValue(SharedWithMeFilterState);
+  const sharedFilter = useRecoilValue(FilterState);
   const [loading, setLoading] = useRecoilState(LoadingState('useSearchDriveItems'));
 
   const [items, setItems] = useRecoilState(SharedWithMeDriveItemsResultsState(companyId));

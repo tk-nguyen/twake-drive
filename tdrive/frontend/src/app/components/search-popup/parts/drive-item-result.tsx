@@ -66,7 +66,7 @@ export default (props: { driveItem: DriveItem & { user?: UserType } }) => {
           />
         </Text.Base>
         <Text.Info className="block">
-          {extension?.toLocaleUpperCase()} • {formatDate(parseInt(file?.last_modified))} •{' '}
+          {extension?.toLocaleUpperCase()} • {formatDate(file?.last_modified)} •{' '}
           {formatSize(file?.size)}
         </Text.Info>
         <ResultContext user={file.user} />

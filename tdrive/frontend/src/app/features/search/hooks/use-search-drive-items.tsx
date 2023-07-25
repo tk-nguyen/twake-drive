@@ -46,7 +46,7 @@ export const useSearchDriveItems = () => {
     let results = response.entities || [];
     if (isRecent)
       results = results.sort(
-        (a, b) => (parseInt(b?.last_modified) || 0) - (parseInt(a.last_modified) || 0),
+        (a, b) => (b?.last_modified || 0) - (a.last_modified || 0),
       );
 
     const update = {

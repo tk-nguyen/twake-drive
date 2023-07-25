@@ -1,7 +1,5 @@
-import { ChevronDownIcon, DotsHorizontalIcon } from '@heroicons/react/outline';
 import { Button } from '@atoms/button/button';
-import { Base, BaseSmall, Subtitle, Title } from '@atoms/text';
-import Menu from '@components/menus/menu';
+import { Base, Subtitle, Title } from '@atoms/text';
 import { getFilesTree } from '@components/uploads/file-tree-utils';
 import UploadZone from '@components/uploads/upload-zone';
 import { setTdriveTabToken } from '@features/drive/api-client/api-client';
@@ -9,7 +7,6 @@ import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { DriveRealtimeObject } from '@features/drive/hooks/use-drive-realtime';
 import { useDriveUpload } from '@features/drive/hooks/use-drive-upload';
 import { DriveItemSelectedList } from '@features/drive/state/store';
-import { formatBytes } from '@features/drive/utils';
 import useRouterCompany from '@features/router/hooks/use-router-company';
 import _ from 'lodash';
 import { memo, Suspense, useCallback, useEffect, useRef, useState } from 'react';
@@ -17,9 +14,6 @@ import { atomFamily, useRecoilState, useSetRecoilState } from 'recoil';
 import { DrivePreview } from '../../viewer/drive-preview';
 import {
   useOnBuildContextMenu,
-  useOnBuildFileTypeContextMenu,
-  useOnBuildPeopleContextMenu,
-  useOnBuildDateContextMenu,
 } from './context-menu';
 import { DocumentRow } from './documents/document-row';
 import { FolderRow } from './documents/folder-row';
@@ -30,12 +24,9 @@ import { CreateModalAtom } from './modals/create';
 import { PropertiesModal } from './modals/properties';
 import { AccessModal } from './modals/update-access';
 import { VersionsModal } from './modals/versions';
-import { SharedFilesTable } from './shared-files-table';
-import useRouteState from 'app/features/router/hooks/use-route-state';
-import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
-import MenusManager from '@components/menus/menus-manager.jsx';
+import { FilterState } from 'features/drive/state/filter';
 import Languages from 'features/global/services/languages-service';
-import { sort } from './filter';
+
 
 export const DriveCurrentFolderAtom = atomFamily<
   string,
@@ -59,7 +50,7 @@ export default memo(
   }) => {
     const companyId = useRouterCompany();
     setTdriveTabToken(tdriveTabContextToken || null);
-    const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
+    const [filter] = useRecoilState(FilterState);
 
     const [parentId, _setParentId] = useRecoilState(
       DriveCurrentFolderAtom({ context: context, initialFolderId: initialParentId || 'root' }),
@@ -116,21 +107,18 @@ export default memo(
       if (item?.id) setCreationModalState({ open: true, parent_id: item.id });
     }, [item?.id, setCreationModalState]);
 
-    const selectedCount = Object.values(checked).filter(v => v).length;
-    const folders = sort(children
-      .filter(i => i.is_directory));
-    const documents = sort((
-      item?.is_directory === false
-        ? //We use this hack for public shared single file
-          item
-          ? [item]
-          : []
-        : children
-    )
-      .filter(i => !i.is_directory));
-
     const onBuildContextMenu = useOnBuildContextMenu(children, initialParentId);
-    const { viewId } = useRouteState();
+    const folders = children
+        .filter(i => i.is_directory);
+    const documents = (
+        item?.is_directory === false
+            ? //We use this hack for public shared single file
+            item
+                ? [item]
+                : []
+            : children
+    )
+        .filter(i => !i.is_directory);
 
     const handleDragOver = (event: { preventDefault: () => void; }) => {
       event.preventDefault();
@@ -145,13 +133,8 @@ export default memo(
                   companyId,
                   parentId,
               });
-              }
+          }
     }
-
-    const buildFileTypeContextMenu = useOnBuildFileTypeContextMenu();
-    const buildPeopleContextMen = useOnBuildPeopleContextMenu();
-    const buildDateContextMenu = useOnBuildDateContextMenu();
-
     return (
       <>
         {
@@ -193,7 +176,7 @@ export default memo(
             >
               <div className="flex flex-row shrink-0 items-center mb-4">
                 <div className="grow">
-                    <HeaderPath path={path || []} inTrash={inTrash} setParentId={setParentId} />
+                    <HeaderPath path={path || []} inTrash={inTrash} setParentId={setParentId} initialParentId={initialParentId}/>
                 </div>
               </div>
 

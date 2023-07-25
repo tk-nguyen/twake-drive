@@ -11,13 +11,13 @@ import {
   useOnBuildFileContextMenu,
 } from './context-menu';
 import { useSharedWithMeDriveItems } from '@features/drive/hooks/use-shared-with-me-drive-items';
-import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
+import { FilterState } from 'features/drive/state/filter';
 import MenusManager from '@components/menus/menus-manager.jsx';
 import Languages from '@features/global/services/languages-service';
 
 export const SharedFilesTable = () => {
   const { driveItems, loading } = useSharedWithMeDriveItems();
-  const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
+  const [filter, setFilter] = useRecoilState(FilterState);
 
   // FILTER HOOKS
   const buildFileTypeContextMenu = useOnBuildFileTypeContextMenu();

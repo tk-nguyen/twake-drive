@@ -21,7 +21,6 @@ import Avatar from '../../../../../atoms/avatar';
 import { PublicIcon } from '../components/public-icon';
 import { CheckableIcon, DriveItemProps } from './common';
 import { getDevice } from '../../../../../features/global/utils/device';
-import { selectItemByExt, selectItemByLastModificationDate, selectItemByCreationDate } from '../filter';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 import RouterServices from '@features/router/services/router-service';

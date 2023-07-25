@@ -1,7 +1,6 @@
-import { string } from 'prop-types';
 import { atom } from 'recoil';
 
-export type SharedWithMeFilter = {
+export type Filter = {
   mimeType: {
     key: string;
     value: string
@@ -11,17 +10,13 @@ export type SharedWithMeFilter = {
     key: string;
     value: string;
   };
-  dateCreation: {
-    key: string;
-    value: string;
-  };
   sort: {
     key: string;
     value: string;
   };
 };
 
-export const SharedWithMeFilterState = atom<SharedWithMeFilter>({
+export const FilterState = atom<Filter>({
   key: 'SharedWithMeFilterState',
   default: {
     mimeType: {
@@ -30,10 +25,6 @@ export const SharedWithMeFilterState = atom<SharedWithMeFilter>({
     },
     creator: '',
     date: {
-      key: '',
-      value: ''
-    },
-    dateCreation: {
       key: '',
       value: ''
     },

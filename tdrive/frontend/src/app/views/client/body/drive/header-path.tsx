@@ -1,7 +1,7 @@
 import { BaseSmall, Title } from '@atoms/text';
 import { DriveItem } from '@features/drive/types';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import { PublicIcon } from './components/public-icon';
 import MenusManager from '@components/menus/menus-manager.jsx';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
@@ -10,37 +10,43 @@ import { Button } from '@atoms/button/button';
 import {
   useOnBuildContextMenu,
   useOnBuildFileTypeContextMenu,
-  useOnBuildPeopleContextMenu,
   useOnBuildDateContextMenu,
-  useOnBuildDateCreationContextMenu,
   useOnBuildSortingContextMenu,
 } from './context-menu';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
+import { FilterState } from 'features/drive/state/filter';
 import { ChooseFilter, ChooseFilterModalAtom } from './modals/filter';
-import { CreateModalAtom } from './modals/create';
 import { DriveItemSelectedList } from '@features/drive/state/store';
 import Menu from '@components/menus/menu';
 import { DriveCurrentFolderAtom } from './browser';
 import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
 import { formatBytes } from 'app/features/drive/utils';
+import RouterServices from "features/router/services/router-service";
+import {useHistory} from "react-router-dom";
+import useRouterCompany from "features/router/hooks/use-router-company";
+import useRouteState from "features/router/hooks/use-route-state";
+import {deleteFilters, setFilterWithURL} from "features/users/services/filter-service";
+import {XIcon} from "@heroicons/react/outline";
 
 export default ({
   path: livePath,
   inTrash,
   setParentId,
+  initialParentId,
 }: {
   path: DriveItem[];
   inTrash?: boolean;
   setParentId: (id: string) => void;
+  initialParentId?: string;
 }) => {
   const [savedPath, setSavedPath] = useState<DriveItem[]>([]);
   useEffect(() => {
     if (livePath) setSavedPath(livePath);
   }, [livePath]);
+
   const path = livePath || savedPath;
 
-  return <PathRender inTrash={inTrash || false} path={path} onClick={id => setParentId(id)} />;
+  return <PathRender inTrash={inTrash || false} path={path} onClick={id => setParentId(id)} initialParentId={initialParentId} />;
 };
 
 function cutFileName (name: any){
@@ -58,36 +64,51 @@ function cutFileName (name: any){
 export const PathRender = ({
   path,
   onClick,
-}: {
+  initialParentId,
+  }: {
   path: DriveItem[];
   inTrash: boolean;
   onClick: (id: string) => void;
-}) => {
+  initialParentId?: string;
+  }) => {
   const [parentId, _setParentId] = useRecoilState(
-    DriveCurrentFolderAtom({ initialFolderId: 'root' }),
+    DriveCurrentFolderAtom({ initialFolderId:initialParentId || 'root' }),
   );
+
+  const { filterSortId, itemId } = useRouteState();
+  const [_, setLoadingParentChange] = useState(false);
   const {
-    sharedWithMe,
     details,
     access,
     item,
-    inTrash,
-    refresh,
     children,
     loading: loadingParent,
   } = useDriveItem(parentId);
-  const [filter, setFilter] = useRecoilState(SharedWithMeFilterState);
+  const [filter, setFilter] = useRecoilState(FilterState);
   const [checked, setChecked] = useRecoilState(DriveItemSelectedList);
   const pathLength = (path || []).reduce((acc, curr) => acc + curr.name.length, 0);
   const selectedCount = Object.values(checked).filter(v => v).length;
-  const onBuildContextMenu = useOnBuildContextMenu(children, 'root');
+  const onBuildContextMenu = useOnBuildContextMenu(children, initialParentId);
   const buildFileTypeContextMenu = useOnBuildFileTypeContextMenu();
-  const buildPeopleContextMen = useOnBuildPeopleContextMenu();
   const buildDateContextMenu = useOnBuildDateContextMenu();
-  const buildDateCreationContextMenu = useOnBuildDateCreationContextMenu()
   const buildSortingContextMenu = useOnBuildSortingContextMenu()
-  const [state, setState] = useRecoilState(CreateModalAtom);
   const setSelectorModalState = useSetRecoilState(ChooseFilterModalAtom);
+  const history = useHistory();
+  const company = useRouterCompany();
+
+  useEffect(() => {
+      const filterInfoURL = setFilterWithURL(filterSortId!)
+      setFilter(prevFilter => {
+          const newFilter = {
+              ...prevFilter,
+              mimeType:filterInfoURL[0],
+              date:filterInfoURL[1],
+              sort:filterInfoURL[2],
+          };
+          return newFilter;
+      });
+  }, [filterSortId])
+
   return (
     <>
     {parentId!=="shared_with_me" ? (
@@ -158,12 +179,13 @@ export const PathRender = ({
               theme="secondary"
               className="flex items-center"
               onClick={evt => {
-              MenusManager.openMenu(
-                  buildFileTypeContextMenu(),
-                  { x: evt.clientX, y: evt.clientY },
-                  'center',
-              );
-              }}
+                  MenusManager.openMenu(
+                      buildFileTypeContextMenu(),
+                      { x: evt.clientX, y: evt.clientY },
+                      'center',
+                  );
+                }
+              }
               >
               <span>
                   {filter.mimeType.key && filter.mimeType.value != 'All'
@@ -186,29 +208,9 @@ export const PathRender = ({
                   }}
               >
                   <span>
-                  {filter.date.key && filter.date.key != 'All'
+                  {filter.date.key && filter.date.value != 'All'
                       ? filter.date.key
                       : Languages.t('scenes.app.shared_with_me.last_modified')}
-                  </span>
-                  <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
-              </Button>
-          </div>
-          <div className="flex items-center space-x-2">
-              <Button
-                  theme="secondary"
-                  className="flex items-center"
-                  onClick={evt => {
-                  MenusManager.openMenu(
-                      buildDateCreationContextMenu(),
-                      { x: evt.clientX, y: evt.clientY },
-                      'center',
-                  );
-                  }}
-              >
-                  <span>
-                  {filter.dateCreation.key && filter.dateCreation.key != 'All'
-                      ? filter.dateCreation.key
-                      : Languages.t('scenes.app.shared_with_me.last_created')}
                   </span>
                   <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
               </Button>
@@ -227,13 +229,20 @@ export const PathRender = ({
             }}
           >
             <span>
-              {filter.sort.key && filter.sort.key != 'All'
+              {filter.sort.key && filter.sort.value != 'All'
                 ? filter.sort.key
                 : Languages.t('scenes.app.shared_with_me.sort')}
             </span>
             <ChevronDownIcon className="h-4 w-4 ml-2 -mr-1" />
           </Button>
         </div>
+        <XIcon
+            className={"z-10 cursor-pointer w-8 h-8 text-zinc-300 hover:text-white rounded-full p-1 bg-black bg-opacity-25 "+deleteFilters(filter)}
+            onClick={() => history.push(RouterServices.generateRouteFromState({
+                companyId: company,
+                filterSortId:''+'&'+''+'&'+''})
+            )}
+        />
         <div className="grow"></div>
         <div className="flex items-center">
           <div className="flex flex row items-center">

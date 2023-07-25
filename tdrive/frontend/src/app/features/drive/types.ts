@@ -29,7 +29,7 @@ export type DriveItem = {
   tags: [];
 
   added: string;
-  last_modified: string;
+  last_modified: number;
   last_version_cache: DriveItemVersion;
 
   access_info: DriveItemAccessInfo;
