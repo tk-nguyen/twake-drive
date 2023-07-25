@@ -81,6 +81,7 @@ export class DocumentsController {
    * Copies a DriveFile item
    *
    */
+  //TODO [ASH] it doesn't work from UI
   copy = async (
     request: FastifyRequest<{
       Params: RequestParams;
@@ -95,9 +96,13 @@ export class DocumentsController {
     try {
       const context = getDriveExecutionContext(request);
       const { item, targetParentID, version } = request.body;
+      //TODO[ASH] create copy function in the DocumentsService and move all the logic theres except
+      //building answer and generating response "update" function in this controoler is very good example
       const parent = (
         await globalResolver.services.documents.documents.get(targetParentID, context)
       ).item;
+      //TODO[ASH] you should copy file content in the S3 storage and not just copy the metadata
+      //TODO[ASH] do not copy all the versoions, you should copy only one last version
       const copiedFile: Partial<DriveFile> = {
         ...item,
         id: null,
@@ -106,6 +111,7 @@ export class DocumentsController {
         last_modified: null,
       };
       let createdFile: File = null;
+      //TODO[ASH] why do you need this part, you shouldn't upload anything when you copy a file
       if (request.isMultipart()) {
         const file = await request.file();
         const q = request.query;
@@ -118,7 +124,8 @@ export class DocumentsController {
           waitForThumbnail: !!q.thumbnail_sync,
           ignoreThumbnails: false,
         };
-
+        //TODO[ASH] you can copy the file to the same folder, in this case you need to generate new
+        // filename like "<FILENAME> copy"
         createdFile = await globalResolver.services.files.save(null, file, options, context);
       }
 
@@ -138,6 +145,9 @@ export class DocumentsController {
               targetParentID: folder.id,
               version: child.last_version_cache,
             };
+            //TODO[ASH] to not use recursive call of coping everything, with permissions and so one, you can
+            // have only one permission check on the item you are copy, and then you can use repositories
+            // and not service and get the date and copy it
             const copiedChild = await this.copy(
               request as FastifyRequest<{
                 Params: RequestParams;
