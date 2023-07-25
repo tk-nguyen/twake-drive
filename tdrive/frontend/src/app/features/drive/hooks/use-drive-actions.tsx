@@ -27,7 +27,7 @@ export const useDriveActions = () => {
             mime_type: sharedFilter.mimeType.value,
           };
           try {
-            const details = await DriveApiClient.browse(companyId, parentId, filter);
+            const details = filterSortService(await DriveApiClient.browse(companyId, parentId, filter), sharedFilter);
             set(DriveItemChildrenAtom(parentId), details.children);
             set(DriveItemAtom(parentId), details);
             for (const child of details.children) {

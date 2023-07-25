@@ -69,7 +69,7 @@ export const DocumentRow = ({
         (checked
           ? 'bg-blue-500 bg-opacity-10 hover:bg-opacity-25  '
           : 'hover:bg-zinc-500 hover:bg-opacity-10 ') +
-        (className || '') + selectItemByExt(item.extension) + selectItemByLastModificationDate(item.last_modified) + selectItemByCreationDate(item.added)
+          (className || '')
       }
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
