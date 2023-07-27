@@ -11,6 +11,7 @@ import StorageAPI, {
   WriteMetadata,
   WriteOptions,
 } from "./provider";
+import { ExecutionContext } from "../../framework/api/crud-service";
 
 type EncryptionConfiguration = {
   secret: string | null;
@@ -157,5 +158,10 @@ export default class StorageService extends TdriveService<StorageAPI> implements
     };
 
     return this;
+  }
+
+  async copy(pathTo: string, pathFrom: string, options?: ReadOptions, context?: ExecutionContext): Promise<void> {
+    const sourceStream = await this.read(pathFrom, options);
+    await this.write(pathTo, sourceStream, options);
   }
 }

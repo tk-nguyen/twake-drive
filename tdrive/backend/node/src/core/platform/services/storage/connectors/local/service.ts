@@ -2,8 +2,9 @@ import { Readable } from "stream";
 import { createWriteStream, createReadStream, existsSync, mkdirSync, statSync, rmSync } from "fs";
 import p from "path";
 import { rm } from "fs/promises"; // Do not change the import, this is not the same function import { rm } from "fs"
-import { StorageConnectorAPI, WriteMetadata } from "../../provider";
+import { ReadOptions, StorageConnectorAPI, WriteMetadata } from "../../provider";
 import fs from "fs";
+import { ExecutionContext } from "src/core/platform/framework/api/crud-service";
 
 export type LocalConfiguration = {
   path: string;
@@ -66,5 +67,10 @@ export default class LocalConnectorService implements StorageConnectorAPI {
 
   delete(path: string): Promise<void> {
     return rm(this.getFullPath(path), { recursive: false, force: true });
+  }
+
+  async copy(pathTo: string, pathFrom: string, options?: ReadOptions, context?: ExecutionContext): Promise<void> {
+    const sourceStream = await this.read(pathFrom);
+    await this.write(pathTo, sourceStream);
   }
 }

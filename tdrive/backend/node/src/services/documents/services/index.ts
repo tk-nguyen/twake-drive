@@ -1,6 +1,6 @@
 import SearchRepository from "../../../core/platform/services/search/repository";
 import { getLogger, logger, TdriveLogger } from "../../../core/platform/framework";
-import { CrudException, ListResult } from "../../../core/platform/framework/api/crud-service";
+import { CrudException, ExecutionContext, ListResult } from "../../../core/platform/framework/api/crud-service";
 import Repository, {
   comparisonType,
   inType,
@@ -323,21 +323,86 @@ export class DocumentsService {
 
       await this.notifyWebsocket(driveItem.parent_id, context);
 
-      await globalResolver.platformServices.messageQueue.publish<DocumentsMessageQueueRequest>(
-        "services:documents:process",
-        {
-          data: {
-            item: driveItem,
-            version: driveItemVersion,
-            context,
-          },
-        },
-      );
-
       return driveItem;
     } catch (error) {
       this.logger.error({ error: `${error}` }, "Failed to create drive item");
       CrudException.throwMe(error, new CrudException("Failed to create item", 500));
+    }
+  };
+
+  /**
+   * Copies a DriveFile item
+   *
+   */
+  copy = async (
+    item: Partial<DriveFile>,
+    targetParentID: string,
+    context: CompanyExecutionContext,
+  ): Promise<DriveFile> => {
+    try {
+      const level = await getAccessLevel(item.id, null, this.repository, context);
+      const hasAccess = hasAccessLevel("write", level);
+
+      if (!hasAccess) {
+        this.logger.error("user does not have access drive item ", item.id);
+        throw Error("user does not have access to this item");
+      }
+      
+      const pk = {
+        company_id: item.company_id,
+        id: item.id,
+      };
+      const newContext: ExecutionContext = {
+        user: context.user,
+        reqId: context.reqId,
+        url: context.url,
+        method: context.method,
+        transport: context.transport
+      }
+      const copiedFile = await globalResolver.services.files.copy(pk, newContext);
+      const driveItem = getDefaultDriveItem(item, context);
+      const driveItemVersion = getDefaultDriveItemVersion(item.last_version_cache, context);
+
+      const parent = await this.repository.findOne({
+        company_id: context.company.id,
+        id: targetParentID
+      });
+
+      driveItem.parent_id = targetParentID;       //change folder
+      driveItem.access_info = parent.access_info; //change acces to parent folder
+      driveItem.id = copiedFile.id;
+      driveItem.added = copiedFile.created_at;
+      driveItem.name = await getItemName(
+        targetParentID,
+        driveItem.id,
+        copiedFile.metadata.name,
+        driveItem.is_directory,
+        this.repository,
+        context);
+      //driveItem.creator = should change it to current user??
+
+      driveItemVersion.filename = copiedFile.metadata.name;
+      driveItemVersion.file_size = copiedFile.upload_data.size;
+      driveItemVersion.file_metadata.external_id = copiedFile.id;
+      driveItemVersion.file_metadata.mime = copiedFile.metadata.mime;
+      driveItemVersion.file_metadata.size = copiedFile.upload_data.size;
+      driveItemVersion.file_metadata.name = copiedFile.metadata.name;
+      driveItemVersion.file_metadata.thumbnails = copiedFile.thumbnails;
+      driveItemVersion.drive_item_id = driveItem.id;
+      if (context.user.application_id) {
+        driveItemVersion.application_id = context.user.application_id;
+      }
+
+      await this.fileVersionRepository.save(driveItemVersion);
+      await this.repository.save(driveItem);
+      await updateItemSize(driveItem.parent_id, this.repository, context);
+      await this.notifyWebsocket(driveItem.parent_id, context);
+
+      return driveItem;
+
+    } catch (error) {
+      logger.error({ error: `${error}` }, "Failed to copy Drive item");
+      CrudException.throwMe(error, new CrudException("Failed to copy Drive item", 500));
     }
   };
 

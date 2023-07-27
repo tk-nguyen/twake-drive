@@ -19,6 +19,7 @@ import {
 } from "../../../services/previews/types";
 import { PreviewFinishedProcessor } from "./preview";
 import _ from "lodash";
+import globalResolver from "../../global-resolver";
 
 export class FileServiceImpl {
   version: "1";
@@ -308,6 +309,88 @@ export class FileServiceImpl {
 
     return new DeleteResult("files", fileToDelete, true);
   }
+
+  async copy(
+    pk: Pick<File, "company_id" | "id">,
+    context?: ExecutionContext,
+    options?: {
+      waitForThumbnail?: boolean;
+    },
+  ): Promise<File> {
+    let source = await this.repository.findOne(pk, {}, context);
+    if (source == null) {
+      throw new CrudException(`File not found ${pk.company_id}|${pk.id}`, 404);
+    }
+
+    const entity = new File();
+    entity.company_id = pk.company_id;
+    entity.metadata = null;
+    entity.thumbnails = [];
+
+    const iv = randomBytes(8).toString("hex");
+    const secret_key = randomBytes(16).toString("hex");
+    entity.encryption_key = `${secret_key}.${iv}`;
+
+    entity.user_id = source.user_id;
+    entity.application_id = source.application_id;
+    entity.upload_data = source.upload_data;
+    entity.metadata = {
+      name: source.metadata.name + " copy",
+      mime: source.metadata.mime,
+    };
+    await this.repository.save(entity, context);
+
+    await gr.platformServices.storage.copy(getFilePath(entity), getFilePath(source), {
+      totalChunks: entity.upload_data.chunks,
+      encryptionAlgo: this.algorithm,
+      encryptionKey: entity.encryption_key,
+    }, context);
+
+    /** Send preview generation task */
+    if (entity.upload_data.size < this.max_preview_file_size) {
+      const document: PreviewMessageQueueRequest["document"] = {
+        id: JSON.stringify(_.pick(entity, "id", "company_id")),
+        provider: gr.platformServices.storage.getConnectorType(),
+
+        path: getFilePath(entity),
+        encryption_algo: this.algorithm,
+        encryption_key: entity.encryption_key,
+        chunks: entity.upload_data.chunks,
+
+        filename: entity.metadata.name,
+        mime: entity.metadata.mime,
+      };
+      const output = {
+        provider: gr.platformServices.storage.getConnectorType(),
+        path: `${getFilePath(entity)}/thumbnails/`,
+        encryption_algo: this.algorithm,
+        encryption_key: entity.encryption_key,
+        pages: 10,
+      };
+
+      entity.metadata.thumbnails_status = "waiting";
+      await this.repository.save(entity, context);
+
+      
+      try {
+        await gr.platformServices.messageQueue.publish<PreviewMessageQueueRequest>(
+          "services:preview",
+          {
+            data: { document, output },
+          },
+        );
+      } catch (err) {
+        entity.metadata.thumbnails_status = "error";
+        await this.repository.save(entity, context);
+
+        logger.warn({ err }, "Previewing - Error while sending ");
+      }
+    }
+    /** End preview generation task generation */
+
+    return entity;
+  }
+    
 }
 
 function getFilePath(entity: File): string {

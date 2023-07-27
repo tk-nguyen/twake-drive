@@ -1,7 +1,8 @@
 import * as Minio from "minio";
 import { logger } from "../../../../../../core/platform/framework";
 import { Readable } from "stream";
-import { StorageConnectorAPI, WriteMetadata } from "../../provider";
+import { ReadOptions, StorageConnectorAPI, WriteMetadata } from "../../provider";
+import { ExecutionContext } from "src/core/platform/framework/api/crud-service";
 
 export type S3Configuration = Minio.ClientOptions & { bucket: string };
 
@@ -62,5 +63,10 @@ export default class S3ConnectorService implements StorageConnectorAPI {
       return true;
     } catch (err) {}
     return false;
+  }
+
+  async copy(pathTo: string, pathFrom: string, options?: ReadOptions, context?: ExecutionContext): Promise<void> {
+    const sourceStream = await this.read(pathFrom);
+    await this.write(pathTo, sourceStream);
   }
 }

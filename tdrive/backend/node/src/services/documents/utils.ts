@@ -24,6 +24,7 @@ import {
   SharedWithMeType,
   TrashType,
 } from "./types";
+import { getLogger, logger, TdriveLogger } from "../../core/platform/framework";
 
 const ROOT: RootType = "root";
 const TRASH: TrashType = "trash";

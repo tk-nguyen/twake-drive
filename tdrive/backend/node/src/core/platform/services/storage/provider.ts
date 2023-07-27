@@ -49,6 +49,13 @@ export interface StorageConnectorAPI {
    * @param path
    */
   remove(path: string, options?: DeleteOptions, context?: ExecutionContext): Promise<boolean>;
+
+  /**
+   * Copy a path
+   *
+   * @param path
+   */
+  copy(pathTo: string, pathFrom: string, options?: ReadOptions, context?: ExecutionContext): Promise<void>;
 }
 
 export default interface StorageAPI extends TdriveServiceProvider, StorageConnectorAPI {

@@ -23,6 +23,7 @@ import { DriveFileDTO } from "../dto/drive-file-dto";
 import { DriveFileDTOBuilder } from "../../services/drive-file-dto-builder";
 import { makeStandaloneAccessLevel } from "../../services/access-check";
 import DatabaseService from "src/core/platform/services/database/services";
+import { versions } from "sharp";
 
 export class DocumentsController {
   private driveFileDTOBuilder = new DriveFileDTOBuilder();
@@ -92,86 +93,13 @@ export class DocumentsController {
         version: Partial<FileVersion>;
       };
     }>,
-  ): Promise<DriveFile[]> => {
+  ): Promise<DriveFile> => {
     try {
       const context = getDriveExecutionContext(request);
-      const { item, targetParentID, version } = request.body;
-      //TODO[ASH] create copy function in the DocumentsService and move all the logic theres except
-      //building answer and generating response "update" function in this controoler is very good example
-      const parent = (
-        await globalResolver.services.documents.documents.get(targetParentID, context)
-      ).item;
-      //TODO[ASH] you should copy file content in the S3 storage and not just copy the metadata
-      //TODO[ASH] do not copy all the versoions, you should copy only one last version
-      const copiedFile: Partial<DriveFile> = {
-        ...item,
-        id: null,
-        parent_id: targetParentID,
-        access_info: parent.access_info,
-        last_modified: null,
-      };
-      let createdFile: File = null;
-      //TODO[ASH] why do you need this part, you shouldn't upload anything when you copy a file
-      if (request.isMultipart()) {
-        const file = await request.file();
-        const q = request.query;
-        const options: UploadOptions = {
-          totalChunks: parseInt(q.resumableTotalChunks || q.total_chunks) || 1,
-          totalSize: parseInt(q.resumableTotalSize || q.total_size) || 0,
-          chunkNumber: parseInt(q.resumableChunkNumber || q.chunk_number) || 1,
-          filename: q.resumableFilename || q.filename || file?.filename || undefined,
-          type: q.resumableType || q.type || file?.mimetype || undefined,
-          waitForThumbnail: !!q.thumbnail_sync,
-          ignoreThumbnails: false,
-        };
-        //TODO[ASH] you can copy the file to the same folder, in this case you need to generate new
-        // filename like "<FILENAME> copy"
-        createdFile = await globalResolver.services.files.save(null, file, options, context);
-      }
+      const { item, targetParentID } = request.body;
+      
+      return await globalResolver.services.documents.documents.copy(item, targetParentID, context);
 
-      if (item.is_directory) {
-        const folder = await globalResolver.services.documents.documents.create(
-          createdFile,
-          copiedFile,
-          version,
-          context,
-        );
-        const items = await globalResolver.services.documents.documents.get(item.id, context);
-        const files: DriveFile[] = [];
-        if (items.children && items.children.length > 0) {
-          for (const child of items.children) {
-            request.body = {
-              item: child,
-              targetParentID: folder.id,
-              version: child.last_version_cache,
-            };
-            //TODO[ASH] to not use recursive call of coping everything, with permissions and so one, you can
-            // have only one permission check on the item you are copy, and then you can use repositories
-            // and not service and get the date and copy it
-            const copiedChild = await this.copy(
-              request as FastifyRequest<{
-                Params: RequestParams;
-                Querystring: Record<string, string>;
-                Body: {
-                  item: Partial<DriveFile>;
-                  targetParentID: string;
-                  version: Partial<FileVersion>;
-                };
-              }>,
-            );
-            files.push(copiedChild[0]);
-          }
-          return files;
-        }
-      } else {
-        const file = await globalResolver.services.documents.documents.create(
-          createdFile,
-          copiedFile,
-          version,
-          context,
-        );
-        return [file];
-      }
     } catch (error) {
       logger.error({ error: `${error}` }, "Failed to copy Drive item");
       CrudException.throwMe(error, new CrudException("Failed to copy Drive item", 500));
