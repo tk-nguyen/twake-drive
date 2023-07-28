@@ -20,9 +20,10 @@ import { FilterState } from 'features/drive/state/filter';
 import { getCurrentUserList } from '@features/users/hooks/use-user-list';
 import _ from 'lodash';
 import Languages from 'features/global/services/languages-service';
-import RouterServices from "features/router/services/router-service";
 import {useHistory} from "react-router-dom";
 import useRouterCompany from "features/router/hooks/use-router-company";
+import FilterService from 'app/features/users/services/filter-service';
+import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
 
 /**
  * This will build the context menu in different contexts
@@ -30,9 +31,9 @@ import useRouterCompany from "features/router/hooks/use-router-company";
 export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: string) => {
   const [checkedIds, setChecked] = useRecoilState(DriveItemSelectedList);
   const checked = children.filter(c => checkedIds[c.id]);
-
+  const { user } = useCurrentUser();
   const [_, setParentId] = useRecoilState(
-    DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'root' }),
+    DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'user_'+user?.id }),
   );
 
   const { download, downloadZip, update } = useDriveActions();
@@ -310,14 +311,14 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
 };
 
 export const useOnBuildFileTypeContextMenu = () => {
+  const { user } = useCurrentUser();
   const [parentId, _setParentId] = useRecoilState(
-      DriveCurrentFolderAtom({ initialFolderId:'root' }),
+      DriveCurrentFolderAtom({ initialFolderId:'user_'+user?.id }),
   );
   const history = useHistory();
-  const company = useRouterCompany();
   const [filter, setFilter] = useRecoilState(FilterState);
   const mimeTypes = [
-    { key: Languages.t('components.item_context_menu.all'), value: 'All' },
+    { key: Languages.t('components.item_context_menu.all'), value: '' },
     { key: 'CSV', value: 'csv' },
     { key: 'DOC', value: 'doc' },
     { key: 'DOCX', value: 'docx' },
@@ -344,10 +345,7 @@ export const useOnBuildFileTypeContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:(item.value=='All'?'':item.value)+'&'+(filter.date.value=='All'?'':filter.date.value)+'&'+(filter.sort.value=='All'?'':filter.sort.value)})
-          )
+          FilterService.setFilterURL(history, `${item.value}-${filter.date.value}-${filter.sort.value}`)
         },
       };
     });
@@ -381,8 +379,9 @@ export const useOnBuildPeopleContextMenu = () => {
 };
 
 export const useOnBuildDateContextMenu = () => {
+  const { user } = useCurrentUser();
   const [parentId, _setParentId] = useRecoilState(
-      DriveCurrentFolderAtom({ initialFolderId:'root' }),
+      DriveCurrentFolderAtom({ initialFolderId:'user_'+user?.id }),
   );
   const history = useHistory();
   const company = useRouterCompany();
@@ -398,15 +397,12 @@ export const useOnBuildDateContextMenu = () => {
               ...prevFilter,
               date: {
                 key: Languages.t('components.item_context_menu.all'),
-                value: 'All'
+                value: ''
               },
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:(filter.mimeType.value=='All'?'':filter.mimeType.value)+'&'+''+'&'+(filter.sort.value=='All'?'':filter.sort.value) })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}--${filter.sort.value}`)
         },
       },
       {
@@ -423,10 +419,7 @@ export const useOnBuildDateContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+'today'+'&'+filter.sort.value })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-today-${filter.sort.value}`)
         },
       },
       {
@@ -443,10 +436,7 @@ export const useOnBuildDateContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+'last_week'+'&'+filter.sort.value })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-last_week-${filter.sort.value}`)
         },
       },
       {
@@ -463,10 +453,7 @@ export const useOnBuildDateContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+'last_month'+'&'+filter.sort.value })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-last_month-${filter.sort.value}`)
         },
       },
     ];
@@ -475,8 +462,9 @@ export const useOnBuildDateContextMenu = () => {
 };
 
 export const useOnBuildSortingContextMenu = () => {
+  const { user } = useCurrentUser();
   const [parentId, _setParentId] = useRecoilState(
-      DriveCurrentFolderAtom({ initialFolderId:'root' }),
+      DriveCurrentFolderAtom({ initialFolderId:'user_'+user?.id }),
   );
   const history = useHistory();
   const company = useRouterCompany();
@@ -492,15 +480,12 @@ export const useOnBuildSortingContextMenu = () => {
               ...prevFilter,
               sort: {
                 key: Languages.t('components.item_context_menu.default'),
-                value: 'All'
+                value: ''
               },
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:(filter.mimeType.value=='All'?'':filter.mimeType.value)+'&'+filter.date.value+'&'+'' })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-${filter.date.value}-`)
         },
       },
       {
@@ -517,10 +502,7 @@ export const useOnBuildSortingContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+filter.date.value+'&'+'alphabetical_order' })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-${filter.date.value}-alphabetical_order`)
         },
       },
       {
@@ -537,10 +519,7 @@ export const useOnBuildSortingContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+filter.date.value+'&'+'anti_alphabetical_order'})
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-${filter.date.value}-anti_alphabetical_order`)
         },
       },
       {
@@ -557,10 +536,7 @@ export const useOnBuildSortingContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+filter.date.value+'&'+'ascending_modification_date' })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-${filter.date.value}-ascending_modification_date`)
         },
       },
       {
@@ -577,10 +553,7 @@ export const useOnBuildSortingContextMenu = () => {
             };
             return newFilter;
           });
-          history.push(RouterServices.generateRouteFromState({
-            companyId: company,
-            filterSortId:filter.mimeType.value+'&'+filter.date.value+'&'+'descending_modification_date' })
-          )
+          FilterService.setFilterURL(history, `${filter.mimeType.value}-${filter.date.value}-descending_modification_date`)
         },
       },
     ];

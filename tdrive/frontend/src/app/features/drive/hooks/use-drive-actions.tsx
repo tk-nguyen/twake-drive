@@ -7,7 +7,7 @@ import { DriveItemAtom, DriveItemChildrenAtom } from '../state/store';
 import { BrowseFilter, DriveItem, DriveItemVersion } from '../types';
 import { FilterState } from '../state/filter';
 import Languages from "features/global/services/languages-service";
-import { filterSortService } from "features/users/services/filter-service";
+import FilterService from "features/users/services/filter-service";
 
 /**
  * Returns the children of a drive item
@@ -23,11 +23,11 @@ export const useDriveActions = () => {
       async (parentId: string) => {
         if (parentId) {
           const filter:BrowseFilter = {
-            company_id: companyId,
-            mime_type: sharedFilter.mimeType.value,
+            company_id: '',
+            mime_type: '',
           };
           try {
-            const details = filterSortService(await DriveApiClient.browse(companyId, parentId, filter), sharedFilter);
+            const details = FilterService.filterSortService(await DriveApiClient.browse(companyId, parentId, filter), sharedFilter);
             set(DriveItemChildrenAtom(parentId), details.children);
             set(DriveItemAtom(parentId), details);
             for (const child of details.children) {

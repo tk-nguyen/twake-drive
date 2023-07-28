@@ -21,11 +21,8 @@ import Menu from '@components/menus/menu';
 import { DriveCurrentFolderAtom } from './browser';
 import { useDriveItem } from 'app/features/drive/hooks/use-drive-item';
 import { formatBytes } from 'app/features/drive/utils';
-import RouterServices from "features/router/services/router-service";
 import {useHistory} from "react-router-dom";
-import useRouterCompany from "features/router/hooks/use-router-company";
-import useRouteState from "features/router/hooks/use-route-state";
-import {deleteFilters, setFilterWithURL} from "features/users/services/filter-service";
+import FilterService from "features/users/services/filter-service";
 import {XIcon} from "@heroicons/react/outline";
 
 export default ({
@@ -71,11 +68,11 @@ export const PathRender = ({
   onClick: (id: string) => void;
   initialParentId?: string;
   }) => {
+  const { user } = useCurrentUser();
   const [parentId, _setParentId] = useRecoilState(
-    DriveCurrentFolderAtom({ initialFolderId:initialParentId || 'root' }),
+    DriveCurrentFolderAtom({ initialFolderId:'user_'+user?.id }),
   );
 
-  const { filterSortId, itemId } = useRouteState();
   const [_, setLoadingParentChange] = useState(false);
   const {
     details,
@@ -94,19 +91,22 @@ export const PathRender = ({
   const buildSortingContextMenu = useOnBuildSortingContextMenu()
   const setSelectorModalState = useSetRecoilState(ChooseFilterModalAtom);
   const history = useHistory();
-  const company = useRouterCompany();
 
+  const search = history.location.search;
+  const urlParam = new URLSearchParams(search);
+  const filterSortId = urlParam.get("filter")===null ? '--' : urlParam.get("filter")
+  
   useEffect(() => {
-      const filterInfoURL = setFilterWithURL(filterSortId!)
-      setFilter(prevFilter => {
-          const newFilter = {
-              ...prevFilter,
-              mimeType:filterInfoURL[0],
-              date:filterInfoURL[1],
-              sort:filterInfoURL[2],
-          };
-          return newFilter;
-      });
+    const filterInfoURL = FilterService.setFilterWithURL(filterSortId!)
+    setFilter(prevFilter => {
+        const newFilter = {
+            ...prevFilter,
+            mimeType:filterInfoURL[0],
+            date:filterInfoURL[1],
+            sort:filterInfoURL[2],
+        };
+        return newFilter;
+    });
   }, [filterSortId])
 
   return (
@@ -152,7 +152,7 @@ export const PathRender = ({
               </>
             )}
         </nav>
-        ) : (
+    ) : (
           <div className="flex items-center">
           <a
             className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
@@ -160,7 +160,7 @@ export const PathRender = ({
             <Title>{Languages.t('scenes.app.shared_with_me.shared_with_me')}</Title>
           </a>
         </div> 
-        )}
+    )}
       <div className="flex items-center space-x-2 mt-4 mb-6">
         <Button
             theme="secondary"
@@ -188,7 +188,7 @@ export const PathRender = ({
               }
               >
               <span>
-                  {filter.mimeType.key && filter.mimeType.value != 'All'
+                  {filter.mimeType.key && filter.mimeType.value!==''
                       ? filter.mimeType.key
                       : Languages.t('scenes.app.shared_with_me.file_type')}
               </span>
@@ -208,7 +208,7 @@ export const PathRender = ({
                   }}
               >
                   <span>
-                  {filter.date.key && filter.date.value != 'All'
+                  {filter.date.key && filter.date.value!==''
                       ? filter.date.key
                       : Languages.t('scenes.app.shared_with_me.last_modified')}
                   </span>
@@ -229,7 +229,7 @@ export const PathRender = ({
             }}
           >
             <span>
-              {filter.sort.key && filter.sort.value != 'All'
+              {filter.sort.key && filter.sort.value!==''
                 ? filter.sort.key
                 : Languages.t('scenes.app.shared_with_me.sort')}
             </span>
@@ -237,11 +237,20 @@ export const PathRender = ({
           </Button>
         </div>
         <XIcon
-            className={"z-10 cursor-pointer w-8 h-8 text-zinc-300 hover:text-white rounded-full p-1 bg-black bg-opacity-25 "+deleteFilters(filter)}
-            onClick={() => history.push(RouterServices.generateRouteFromState({
-                companyId: company,
-                filterSortId:''+'&'+''+'&'+''})
-            )}
+            className={"z-10 cursor-pointer w-8 h-8 text-zinc-300 hover:text-white rounded-full p-1 bg-black bg-opacity-25 "+FilterService.deleteFilters(filter)}
+            onClick={() => {const params = new URLSearchParams(history.location.search);
+              params.delete('filter')
+              history.push({ search: params.toString() });
+              setFilter(prevFilter => {
+                const newFilter = {
+                    ...prevFilter,
+                    mimeType:{ key: Languages.t('components.item_context_menu.all'), value: '' },
+                    date: {key: Languages.t('components.item_context_menu.all'), value: ''},
+                    sort:{key: Languages.t('components.item_context_menu.default'), value: ''},
+                };
+                return newFilter;
+              });
+            }}
         />
         <div className="grow"></div>
         <div className="flex items-center">

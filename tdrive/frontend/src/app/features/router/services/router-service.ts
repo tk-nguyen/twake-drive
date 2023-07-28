@@ -33,7 +33,6 @@ export type ClientStateType = {
   threadId?: string;
   tabId?: string;
   directoryId?: string;
-  filterSortId?:string;
 };
 
 export type Pathnames = {
@@ -51,10 +50,7 @@ class RouterServices extends Observable {
   clientSubPathnames: Readonly<string[]> = [
     '/client/:companyId',
     '/client/:companyId/v/:viewId',
-    '/client/:companyId/v/:viewId/filter/:filterSortId',
     '/client/:companyId/preview/:itemId',
-    '/client/:companyId/preview/:itemId/filter/:filterSortId',
-    '/client/:companyId/filter/:filterSortId',
     '/client/:companyId/w/:workspaceId',
     '/client/:companyId/w/:workspaceId/c/:channelId',
     '/client/:companyId/w/:workspaceId/c/:channelId/t/:threadId',
@@ -87,7 +83,6 @@ class RouterServices extends Observable {
     'tabId',
     'directoryId',
     'documentId',
-    'filterSortId',
   ];
 
   readonly routes: RouteType[] = [
@@ -184,12 +179,14 @@ class RouterServices extends Observable {
           match = this.match(route) as any;
         }
       });
+    
+    const params = new URLSearchParams(this.history.location.search);
+    const filterValue = params.get('filter')
 
     const reducedState: any = {
       companyId: match?.params?.companyId || '',
       viewId: match?.params?.viewId || '',
       itemId: match?.params?.itemId || '',
-      filterSortId: match?.params?.filterSortId || '',
       workspaceId: match?.params?.workspaceId || '',
       channelId: match?.params?.channelId || '',
       messageId: match?.params?.messageId || '',
@@ -201,20 +198,11 @@ class RouterServices extends Observable {
       appName: match?.params?.appName || '',
       shared: !!this.match(this.pathnames.SHARED),
       sharedWithMe: !!this.match(this.pathnames.SHARED_WITH_ME),
+      filter: filterValue || '',
     };
 
     const queryParameters = this.allowedQueryParameters[match?.path];
 
-    if (queryParameters && this.history.location.search) {
-      const params = new URLSearchParams(this.history.location.search);
-
-      params.forEach((value, key) => {
-        const alias = queryParameters.get(key);
-        if (alias) {
-          reducedState[alias] = value;
-        }
-      });
-    }
 
     const state: any = {};
     Object.keys(reducedState).forEach(key => {
@@ -288,15 +276,17 @@ class RouterServices extends Observable {
       );
     }
 
-    const searchParameters = new URLSearchParams(search ? search.substring(1) : '');
-    search = searchParameters.toString() ? `?${searchParameters.toString()}` : '';
+    if (state.filter) {
+      const params = new URLSearchParams(search ? search.substring(1) : '');
+      params.set('filter', state.filter);
+      search = params.toString() ? `?${params.toString()}` : '';
+    }
 
     return (
       `${this.pathnames.CLIENT}` +
       (state.companyId ? `/${state.companyId}` : '') +
       (state.viewId ? `/v/${state.viewId}` : '') +
       (state.itemId ? `/preview/${state.itemId}` : '') +
-      (state.filterSortId ? `/filter/${state.filterSortId}` : '') +
       (state.sharedWithMe ? `/shared-with-me` : '') +
       (state.workspaceId ? `/w/${state.workspaceId}` : '') +
       (state.channelId ? `/c/${state.channelId}` : '') +
