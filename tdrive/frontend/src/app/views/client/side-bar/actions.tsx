@@ -95,8 +95,9 @@ export default () => {
   const [selectedFolderId, setSelectedFolderId] = useState<string>(parentId);
 
   const openItemModal = useCallback(() => {
-    if (item?.id) setCreationModalState({ open: true, parent_id: item.id });
-  }, [item?.id, setCreationModalState]);
+    if (selectedFolderId) setCreationModalState({ open: true, parent_id: selectedFolderId});
+    else if (item?.id) setCreationModalState({ open: true, parent_id: item.id });
+  }, [selectedFolderId, item?.id, setCreationModalState]);
 
   return (
     <div className="-m-4 overflow-hidden">
@@ -211,7 +212,7 @@ export default () => {
                     title: 'Select destination folder',
                     onSelected: async ids => {
                       setSelectedFolderId(ids[0]);
-                      setCreationModalState({ parent_id: ids[0], open: true });
+                      openItemModal();
                     },
                   })
                 }}
