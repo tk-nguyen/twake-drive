@@ -29,7 +29,6 @@ import Languages from 'features/global/services/languages-service';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
 import useRouteState from 'app/features/router/hooks/use-route-state';
 
-
 export const DriveCurrentFolderAtom = atomFamily<
   string,
   { context?: string; initialFolderId: string }
