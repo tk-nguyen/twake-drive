@@ -13,7 +13,7 @@ import Languages from '@features/global/services/languages-service';
 export type SelectorModalType = {
   open: boolean;
   parent_id: string;
-  mode: 'move' | 'select-file' | 'select-files';
+  mode: 'move' | 'select-file' | 'select-files' | 'select-folder';
   title: string;
   onSelected: (ids: string[]) => Promise<void>;
 };
@@ -50,6 +50,7 @@ const SelectorModalContent = (key:any,showfiles:boolean) => {
   useEffect(() => {
     if (state.mode === 'select-file' && parent) setSelected([]);
     if (state.mode === 'move' && parent) setSelected([parent]);
+    if (state.mode === 'select-folder' && parent) setSelected([parent]);
     refresh(parentId);
   }, [parentId, parent?.id]);
 
