@@ -8,6 +8,7 @@ import { PropertiesModalAtom } from './modals/properties';
 import { SelectorModalAtom } from './modals/selector';
 import { AccessModalAtom } from './modals/update-access';
 import { VersionsModalAtom } from './modals/versions';
+import { UsersModalAtom } from './modals/manage-users';
 import { DriveApiClient, getPublicLinkToken } from '@features/drive/api-client/api-client';
 import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
 import { getPublicLink } from '@features/drive/hooks/use-drive-item';
@@ -40,6 +41,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
   const setVersionModal = useSetRecoilState(VersionsModalAtom);
   const setAccessModalState = useSetRecoilState(AccessModalAtom);
   const setPropertiesModalState = useSetRecoilState(PropertiesModalAtom);
+  const setUsersModalState = useSetRecoilState(UsersModalAtom);
   const { open: preview } = useDrivePreview();
 
   return useCallback(
@@ -266,6 +268,13 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                     );
                   },
                 },
+                { type: 'separator', hide: parent.item!.id != 'root', },
+                {
+                  type: 'menu',
+                  text: Languages.t('components.item_context_menu.manage_users'),
+                  hide: parent.item!.id != 'root',
+                  onClick: () => setUsersModalState({ open: true }),
+                },
                 { type: 'separator', hide: inTrash || parent.access === 'read' },
                 {
                   type: 'menu',
@@ -301,6 +310,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
       setCreationModalState,
       setVersionModal,
       setAccessModalState,
+      setUsersModalState,
       setPropertiesModalState,
     ],
   );
