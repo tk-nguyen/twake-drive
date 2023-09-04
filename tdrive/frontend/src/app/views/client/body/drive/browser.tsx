@@ -21,7 +21,7 @@ import {
   useOnBuildPeopleContextMenu,
   useOnBuildDateContextMenu,
 } from './context-menu';
-import { DocumentRow } from './documents/document-row';
+import {DocumentRow, DocumentRowOverlay} from './documents/document-row';
 import { FolderRow } from './documents/folder-row';
 import HeaderPath from './header-path';
 import { ConfirmDeleteModal } from './modals/confirm-delete';
@@ -36,11 +36,19 @@ import useRouteState from 'app/features/router/hooks/use-route-state';
 import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
 import MenusManager from '@components/menus/menus-manager.jsx';
 import Languages from 'features/global/services/languages-service';
+import {DndContext, useSensors, useSensor, PointerSensor, DragOverlay} from '@dnd-kit/core';
+import { Droppable } from 'app/features/dragndrop/hook/droppable';
+import { Draggable } from 'app/features/dragndrop/hook/draggable';
+import { useDriveActions } from '@features/drive/hooks/use-drive-actions';
+import { ConfirmModalAtom } from './modals/confirm-move/index';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import { ConfirmModal } from './modals/confirm-move';
+
+
 
 export const DriveCurrentFolderAtom = atomFamily<
-  string,
-  { context?: string; initialFolderId: string }
+    string,
+    { context?: string; initialFolderId: string }
 >({
   key: 'DriveCurrentFolderAtom',
   default: options => options.initialFolderId || 'root',
@@ -158,13 +166,78 @@ export default memo(
     const buildFileTypeContextMenu = useOnBuildFileTypeContextMenu();
     const buildPeopleContextMen = useOnBuildPeopleContextMenu();
     const buildDateContextMenu = useOnBuildDateContextMenu();
+    const setConfirmModalState = useSetRecoilState(ConfirmModalAtom);
+    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeChild, setActiveChild] = useState(null);
+    const {update} = useDriveActions();
+    const sensors = useSensors(
+      useSensor(PointerSensor, {
+        activationConstraint: {
+          distance: 8,
+        },
+      })
+    );
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    function handleDragStart(event:any) {
+      setActiveIndex(event.active.id);
+      setActiveChild(event.active.data.current.child.props.item);
+    }
+    function handleDragEnd(event:any) {
+      setActiveIndex(null);
+      setActiveChild(null);
+      if (event.over){
+        setConfirmModalState({
+          open: true,
+          parent_id: inTrash ? 'root' : event.over.data.current.child.props.item.id,
+          mode: 'move',
+          title:
+            Languages.t('components.item_context_menu.move.modal_header') +
+            ` '${event.active.data.current.child.props.item.name}'`,
+          onSelected: async ids => {
+            await update(
+              {
+                parent_id: ids[0],
+              },
+              event.active.data.current.child.props.item.id,
+              event.active.data.current.child.props.item.parent_id,
+            );
+          },
+        })
+      }
+      
+    }
+
+    function draggableMarkup(index: number, child: any) {
+      const commonProps = {
+        key: index,
+        className:
+            (index === 0 ? 'rounded-t-md ' : '') +
+            (index === documents.length - 1 ? 'rounded-b-md ' : ''),
+        item: child,
+        checked: checked[child.id] || false,
+        onCheck: (v: boolean) =>
+            setChecked(_.pickBy({ ...checked, [child.id]: v }, _.identity)),
+        onBuildContextMenu: () => onBuildContextMenu(details, child),
+      };
+      return (
+          isMobile ? (
+            <DocumentRow {...commonProps} />
+          ) : (
+            <Draggable id={index}>
+              <DocumentRow {...commonProps} />
+            </Draggable>
+          )
+      );
+    }
+    
 
     return (
       <>
         {viewId == 'shared-with-me' ? (
           <>
             <Suspense fallback={<></>}>
-              <DrivePreview items={documents} />
+              <DrivePreview items={documents}/>
             </Suspense>
             <SharedFilesTable />
           </>
@@ -197,8 +270,9 @@ export default memo(
             <PropertiesModal />
             <ConfirmDeleteModal />
             <ConfirmTrashModal />
+            <ConfirmModal />
             <Suspense fallback={<></>}>
-              <DrivePreview items={documents} />
+              <DrivePreview items={documents}/>
             </Suspense>
             <div
               className={
@@ -297,69 +371,76 @@ export default memo(
                 </Menu>
               </div>
 
-              <div className="grow overflow-auto">
-                {folders.length > 0 && (
-                  <>
-                    <Title className="mb-2 block">{Languages.t('scenes.app.drive.folders')}</Title>
 
-                    {folders.map((child, index) => (
-                      <FolderRow
-                        key={index}
-                        className={
-                          (index === 0 ? 'rounded-t-md ' : '') +
-                          (index === folders.length - 1 ? 'rounded-b-md ' : '')
-                        }
-                        item={child}
-                        onClick={() => {
-                          return setParentId(child.id);
-                        }}
-                        checked={checked[child.id] || false}
-                        onCheck={v =>
-                          setChecked(_.pickBy({ ...checked, [child.id]: v }, _.identity))
-                        }
-                        onBuildContextMenu={() => onBuildContextMenu(details, child)}
-                      />
-                    ))}
-                    <div className="my-6" />
-                  </>
-                )}
+              <DndContext sensors={sensors} onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+                <div className="grow overflow-auto">
+                
+                  {folders.length > 0 && (
+                    <>
+                      <Title className="mb-2 block">{Languages.t('scenes.app.drive.folders')}</Title>
 
-                <Title className="mb-2 block">{Languages.t('scenes.app.drive.documents')}</Title>
+                      {folders.map((child, index) => (
+                        <Droppable id={index} key={index}>
+                        <FolderRow
+                            key={index}
+                            className={
+                              (index === 0 ? 'rounded-t-md ' : '') +
+                              (index === folders.length - 1 ? 'rounded-b-md ' : '')
+                            }
+                            item={child}
+                            onClick={() => {
+                              return setParentId(child.id);
+                            }}
+                            checked={checked[child.id] || false}
+                            onCheck={v =>
+                              setChecked(_.pickBy({ ...checked, [child.id]: v }, _.identity))
+                            }
+                            onBuildContextMenu={() => onBuildContextMenu(details, child)}
+                          />
+                        </Droppable>
+                      ))}
+                      <div className="my-6" />
+                    </>
+                  )}
 
-                {documents.length === 0 && !loading && (
-                  <div className="mt-4 text-center border-2 border-dashed rounded-md p-8">
-                    <Subtitle className="block mb-2">
-                      {Languages.t('scenes.app.drive.nothing')}
-                    </Subtitle>
-                    {!inTrash && access != 'read' && (
-                      <>
-                        <Base>{Languages.t('scenes.app.drive.drag_and_drop')}</Base>
-                        <br />
-                        <Button onClick={() => openItemModal()} theme="primary" className="mt-4">
-                          {Languages.t('scenes.app.drive.add_doc')}
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                )}
+                  <Title className="mb-2 block">{Languages.t('scenes.app.drive.documents')}</Title>
 
-                {documents.map((child, index) => (
-                  <DocumentRow
-                    key={index}
-                    className={
-                      (index === 0 ? 'rounded-t-md ' : '') +
-                      (index === documents.length - 1 ? 'rounded-b-md ' : '')
-                    }
-                    item={child}
-                    checked={checked[child.id] || false}
-                    onCheck={v => setChecked(_.pickBy({ ...checked, [child.id]: v }, _.identity))}
-                    onBuildContextMenu={() => onBuildContextMenu(details, child)}
-                  />
-                ))}
-              </div>
-            </div>
+                  {documents.length === 0 && !loading && (
+                    <div className="mt-4 text-center border-2 border-dashed rounded-md p-8">
+                      <Subtitle className="block mb-2">
+                        {Languages.t('scenes.app.drive.nothing')}
+                      </Subtitle>
+                      {!inTrash && access != 'read' && (
+                        <>
+                          <Base>{Languages.t('scenes.app.drive.drag_and_drop')}</Base>
+                          <br />
+                          <Button onClick={() => openItemModal()} theme="primary" className="mt-4">
+                            {Languages.t('scenes.app.drive.add_doc')}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  )}
+
+                  {documents.map((child, index) => (
+                    draggableMarkup(index, child)
+                  ))}
+                  <DragOverlay>
+                    {activeIndex ? (
+                        <DocumentRowOverlay className={
+                            (activeIndex === 0 ? 'rounded-t-md ' : '') +
+                            (activeIndex === documents.length - 1 ? 'rounded-b-md ' : '')}
+                            item={activeChild}
+                        ></DocumentRowOverlay>
+                    ): null}
+                  </DragOverlay>
+
+                </div>
+              </DndContext>
+              </div>    
           </UploadZone>
         )}
+
       </>
     );
   },
