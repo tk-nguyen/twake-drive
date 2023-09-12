@@ -14,6 +14,7 @@ import {
   getApplicationObject,
 } from "../../../applications/entities/application";
 import gr from "../../../global-resolver";
+import { logger } from "../../../../core/platform/framework/logger";
 import {
   ApplicationApiExecutionContext,
   ApplicationLoginRequest,
@@ -171,20 +172,10 @@ export class ApplicationsApiController {
         email: string;
         first_name: string;
         last_name: string;
-        application_id: string;
-        company_id: string;
       };
     }>,
   ): Promise<any> {
     const email = request.body.email.trim().toLocaleLowerCase();
-    const checkApplication = gr.services.applications.companyApps.get({
-      application_id: request.body.application_id,
-      company_id: request.body.company_id,
-    });
-
-    if (!checkApplication) {
-      throw new Error("Application is not allowed to sync users for this company.");
-    }
 
     if (await gr.services.users.getByEmail(email)) {
       throw new Error("This email is already used");
@@ -203,12 +194,17 @@ export class ApplicationsApiController {
       });
       const user = await gr.services.users.create(newUser);
 
-      await gr.services.companies.setUserRole(request.body.company_id, user.entity.id, "admin");
+      const company = await gr.services.companies.getCompany({
+        id: "00000000-0000-4000-0000-000000000000",
+      });
+
+      await gr.services.companies.setUserRole(company.id, user.entity.id, "member");
 
       await gr.services.users.save(user.entity, {
         user: { id: user.entity.id, server_request: true },
       });
     } catch (err) {
+      logger.error(err);
       throw new Error("An unknown error occured");
     }
     return {};
