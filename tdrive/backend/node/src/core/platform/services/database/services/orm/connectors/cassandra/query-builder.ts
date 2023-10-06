@@ -1,6 +1,6 @@
 import { FindOptions } from "../../repository/repository";
 import { ObjectType } from "../../types";
-import { getEntityDefinition, secureOperators } from "../../utils";
+import { getEntityDefinition, secureOperators, filteringRequired } from "../../utils";
 import { transformValueToDbString } from "./typeTransforms";
 
 export function buildSelectQuery<Entity>(
@@ -17,11 +17,16 @@ export function buildSelectQuery<Entity>(
 ): string {
   const instance = new (entityType as any)();
   const { columnsDefinition, entityDefinition } = getEntityDefinition(instance);
+  let allowFiltering = false;
 
   const where = Object.keys(filters)
     .map(key => {
       let result: string;
       const filter = filters[key];
+
+      if (filteringRequired(key)) {
+        allowFiltering = true;
+      }
 
       if (!filter) {
         return;
@@ -77,7 +82,7 @@ export function buildSelectQuery<Entity>(
     whereClause.trim().length ? "WHERE " + whereClause : ""
   } ${orderByClause.trim().length ? "ORDER BY " + orderByClause : ""}`
     .trimEnd()
-    .concat(";");
+    .concat(allowFiltering ? " ALLOW FILTERING;" : ";");
 
   return query;
 }

@@ -169,28 +169,61 @@ export const getAccessLevel = async (
   repository: Repository<DriveFile>,
   context: CompanyExecutionContext & { public_token?: string; tdrive_tab_token?: string },
 ): Promise<DriveFileAccessLevel | "none"> => {
+  const isAdmin = !context?.user?.id || (await isCompanyAdmin(context));
   const isMember = !context?.user?.id || (await isCompanyMember(context));
+
   if (!id || id === "root") {
     if (!context?.user?.id || (await isCompanyGuest(context))) {
       return "none";
-    } else {
-      if (isMember) return "read";
-      return "manage";
     }
   }
-  if (id === "trash")
-    return (await isCompanyGuest(context)) || !context?.user?.id
-      ? "none"
-      : (await isCompanyAdmin(context))
-      ? "manage"
-      : "write";
-  if (id === "shared_with_me") return "read";
 
-  //If it is my personal folder, I have full access
   if (id.startsWith("user_")) {
+    if (await isCompanyApplication(context)) return "read";
+  }
+
+  if (context?.user?.id) {
+    /**
+     * Drive root directories access management
+     */
     if (id === "user_" + context.user?.id) return "manage";
-    if (await isCompanyApplication(context)) return "manage";
-    return "none";
+    if (id === "trash_" + context.user?.id) return "manage";
+
+    if (id === "root") {
+      if (isAdmin) return "manage";
+
+      return "read";
+    }
+
+    if (id === "trash") {
+      if (isAdmin) return "manage";
+
+      return "read";
+    }
+
+    if (id === "shared_with_me") return "read";
+
+    /**
+     * Entity based access management
+     */
+
+    if (!item) {
+      item = await repository.findOne({
+        id,
+        company_id: context.company.id,
+      });
+    }
+
+    if (!item) {
+      throw Error("Drive item doesn't exist");
+    }
+
+    if (item.scope === "personal" && item.creator == context.user.id) return "manage";
+
+    if (item.scope === "shared") {
+      if (isAdmin) return "manage";
+      if (isMember) return "read";
+    }
   }
 
   let publicToken = context.public_token;
@@ -206,13 +239,6 @@ export const getAccessLevel = async (
 
     if (!item) {
       throw Error("Drive item doesn't exist");
-    }
-
-    if (await isCompanyApplication(context)) {
-      if (!id.startsWith("user_") && isMember && item.creator != context.user.id) {
-        return "read";
-      }
-      return "manage";
     }
 
     /*
@@ -381,6 +407,30 @@ export const getSharedByUser = (
     }
   }
   return null;
+};
+
+export const getItemScope = async (
+  item: DriveFile | null,
+  repository: Repository<DriveFile>,
+  context: CompanyExecutionContext,
+): Promise<"personal" | "shared"> => {
+  let scope: "personal" | "shared";
+  if (item.parent_id === "user_" + context.user?.id) {
+    scope = "personal";
+  } else if (item.parent_id === "root") {
+    scope = "shared";
+  } else {
+    const driveItemParent = await repository.findOne(
+      {
+        company_id: context.company.id,
+        id: item.parent_id,
+      },
+      {},
+      context,
+    );
+    scope = driveItemParent.scope;
+  }
+  return scope;
 };
 
 const getGrantorAndThrowIfEmpty = (entity: AuthEntity) => {

@@ -40,12 +40,14 @@ import {
   isSharedWithMeFolder,
   isVirtualFolder,
   updateItemSize,
+  isInTrash,
 } from "../utils";
 import {
   checkAccess,
   getAccessLevel,
   hasAccessLevel,
   makeStandaloneAccessLevel,
+  getItemScope,
 } from "./access-check";
 import { websocketEventBus } from "../../../core/platform/services/realtime/bus";
 
@@ -153,7 +155,6 @@ export class DocumentsService {
         throw Error("user does not have access to this item");
       }
     } catch (error) {
-      console.log(error);
       this.logger.error({ error: `${error}` }, "Failed to grant access to the drive item");
       throw new CrudException("User does not have access to this item or its children", 401);
     }
@@ -179,7 +180,22 @@ export class DocumentsService {
           await this.repository.find(
             {
               company_id: context.company.id,
-              parent_id: id,
+              ...(id.includes(this.TRASH)
+                ? {
+                    is_in_trash: true,
+                    ...(id == this.TRASH
+                      ? {
+                          scope: "shared",
+                        }
+                      : {
+                          scope: "personal",
+                          creator: context?.user?.id,
+                        }),
+                  }
+                : {
+                    parent_id: id,
+                    is_in_trash: false,
+                  }),
             },
             {},
             context,
@@ -257,6 +273,7 @@ export class DocumentsService {
     try {
       const driveItem = getDefaultDriveItem(content, context);
       const driveItemVersion = getDefaultDriveItemVersion(version, context);
+      driveItem.scope = await getItemScope(driveItem, this.repository, context);
 
       const hasAccess = await checkAccess(
         driveItem.parent_id,
@@ -387,7 +404,7 @@ export class DocumentsService {
         throw Error("content mismatch");
       }
 
-      const updatable = ["access_info", "name", "tags", "parent_id", "description"];
+      const updatable = ["access_info", "name", "tags", "parent_id", "description", "is_in_trash"];
 
       for (const key of updatable) {
         if ((content as any)[key]) {
@@ -434,6 +451,9 @@ export class DocumentsService {
       await updateItemSize(item.parent_id, this.repository, context);
 
       if (oldParent) {
+        item.scope = await getItemScope(item, this.repository, context);
+        this.repository.save(item);
+
         await updateItemSize(oldParent, this.repository, context);
         this.notifyWebsocket(oldParent, context);
       }
@@ -529,6 +549,7 @@ export class DocumentsService {
 
       const previousParentId = item.parent_id;
       if (
+        (await isInTrash(item, this.repository, context)) ||
         item.parent_id === this.TRASH ||
         (await getPath(item.parent_id, this.repository, true, context))[0].id === this.TRASH
       ) {
@@ -568,7 +589,7 @@ export class DocumentsService {
         await this.repository.remove(item);
       } else {
         //This item is not in trash, we move it to trash
-        item.parent_id = this.TRASH;
+        item.is_in_trash = true;
         await this.update(item.id, item, context);
       }
       await updateItemSize(previousParentId, this.repository, context);
@@ -577,6 +598,61 @@ export class DocumentsService {
     }
 
     await this.notifyWebsocket("trash", context);
+  };
+
+  /**
+   * restore a Drive Document and its children
+   *
+   * @param {string} id - the item id
+   * @param {DriveExecutionContext} context - the execution context
+   * @returns {Promise<void>}
+   */
+  restore = async (
+    id: string | RootType | TrashType,
+    item?: DriveFile,
+    context?: DriveExecutionContext,
+  ): Promise<void> => {
+    if (!id) {
+      //We can't remove the root folder
+      return;
+    }
+
+    item =
+      item ||
+      (await this.repository.findOne({
+        company_id: context.company.id,
+        id,
+      }));
+
+    if (!item) {
+      this.logger.error("item to delete not found");
+      throw new CrudException("Drive item not found", 404);
+    }
+
+    try {
+      if (!(await checkAccess(item.id, item, "manage", this.repository, context))) {
+        this.logger.error("user does not have access drive item ", id);
+        throw Error("user does not have access to this item");
+      }
+    } catch (error) {
+      this.logger.error({ error: `${error}` }, "Failed to grant access to the drive item");
+      throw new CrudException("User does not have access to this item or its children", 401);
+    }
+
+    if (isInTrash(item, this.repository, context)) {
+      if (item.is_in_trash != true) {
+        if (item.scope === "personal") {
+          item.parent_id = "user_" + context.user.id;
+        } else {
+          item.parent_id = "root";
+        }
+      } else {
+        item.is_in_trash = false;
+      }
+    }
+    this.repository.save(item);
+
+    this.notifyWebsocket("trash", context);
   };
 
   /**

@@ -30,7 +30,13 @@ const TRASH: TrashType = "trash";
 const SHARED_WITH_ME: SharedWithMeType = "shared_with_me";
 
 export const isVirtualFolder = (id: string) => {
-  return id === ROOT || id === TRASH || id.startsWith("user_") || id == SHARED_WITH_ME;
+  return (
+    id === ROOT ||
+    id === TRASH ||
+    id.startsWith("trash_") ||
+    id.startsWith("user_") ||
+    id == SHARED_WITH_ME
+  );
 };
 
 export const isSharedWithMeFolder = (id: string) => {
@@ -72,6 +78,7 @@ export const getDefaultDriveItem = (
     last_modified: new Date().getTime(),
     parent_id: item.parent_id || "root",
     content_keywords: item.content_keywords || "",
+    scope: "personal",
     description: item.description || "",
     access_info: item.access_info || {
       entities: [
@@ -163,7 +170,17 @@ export const calculateItemSize = async (
 ): Promise<number> => {
   if (item.id === "trash") {
     const trashedItems = await repository.find(
-      { company_id: context.company.id, parent_id: "trash" },
+      { company_id: context.company.id, is_in_trash: true, scope: "shared" },
+      {},
+      context,
+    );
+
+    return trashedItems.getEntities().reduce((acc, curr) => acc + curr.size, 0);
+  }
+
+  if (item.id === "trash_" + context.user.id) {
+    const trashedItems = await repository.find(
+      { company_id: context.company.id, is_in_trash: true, scope: "personal" },
       {},
       context,
     );
@@ -173,7 +190,7 @@ export const calculateItemSize = async (
 
   if (isVirtualFolder(item.id) || !item) {
     const rootFolderItems = await repository.find(
-      { company_id: context.company.id, parent_id: item.id || "root" },
+      { company_id: context.company.id, parent_id: item.id || "root", is_in_trash: false },
       {},
       context,
     );
@@ -186,6 +203,7 @@ export const calculateItemSize = async (
       {
         company_id: context.company.id,
         parent_id: item.id,
+        is_in_trash: false,
       },
       {},
       context,
@@ -561,3 +579,26 @@ export function isFileType(
   const fileExtensions = [extension, ...secondaryExtensions];
   return fileExtensions.some(e => requiredExtensions.includes(e));
 }
+
+export const isInTrash = async (
+  item: DriveFile,
+  repository: Repository<DriveFile>,
+  context: CompanyExecutionContext,
+) => {
+  if (item.is_in_trash === true) {
+    return true;
+  }
+
+  if (isVirtualFolder(item.parent_id)) {
+    return false; // Stop condition
+  }
+
+  // Retrieve the parent item
+  const parentItem = await repository.findOne({
+    company_id: context.company.id,
+    id: item.parent_id,
+  });
+
+  // Recursively check the parent item
+  return isInTrash(parentItem, repository, context);
+};

@@ -13,6 +13,7 @@ import { CreateModal, CreateModalAtom } from '../body/drive/modals/create';
 import { Button } from '@atoms/button/button';
 import Languages from "features/global/services/languages-service";
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
+import RouterServices from '@features/router/services/router-service';
 
 export const CreateModalWithUploadZones = ({ initialParentId }: { initialParentId?: string }) => {
   const companyId = useRouterCompany();
@@ -24,8 +25,6 @@ export const CreateModalWithUploadZones = ({ initialParentId }: { initialParentI
   const [parentId, _] = useRecoilState(
     DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'user_'+user?.id }),
   );
-
-  console.log("Upload Zone:: " + parentId);
 
   return (
     <>
@@ -81,12 +80,14 @@ export const CreateModalWithUploadZones = ({ initialParentId }: { initialParentI
 
 export default () => {
   const { user } = useCurrentUser();
+  const { viewId } = RouterServices.getStateFromRoute();
   const [parentId, _] = useRecoilState(DriveCurrentFolderAtom({ initialFolderId: 'user_'+user?.id  }));
-  const { access, item, inTrash } = useDriveItem(parentId);
-  const { children: trashChildren } = useDriveItem('trash');
+  const { access, item } = useDriveItem(parentId);
+  const { children: trashChildren } = useDriveItem(viewId === 'trash' ? 'trash' : 'trash_'+user?.id);
   const uploadZoneRef = useRef<UploadZone | null>(null);
   const { uploadTree } = useDriveUpload();
   const companyId = useRouterCompany();
+  const inTrash = viewId?.includes("trash") || false;
 
   const setConfirmDeleteModalState = useSetRecoilState(ConfirmDeleteModalAtom);
   const setCreationModalState = useSetRecoilState(CreateModalAtom);
@@ -101,7 +102,7 @@ export default () => {
         <div className="p-4">
           <CreateModalWithUploadZones initialParentId={parentId} />
 
-          {inTrash && access === 'manage' && (
+          {inTrash && (
             <>
               <Button
                 onClick={() =>
@@ -113,6 +114,7 @@ export default () => {
                 size="lg"
                 theme="danger"
                 className="w-full mb-2 justify-center"
+                disabled={!(trashChildren.length > 0)}
               >
                 <TruckIcon className="w-5 h-5 mr-2" /> { Languages.t('components.side_menu.buttons.empty_trash') }
               </Button>

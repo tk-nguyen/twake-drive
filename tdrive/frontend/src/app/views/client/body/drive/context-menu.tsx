@@ -19,6 +19,7 @@ import { ToasterService } from '@features/global/services/toaster-service';
 import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { SharedWithMeFilterState } from '@features/drive/state/shared-with-me-filter';
 import { getCurrentUserList } from '@features/users/hooks/use-user-list';
+import useRouteState from 'app/features/router/hooks/use-route-state';
 import RouterServices from '@features/router/services/router-service';
 import useRouterCompany from '@features/router/hooks/use-router-company';
 import _ from 'lodash';
@@ -35,7 +36,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
     DriveCurrentFolderAtom({ initialFolderId: initialParentId || 'root' }),
   );
 
-  const { download, downloadZip, update } = useDriveActions();
+  const { download, downloadZip, update, restore } = useDriveActions();
   const setCreationModalState = useSetRecoilState(CreateModalAtom);
   const setSelectorModalState = useSetRecoilState(SelectorModalAtom);
   const setConfirmDeleteModalState = useSetRecoilState(ConfirmDeleteModalAtom);
@@ -45,6 +46,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
   const setPropertiesModalState = useSetRecoilState(PropertiesModalAtom);
   const setUsersModalState = useSetRecoilState(UsersModalAtom);
   const { open: preview } = useDrivePreview();
+  const { viewId } = useRouteState();
   const company = useRouterCompany();
   
   function getIdsFromArray(arr: DriveItem[]): string[] {
@@ -56,7 +58,8 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
       if (!parent || !parent.access) return [];
 
       try {
-        const inTrash = parent.path?.[0]?.id === 'trash';
+        const inTrash = parent.path?.[0]?.id.includes('trash') || viewId?.includes("trash");
+        const isPersonal = item?.scope === 'personal';
         const selectedCount = checked.length;
 
         let menu: any[] = [];
@@ -75,7 +78,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.share'),
-              hide: access === 'read' || getPublicLinkToken(),
+              hide: access === 'read' || getPublicLinkToken() || inTrash,
               onClick: () => setAccessModalState({ open: true, id: item.id }),
             },
             {
@@ -106,13 +109,13 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.manage_access'),
-              hide: access === 'read' || getPublicLinkToken(),
+              hide: access === 'read' || getPublicLinkToken() || inTrash,
               onClick: () => setAccessModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.move'),
-              hide: access === 'read',
+              hide: access === 'read' || inTrash,
               onClick: () =>
                 setSelectorModalState({
                   open: true,
@@ -135,13 +138,13 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.rename'),
-              hide: access === 'read',
+              hide: access === 'read' || inTrash,
               onClick: () => setPropertiesModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.copy_link'),
-              hide: !item.access_info.public?.level || item.access_info.public?.level === 'none',
+              hide: !item.access_info.public?.level || item.access_info.public?.level === 'none' || inTrash,
               onClick: () => {
                 copyToClipboard(getPublicLink(item || parent?.item));
                 ToasterService.success(
@@ -152,16 +155,26 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.versions'),
-              hide: item.is_directory,
+              hide: item.is_directory || inTrash,
               onClick: () => setVersionModal({ open: true, id: item.id }),
             },
-            { type: 'separator', hide: access !== 'manage' },
+            { type: 'separator', hide: access !== 'manage' || inTrash, },
             {
               type: 'menu',
               text: Languages.t('components.item_context_menu.move_to_trash'),
               className: 'error',
               hide: inTrash || access !== 'manage',
               onClick: () => setConfirmTrashModalState({ open: true, items: [item] }),
+            },
+            {
+              type: 'menu',
+              text: Languages.t('components.item_context_menu.restore'),
+              className: 'error',
+              hide: !inTrash || (access !== 'manage' && !isPersonal),
+              onClick: () => {
+                const parentId = item.is_in_trash ? viewId || '' : item.parent_id;
+                restore(item.id, parentId);
+              },
             },
             {
               type: 'menu',
@@ -257,7 +270,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                   type: 'menu',
                   text: Languages.t('components.item_context_menu.trash.empty'),
                   className: 'error',
-                  hide: parent.item!.id != 'trash' || parent.access !== 'manage',
+                  hide: !inTrash,
                   onClick: () => {
                     setConfirmDeleteModalState({
                       open: true,
