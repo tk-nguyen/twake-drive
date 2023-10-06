@@ -31,8 +31,8 @@ class ConsoleAPIClient {
 
   logger = Logger.getLogger('ConsoleAPIClient');
 
-  login(params: LoginParams, disableJWTAuthentication = false): Promise<string> {
-    return Api.post<LoginParams, { access_token: string }>(
+  login(params: LoginParams, disableJWTAuthentication = false): Promise<JWTDataType> {
+    return Api.post<LoginParams, AccessTokenResponse>(
       '/internal/services/console/v1/login',
       { ...params, ...{ device: {} } },
       undefined,
@@ -90,7 +90,7 @@ class ConsoleAPIClient {
         response.access_token
           ? resolve(response.access_token)
           : reject(new Error('Can not get access token'));
-      });
+      }, false, {disableJWTAuthentication: true});
     });
   }
 }
