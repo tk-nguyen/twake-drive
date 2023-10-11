@@ -109,7 +109,7 @@ export class UserNotificationDigestService implements TdriveServiceProvider, Ini
     const workspaces: { [key: string]: Workspace } = {};
 
     for (const badge of badges.getEntities()) {
-      if (!badge.thread_id) continue;
+      if (!badge.document_id) continue;
       try {
         workspaces[badge.workspace_id] =
           badge.workspace_id && badge.workspace_id !== "direct"
