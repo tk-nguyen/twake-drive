@@ -104,6 +104,15 @@ export interface ResourceEventsPayload {
   workspace?: WorkspacePrimaryKey;
 }
 
+export interface DocumentEventsPayload {
+  user: User;
+  actor?: User;
+  document?: {
+    sender: string;
+  };
+  company?: { id: string };
+}
+
 export interface PaginationQueryParameters {
   // It is offset for MongoDB and pointer to the next page for ScyllaDB
   page_token?: string;

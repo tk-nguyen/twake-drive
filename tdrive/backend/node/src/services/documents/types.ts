@@ -91,3 +91,13 @@ export type DriveTdriveTab = {
   item_id: string;
   level: "read" | "write";
 };
+
+export enum DocumentEvents {
+  DOCUMENT_SAHRED = "document_shared",
+}
+export interface DocumentLocalEvent {
+  event: DocumentEvents;
+  resource: DriveFile;
+  context: CompanyExecutionContext;
+  created: boolean;
+}

@@ -50,7 +50,7 @@ import {
   getItemScope,
 } from "./access-check";
 import { websocketEventBus } from "../../../core/platform/services/realtime/bus";
-
+import { DocumentEvents } from "../types";
 import archiver from "archiver";
 import internal from "stream";
 import {
@@ -405,6 +405,14 @@ export class DocumentsService {
       }
 
       const updatable = ["access_info", "name", "tags", "parent_id", "description", "is_in_trash"];
+
+      // Notify the user that the document has been shared with them
+      await gr.services.documents.engine.DispatchDocumentEvent({
+        event: DocumentEvents.DOCUMENT_SAHRED,
+        created: true,
+        resource: item,
+        context: context,
+      });
 
       for (const key of updatable) {
         if ((content as any)[key]) {
