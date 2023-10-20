@@ -24,12 +24,16 @@ export class DocumentsEngine implements Initializable {
     });
     try {
       const { html, text, subject } = await globalResolver.platformServices.emailPusher.build(
-        "notification-digest",
-        user.language,
+        "notification-document",
+        user.language || "en",
         {
           user,
           company,
-          notifications: [],
+          notifications: [
+            {
+              title: "New document shared with you!",
+            },
+          ],
         },
       );
       await globalResolver.platformServices.emailPusher.send(user.email_canonical, {

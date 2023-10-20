@@ -24,6 +24,7 @@ export default class EmailPusherClass
   apiKey: string;
   apiUrl: string;
   sender: string;
+  debug: boolean;
 
   api(): EmailPusherAPI {
     return this;
@@ -37,6 +38,7 @@ export default class EmailPusherClass
     this.apiUrl = this.configuration.get<string>("endpoint", "");
     this.apiKey = this.configuration.get<string>("api_key", "");
     this.sender = this.configuration.get<string>("sender", "");
+    this.debug = this.configuration.get<boolean>("debug", false);
 
     return this;
   }
@@ -108,21 +110,25 @@ export default class EmailPusherClass
         sender: this.sender,
       };
 
-      const { data } = await axios.post<EmailPusherEmailType, EmailPusherResponseType>(
-        `${this.apiUrl}`,
-        emailObject,
-      );
+      if (this.debug) {
+        this.logger.info("EMAIL::SENT ", { emailObject });
+      } else {
+        const { data } = await axios.post<EmailPusherEmailType, EmailPusherResponseType>(
+          `${this.apiUrl}`,
+          emailObject,
+        );
 
-      if (data.error && data.error.length) {
-        throw Error(data.error);
-      }
+        if (data.error && data.error.length) {
+          throw Error(data.error);
+        }
 
-      if (data.failed === 1 && data.failures.length) {
-        throw Error(data.failures.join(""));
-      }
+        if (data.failed === 1 && data.failures.length) {
+          throw Error(data.failures.join(""));
+        }
 
-      if (data.succeeded) {
-        this.logger.info("email sent");
+        if (data.succeeded) {
+          this.logger.info("email sent");
+        }
       }
     } catch (error) {
       this.logger.error({ error: `${error}` }, "Failed to send email");

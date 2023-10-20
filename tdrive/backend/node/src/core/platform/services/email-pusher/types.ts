@@ -1,12 +1,11 @@
 import Company from "../../../../services/user/entities/company";
-import Workspace from "../../../../services/workspaces/entities/workspace";
 import User from "../../../../services/user/entities/user";
 
 export type EmailBuilderDataPayload = {
   user: User;
   company: Company;
-  notifications: {
-    workspace: Workspace;
+  notifications?: {
+    title: string;
   }[];
 };
 
@@ -16,7 +15,7 @@ export type EmailBuilderRenderedResult = {
   subject: string;
 };
 
-export type EmailBuilderTemplateName = "notification-digest";
+export type EmailBuilderTemplateName = "notification-digest" | "notification-document";
 
 export type EmailPusherPayload = {
   subject: string;

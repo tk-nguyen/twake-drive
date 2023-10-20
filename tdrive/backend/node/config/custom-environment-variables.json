@@ -83,6 +83,12 @@
       "secretKey": "STORAGE_S3_SECRET_KEY"
     }
   },
+  "email-pusher":{
+    "endpoint":"EMAIL_PUSHER_ENDPOINT",
+    "api_key":"EMAIL_PUSHER_API_KEY",
+    "sender":"EMAIL_PUSHER_SENDER",
+    "debug": "EMAIL_PUSHER_DEBUG"
+  },
   "message-queue": {
     "type": "PUBSUB_TYPE",
     "amqp": {

@@ -102,9 +102,7 @@ export class UserNotificationDigestService implements TdriveServiceProvider, Ini
     const user = await gr.services.users.get({ id: digest.user_id });
     const company = await gr.services.companies.getCompany({ id: digest.company_id });
     const notifications: {
-      channel: any;
-      workspace: Workspace;
-      message: any;
+      title: string;
     }[] = [];
     const workspaces: { [key: string]: Workspace } = {};
 
@@ -121,9 +119,7 @@ export class UserNotificationDigestService implements TdriveServiceProvider, Ini
             : null;
 
         notifications.push({
-          channel: null,
-          workspace: workspaces[badge.workspace_id],
-          message: null,
+          title: "Dummy notification",
         });
       } catch (e) {}
     }
