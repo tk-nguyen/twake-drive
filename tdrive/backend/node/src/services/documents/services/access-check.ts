@@ -215,7 +215,7 @@ export const getAccessLevel = async (
     }
 
     if (!item) {
-      throw Error("Drive item doesn't exist");
+      throw Error(`Drive item doesn't exist ${id}`);
     }
 
     if (item.scope === "personal" && item.creator == context.user.id) return "manage";
@@ -238,7 +238,7 @@ export const getAccessLevel = async (
     }
 
     if (!item) {
-      throw Error("Drive item doesn't exist");
+      throw Error(`Drive item doesn't exist ${id}`);
     }
 
     /*
@@ -312,6 +312,7 @@ export const getAccessLevel = async (
       "none",
     ) as DriveFileAccessLevel | "none";
   } catch (error) {
+    logger.warn(`Failed to check access for ${id}, ${JSON.stringify(context)}`);
     throw Error(error);
   }
 };
