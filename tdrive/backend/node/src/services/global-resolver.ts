@@ -20,10 +20,6 @@ import assert from "assert";
 import { logger } from "../core/platform/framework";
 import { ApplicationServiceImpl } from "./applications/services/applications";
 import { CompanyApplicationServiceImpl } from "./applications/services/company-applications";
-import { NotificationPreferencesService } from "./notifications/services/preferences";
-import { NotificationEngine } from "./notifications/services/engine";
-import { UserNotificationBadgeService } from "./notifications/services/badges";
-import { UserNotificationDigestService } from "./notifications/services/digest";
 import { ApplicationHooksService } from "./applications/services/hooks";
 import { ConsoleServiceImpl } from "./console/service";
 import { DocumentsService } from "./documents/services";
@@ -63,12 +59,6 @@ type TdriveServices = {
   console: ConsoleServiceImpl;
   statistics: StatisticsServiceImpl;
   externalUser: UserExternalLinksServiceImpl;
-  notifications: {
-    badges: UserNotificationBadgeService;
-    engine: NotificationEngine;
-    preferences: NotificationPreferencesService;
-    digest: UserNotificationDigestService;
-  };
   preview: {
     files: PreviewProcessService;
   };
@@ -133,12 +123,6 @@ class GlobalResolver {
       console: await new ConsoleServiceImpl().init(),
       statistics: await new StatisticsServiceImpl().init(),
       externalUser: await new UserExternalLinksServiceImpl().init(),
-      notifications: {
-        badges: await new UserNotificationBadgeService().init(platform),
-        engine: await new NotificationEngine().init(),
-        preferences: await new NotificationPreferencesService().init(),
-        digest: await new UserNotificationDigestService().init(),
-      },
       preview: {
         files: await new PreviewProcessService().init(),
       },
