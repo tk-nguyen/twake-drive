@@ -100,4 +100,5 @@ export interface DocumentLocalEvent {
   resource: DriveFile;
   context: CompanyExecutionContext;
   created: boolean;
+  user_id: string;
 }

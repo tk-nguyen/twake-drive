@@ -18,7 +18,7 @@ export class DocumentsEngine implements Initializable {
       },
       user: e.context.user,
     };
-    const user = await globalResolver.services.users.get({ id: e.context.user.id });
+    const user = await globalResolver.services.users.get({ id: e.user_id });
     const company = await globalResolver.services.companies.getCompany({
       id: e.context.company.id,
     });

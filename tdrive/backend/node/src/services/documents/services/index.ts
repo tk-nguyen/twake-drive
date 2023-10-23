@@ -406,14 +406,6 @@ export class DocumentsService {
 
       const updatable = ["access_info", "name", "tags", "parent_id", "description", "is_in_trash"];
 
-      // Notify the user that the document has been shared with them
-      await gr.services.documents.engine.DispatchDocumentEvent({
-        event: DocumentEvents.DOCUMENT_SAHRED,
-        created: true,
-        resource: item,
-        context: context,
-      });
-
       for (const key of updatable) {
         if ((content as any)[key]) {
           if (
@@ -427,7 +419,17 @@ export class DocumentsService {
 
           if (key === "access_info") {
             item.access_info = content.access_info;
-            item.access_info.entities.forEach(info => {
+            item.access_info.entities.forEach(async info => {
+              if (item.access_info.entities.includes(info)) {
+                // Notify the user that the document has been shared with them
+                await gr.services.documents.engine.DispatchDocumentEvent({
+                  event: DocumentEvents.DOCUMENT_SAHRED,
+                  created: true,
+                  resource: item,
+                  context: context,
+                  user_id: info.id,
+                });
+              }
               if (!info.grantor) {
                 info.grantor = context.user.id;
               }
