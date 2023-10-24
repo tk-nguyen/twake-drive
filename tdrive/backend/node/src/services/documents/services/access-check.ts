@@ -188,6 +188,7 @@ export const getAccessLevel = async (
      */
     if (id === "user_" + context.user?.id) return "manage";
     if (id === "trash_" + context.user?.id) return "manage";
+    if (id.startsWith("user_")) return "none";
 
     if (id === "root") {
       if (isAdmin) return "manage";
