@@ -226,6 +226,8 @@ export const getAccessLevel = async (
     }
   }
 
+  if (id.startsWith("user_")) return "none";
+
   let publicToken = context.public_token;
   const prevalidatedPublicTokenDocumentId = context?.user?.public_token_document_id;
 
