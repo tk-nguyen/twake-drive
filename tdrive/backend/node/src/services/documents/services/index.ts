@@ -57,6 +57,7 @@ import {
   RealtimeEntityActionType,
   ResourcePath,
 } from "../../../core/platform/services/realtime/types";
+import { localEventBus } from "../../../core/platform/framework/event-bus";
 
 export class DocumentsService {
   version: "1";
@@ -416,18 +417,19 @@ export class DocumentsService {
           } else {
             oldParent = item.parent_id;
           }
-
           if (key === "access_info") {
             item.access_info = content.access_info;
             item.access_info.entities.forEach(async info => {
-              if (item.access_info.entities.includes(info)) {
+              // if info.type is user and item.access_info entities does not contain the an entity with the same id we send a notification
+              if (
+                info.type === "user" &&
+                !item.access_info.entities.find(entity => entity.id === info.id)
+              ) {
                 // Notify the user that the document has been shared with them
-                await gr.services.documents.engine.DispatchDocumentEvent({
-                  event: DocumentEvents.DOCUMENT_SAHRED,
-                  created: true,
-                  resource: item,
-                  context: context,
-                  user_id: info.id,
+                localEventBus.publish(DocumentEvents.DOCUMENT_SAHRED, {
+                  context,
+                  item,
+                  info,
                 });
               }
               if (!info.grantor) {

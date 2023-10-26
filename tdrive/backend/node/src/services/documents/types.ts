@@ -1,5 +1,5 @@
 import { ExecutionContext, Paginable } from "../../core/platform/framework/api/crud-service";
-import { DriveFile } from "./entities/drive-file";
+import { AuthEntity, DriveFile } from "./entities/drive-file";
 import { FileVersion } from "./entities/file-version";
 import { SortType } from "../../core/platform/services/search/api";
 
@@ -97,8 +97,7 @@ export enum DocumentEvents {
 }
 export interface DocumentLocalEvent {
   event: DocumentEvents;
-  resource: DriveFile;
+  item: DriveFile;
   context: CompanyExecutionContext;
-  created: boolean;
-  user_id: string;
+  info: AuthEntity;
 }
