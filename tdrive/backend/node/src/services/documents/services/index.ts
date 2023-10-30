@@ -50,14 +50,12 @@ import {
   getItemScope,
 } from "./access-check";
 import { websocketEventBus } from "../../../core/platform/services/realtime/bus";
-import { DocumentEvents } from "../types";
 import archiver from "archiver";
 import internal from "stream";
 import {
   RealtimeEntityActionType,
   ResourcePath,
 } from "../../../core/platform/services/realtime/types";
-import { localEventBus } from "../../../core/platform/framework/event-bus";
 
 export class DocumentsService {
   version: "1";
@@ -418,20 +416,22 @@ export class DocumentsService {
             oldParent = item.parent_id;
           }
           if (key === "access_info") {
-            item.access_info = content.access_info;
+            const sharedWith = content.access_info.entities.filter(
+              info =>
+                !item.access_info.entities.find(entity => entity.id === info.id) &&
+                info.type === "user",
+            );
+            if (sharedWith.length > 0) {
+              // Notify the user that the document has been shared with them
+              gr.services.documents.engine.notifyDocumentShared({
+                context,
+                item,
+                notificationEmitter: context.user.id,
+                notificationReceiver: sharedWith[0].id,
+              });
+            }
+
             item.access_info.entities.forEach(async info => {
-              // if info.type is user and item.access_info entities does not contain the an entity with the same id we send a notification
-              if (
-                info.type === "user" &&
-                !item.access_info.entities.find(entity => entity.id === info.id)
-              ) {
-                // Notify the user that the document has been shared with them
-                localEventBus.publish(DocumentEvents.DOCUMENT_SAHRED, {
-                  context,
-                  item,
-                  info,
-                });
-              }
               if (!info.grantor) {
                 info.grantor = context.user.id;
               }
@@ -728,6 +728,14 @@ export class DocumentsService {
       item.size = driveItemVersion.file_size;
 
       await this.repository.save(item);
+
+      // Notify the user that the document versions have been updated
+      gr.services.documents.engine.notifyDocumentVersionUpdated({
+        context,
+        item,
+        notificationEmitter: context.user.id,
+        notificationReceiver: item.creator,
+      });
 
       this.notifyWebsocket(item.parent_id, context);
       await updateItemSize(item.parent_id, this.repository, context);

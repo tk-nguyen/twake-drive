@@ -1,14 +1,21 @@
 import { describe, beforeEach, it, expect, afterAll, jest } from "@jest/globals";
 import { init, TestPlatform } from "../setup";
 import TestHelpers from "../common/common_test_helpers";
-import { localEventBus } from "../../../src/core/platform/framework/event-bus";
-import { DocumentEvents } from "../../../src/services/documents/types";
-
-jest.mock("../../../src/core/platform/framework/event-bus.ts");
+import { DocumentsEngine } from "../../../src/services/documents/services/engine";
+import { deserialize } from "class-transformer";
+import { File } from "../../../src/services/files/entities/file";
+import { ResourceUpdateResponse } from "../../../src/utils/types";
+import { e2e_createDocument, e2e_createDocumentFile, e2e_createVersion } from "./utils";
+import { DriveFileMockClass } from "../common/entities/mock_entities";
+import { TestDbService } from "../utils.prepare.db";
 
 describe("the Drive feature", () => {
   let platform: TestPlatform;
-  const publish = jest.spyOn(localEventBus, "publish");
+  const notifyDocumentShared = jest.spyOn(DocumentsEngine.prototype, "notifyDocumentShared");
+  const notifyDocumentVersionUpdated = jest.spyOn(
+    DocumentsEngine.prototype,
+    "notifyDocumentVersionUpdated",
+  );
 
   beforeEach(async () => {
     platform = await init({
@@ -41,7 +48,24 @@ describe("the Drive feature", () => {
     // @ts-ignore
     platform = null;
   });
-  it("DOCUMENT_SHARED Notification has been triggered", async () => {
+
+  const createItem = async (): Promise<DriveFileMockClass> => {
+    await TestDbService.getInstance(platform, true);
+    const scope: "personal" | "shared" = "shared";
+    const item = {
+      name: "new test file",
+      parent_id: "root",
+      company_id: platform.workspace.company_id,
+      scope,
+    };
+
+    const version = {};
+
+    const response = await e2e_createDocument(platform, item, version);
+    return deserialize<DriveFileMockClass>(DriveFileMockClass, response.body);
+  };
+
+  it("Did notify the user after sharing a file.", async () => {
     // jest.setTimeout(20000);
     //given:: user uploaded one doc and give permission to another user
     const oneUser = await TestHelpers.getInstance(platform, true, { companyRole: "admin" });
@@ -60,6 +84,21 @@ describe("the Drive feature", () => {
     });
     await oneUser.updateDocument(doc.id, doc);
 
-    expect(publish).toHaveBeenCalledWith(DocumentEvents.DOCUMENT_SAHRED, {});
+    expect(notifyDocumentShared).toHaveBeenCalled();
+  });
+
+  it("Did notify the user after creating a new version for a file.", async () => {
+    const item = await createItem();
+    const fileUploadResponse = await e2e_createDocumentFile(platform);
+    const fileUploadResult = deserialize<ResourceUpdateResponse<File>>(
+      ResourceUpdateResponse,
+      fileUploadResponse.body,
+    );
+
+    const file_metadata = { external_id: fileUploadResult.resource.id };
+
+    await e2e_createVersion(platform, item.id, { filename: "file2", file_metadata });
+
+    expect(notifyDocumentVersionUpdated).toHaveBeenCalled();
   });
 });

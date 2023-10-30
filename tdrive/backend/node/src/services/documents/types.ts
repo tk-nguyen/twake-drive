@@ -1,5 +1,5 @@
 import { ExecutionContext, Paginable } from "../../core/platform/framework/api/crud-service";
-import { AuthEntity, DriveFile } from "./entities/drive-file";
+import { DriveFile } from "./entities/drive-file";
 import { FileVersion } from "./entities/file-version";
 import { SortType } from "../../core/platform/services/search/api";
 
@@ -94,10 +94,12 @@ export type DriveTdriveTab = {
 
 export enum DocumentEvents {
   DOCUMENT_SAHRED = "document_shared",
+  DOCUMENT_VERSION_UPDATED = "document_version_updated",
 }
-export interface DocumentLocalEvent {
-  event: DocumentEvents;
-  item: DriveFile;
+
+export type NotificationPayloadType = {
   context: CompanyExecutionContext;
-  info: AuthEntity;
-}
+  item: DriveFile;
+  notificationEmitter: string;
+  notificationReceiver: string;
+};

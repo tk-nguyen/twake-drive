@@ -1,11 +1,14 @@
+import { DriveFile } from "src/services/documents/entities/drive-file";
 import Company from "../../../../services/user/entities/company";
 import User from "../../../../services/user/entities/user";
 
 export type EmailBuilderDataPayload = {
-  user: User;
+  sender: User;
+  receiver: User;
   company: Company;
   notifications?: {
-    title: string;
+    type: string;
+    item: DriveFile;
   }[];
 };
 
