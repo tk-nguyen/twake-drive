@@ -416,6 +416,7 @@ export class DocumentsService {
             oldParent = item.parent_id;
           }
           if (key === "access_info") {
+            item.access_info = content.access_info;
             const sharedWith = content.access_info.entities.filter(
               info =>
                 !item.access_info.entities.find(entity => entity.id === info.id) &&
