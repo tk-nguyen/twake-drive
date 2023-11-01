@@ -416,12 +416,14 @@ export class DocumentsService {
             oldParent = item.parent_id;
           }
           if (key === "access_info") {
-            item.access_info = content.access_info;
             const sharedWith = content.access_info.entities.filter(
               info =>
                 !item.access_info.entities.find(entity => entity.id === info.id) &&
                 info.type === "user",
             );
+
+            item.access_info = content.access_info;
+
             if (sharedWith.length > 0) {
               // Notify the user that the document has been shared with them
               gr.services.documents.engine.notifyDocumentShared({
