@@ -1,5 +1,5 @@
 import * as cron from "node-cron";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { TdriveService } from "../../framework";
 import { CronAPI, CronJob, CronExpression, CronTask } from "./api";
@@ -16,7 +16,7 @@ export default class CronService extends TdriveService<CronAPI> implements CronA
   schedule(expression: CronExpression, job: CronJob, description?: string): CronTask {
     this.logger.debug(`Submit new job with name ${description}`);
     const task: CronTask = {
-      id: uuid.v4(),
+      id: uuidv4(),
       description: description || "",
       startDate: Date.now(),
       lastRun: 0,

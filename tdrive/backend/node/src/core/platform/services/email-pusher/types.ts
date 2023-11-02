@@ -1,12 +1,14 @@
+import { DriveFile } from "src/services/documents/entities/drive-file";
 import Company from "../../../../services/user/entities/company";
-import Workspace from "../../../../services/workspaces/entities/workspace";
 import User from "../../../../services/user/entities/user";
 
 export type EmailBuilderDataPayload = {
-  user: User;
+  sender: User;
+  receiver: User;
   company: Company;
-  notifications: {
-    workspace: Workspace;
+  notifications?: {
+    type: string;
+    item: DriveFile;
   }[];
 };
 
@@ -16,7 +18,7 @@ export type EmailBuilderRenderedResult = {
   subject: string;
 };
 
-export type EmailBuilderTemplateName = "notification-digest";
+export type EmailBuilderTemplateName = "notification-digest" | "notification-document";
 
 export type EmailPusherPayload = {
   subject: string;
@@ -43,3 +45,15 @@ export type EmailPusherResponseType = {
 };
 
 export type EmailLanguageType = "en" | "fr";
+
+export type SMTPClientConfigType = {
+  host: string;
+  port: number;
+  secure?: boolean;
+  requireTLS: boolean;
+  auth: {
+    user: string;
+    pass: string;
+  };
+  logger?: boolean;
+};

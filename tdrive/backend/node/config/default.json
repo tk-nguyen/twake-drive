@@ -138,7 +138,8 @@
   "email-pusher":{
      "endpoint":"https://api.smtp2go.com/v3/email/send",
      "api_key":"secret",
-     "sender":"noreply@twake.app"
+     "sender":"noreply@twake.app",
+     "debug": true
   },
   "applications":{
      "grid":[

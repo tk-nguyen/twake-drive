@@ -91,3 +91,15 @@ export type DriveTdriveTab = {
   item_id: string;
   level: "read" | "write";
 };
+
+export enum DocumentEvents {
+  DOCUMENT_SAHRED = "document_shared",
+  DOCUMENT_VERSION_UPDATED = "document_version_updated",
+}
+
+export type NotificationPayloadType = {
+  context: CompanyExecutionContext;
+  item: DriveFile;
+  notificationEmitter: string;
+  notificationReceiver: string;
+};
