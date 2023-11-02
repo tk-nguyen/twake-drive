@@ -45,3 +45,15 @@ export type EmailPusherResponseType = {
 };
 
 export type EmailLanguageType = "en" | "fr";
+
+export type SMTPClientConfigType = {
+  host: string;
+  port: number;
+  secure?: boolean;
+  requireTLS: boolean;
+  auth: {
+    user: string;
+    pass: string;
+  };
+  logger?: boolean;
+};

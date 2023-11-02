@@ -7,7 +7,9 @@ import {
   EmailPusherEmailType,
   EmailPusherPayload,
   EmailPusherResponseType,
+  SMTPClientConfigType,
 } from "./types";
+import nodemailer from "nodemailer";
 import * as Eta from "eta";
 import { convert } from "html-to-text";
 import path from "path";
@@ -21,9 +23,11 @@ export default class EmailPusherClass
   readonly name = "email-pusher";
   readonly version: "1.0.0";
   logger: TdriveLogger = getLogger("email-pusher-service");
+  interface: string;
   apiKey: string;
   apiUrl: string;
   sender: string;
+  transporter: any;
   debug: boolean;
 
   api(): EmailPusherAPI {
@@ -34,11 +38,26 @@ export default class EmailPusherClass
     Eta.configure({
       views: path.join(__dirname, "templates"),
     });
-
-    this.apiUrl = this.configuration.get<string>("endpoint", "");
-    this.apiKey = this.configuration.get<string>("api_key", "");
-    this.sender = this.configuration.get<string>("sender", "");
-    this.debug = this.configuration.get<boolean>("debug", false);
+    this.interface = this.configuration.get<string>("email_interface", "");
+    if (this.interface === "smtp") {
+      const smtpConfig: SMTPClientConfigType = {
+        host: this.configuration.get<string>("smtp_host", ""),
+        port: this.configuration.get<number>("smtp_port", 25),
+        requireTLS: this.configuration.get<boolean>("smtp_tls", true),
+        auth: {
+          user: this.configuration.get<string>("smtp_user", ""),
+          pass: this.configuration.get<string>("smtp_password", ""),
+        },
+      };
+      this.transporter = nodemailer.createTransport(smtpConfig);
+      this.sender = this.configuration.get<string>("smtp_from", "");
+    } else {
+      this.transporter = null;
+      this.apiUrl = this.configuration.get<string>("endpoint", "");
+      this.apiKey = this.configuration.get<string>("api_key", "");
+      this.sender = this.configuration.get<string>("sender", "");
+      this.debug = this.configuration.get<boolean>("debug", false);
+    }
 
     return this;
   }
@@ -113,21 +132,36 @@ export default class EmailPusherClass
       if (this.debug) {
         this.logger.info("EMAIL::SENT ", { emailObject });
       } else {
-        const { data } = await axios.post<EmailPusherEmailType, EmailPusherResponseType>(
-          `${this.apiUrl}`,
-          emailObject,
-        );
+        if (this.interface === "smtp") {
+          try {
+            const info = await this.transporter.sendMail({
+              from: `"Sender Name" <${this.sender}>`,
+              to: to,
+              subject: subject,
+              text: text_body,
+              html: html_body,
+            });
 
-        if (data.error && data.error.length) {
-          throw Error(data.error);
-        }
+            this.logger.info("Message sent: %s", info.response);
+          } catch (err) {
+            this.logger.error({ error: `${err}` }, "Failed to send email");
+          }
+        } else {
+          const { data } = await axios.post<EmailPusherEmailType, EmailPusherResponseType>(
+            `${this.apiUrl}`,
+            emailObject,
+          );
+          if (data.error && data.error.length) {
+            throw Error(data.error);
+          }
 
-        if (data.failed === 1 && data.failures.length) {
-          throw Error(data.failures.join(""));
-        }
+          if (data.failed === 1 && data.failures.length) {
+            throw Error(data.failures.join(""));
+          }
 
-        if (data.succeeded) {
-          this.logger.info("email sent");
+          if (data.succeeded) {
+            this.logger.info("email sent");
+          }
         }
       }
     } catch (error) {
