@@ -148,7 +148,9 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
         userDTO.preference.allowTrackingPersonalInfo,
         user.preferences?.allow_tracking,
       );
-      user.preferences.language = coalesce(userDTO.preference.locale, user.preferences?.language);
+      if (!user.preferences.language) {
+        user.preferences.language = coalesce(userDTO.preference.locale, user.preferences?.language);
+      }
       user.preferences.timezone = coalesce(userDTO.preference.timeZone, user.preferences?.timezone);
     }
 
