@@ -12,6 +12,7 @@ import {
   writeToTemporaryFile,
 } from "../../utils/files";
 import mimes from "../../utils/mime";
+import { Configuration } from "../../core/platform/framework";
 import gr from "../global-resolver";
 import { stopWords } from "./const";
 import { DriveFile } from "./entities/drive-file";
@@ -44,8 +45,10 @@ export const isSharedWithMeFolder = (id: string) => {
 };
 
 export const getVirtualFoldersNames = async (id: string, context: DriveExecutionContext) => {
+  const configuration = new Configuration("drive");
+  const defaultLang = configuration.get<string>("defaultLanguage") || "en";
   const user = await gr.services.users.get({ id: context.user?.id });
-  const locale = user?.preferences?.locale || "en";
+  const locale = user?.preferences?.locale || defaultLang;
 
   if (id.startsWith("user_")) {
     return gr.services.i18n.translate("virtual-folder.my-drive", locale);
