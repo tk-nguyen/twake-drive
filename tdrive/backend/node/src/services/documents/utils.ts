@@ -46,7 +46,7 @@ export const isSharedWithMeFolder = (id: string) => {
 
 export const getVirtualFoldersNames = async (id: string, context: DriveExecutionContext) => {
   const configuration = new Configuration("drive");
-  const defaultLang = configuration.get("defaultLanguage", "en") as string;
+  const defaultLang = configuration.get<string>("defaultLanguage") || "en";
   const user = await gr.services.users.get({ id: context.user?.id });
   const locale = user?.preferences?.locale || defaultLang;
 

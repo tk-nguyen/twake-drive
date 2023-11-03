@@ -15,7 +15,7 @@ export async function formatUser(
 ): Promise<UserObject> {
   if (!user) return null;
   const configuration = new Configuration("drive");
-  const defaultLang = configuration.get("defaultLanguage", "en") as string;
+  const defaultLang = configuration.get<string>("defaultLanguage") || "en";
 
   let resUser = {
     id: user.id,
