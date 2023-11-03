@@ -117,6 +117,7 @@
     "server": "PLUGINS_SERVER"
   },
   "drive": {
-    "rootAdmins": "DRIVE_ROOT_ADMINS"
+    "rootAdmins": "DRIVE_ROOT_ADMINS",
+    "defaultLanguage": "DRIVE_DEFAULT_LANGUAGE"
   }
 }

@@ -6,6 +6,7 @@ import {
   CompanyUserStatus,
   UserObject,
 } from "../services/user/web/types";
+import { Configuration } from "../core/platform/framework";
 import gr from "../services/global-resolver";
 
 export async function formatUser(
@@ -13,6 +14,8 @@ export async function formatUser(
   options?: { includeCompanies?: boolean },
 ): Promise<UserObject> {
   if (!user) return null;
+  const configuration = new Configuration("drive");
+  const defaultLang = configuration.get("defaultLanguage", "en") as string;
 
   let resUser = {
     id: user.id,
@@ -69,7 +72,7 @@ export async function formatUser(
       ...resUser,
       preferences: {
         ...user.preferences,
-        locale: user.preferences?.language || user.language || "en",
+        locale: user.preferences?.language || user.language || defaultLang,
         timezone: user.preferences?.timezone || parseInt(user.timezone) || 0,
         allow_tracking: user.preferences?.allow_tracking || false,
       },
