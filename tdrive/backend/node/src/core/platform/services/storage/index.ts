@@ -23,7 +23,7 @@ export default class StorageService extends TdriveService<StorageAPI> implements
 
   private encryptionOptions: EncryptionConfiguration;
   private algorithm = "aes-256-cbc";
-  private homeDir = this.configuration.get<string>("local.path", "/tdrive");
+  private homeDir = "/tdrive";
 
   api(): StorageAPI {
     return this;
@@ -50,7 +50,8 @@ export default class StorageService extends TdriveService<StorageAPI> implements
       });
     } else {
       logger.info("Using 'local' connector for storage.");
-      if (!this.homeDir) this.homeDir = "/tdrive";
+      const defaultHomeDir = this.configuration.get<string>("local.path");
+      if (defaultHomeDir) this.homeDir = `/${defaultHomeDir}`;
     }
     logger.info(
       `Using 'local' connector for storage${
