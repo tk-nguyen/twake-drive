@@ -48,7 +48,7 @@ export default class StorageService extends TdriveService<StorageAPI> implements
         accessKey: this.configuration.get<string>("S3.accessKey"),
         secretKey: this.configuration.get<string>("S3.secretKey"),
       });
-    } else if (type === "local") {
+    } else {
       logger.info("Using 'local' connector for storage.");
       if(!this.homeDir) this.homeDir = "/tdrive";
     }
