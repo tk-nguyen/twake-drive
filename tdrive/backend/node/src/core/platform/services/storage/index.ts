@@ -50,7 +50,7 @@ export default class StorageService extends TdriveService<StorageAPI> implements
       });
     } else {
       logger.info("Using 'local' connector for storage.");
-      if(!this.homeDir) this.homeDir = "/tdrive";
+      if (!this.homeDir) this.homeDir = "/tdrive";
     }
     logger.info(
       `Using 'local' connector for storage${
