@@ -23,7 +23,7 @@ export default class StorageService extends TdriveService<StorageAPI> implements
 
   private encryptionOptions: EncryptionConfiguration;
   private algorithm = "aes-256-cbc";
-  private homeDir = "tdrive";
+  private homeDir = "/tdrive";
 
   api(): StorageAPI {
     return this;
