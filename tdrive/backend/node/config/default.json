@@ -132,7 +132,7 @@
         "secretKey":"x1yz"
      },
      "local":{
-        "path":"/storage/"
+        "path":"/tdrive"
      }
   },
   "email-pusher":{
