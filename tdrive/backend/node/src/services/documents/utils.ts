@@ -183,7 +183,12 @@ export const calculateItemSize = async (
 
   if (item.id === "trash_" + context.user.id) {
     const trashedItems = await repository.find(
-      { company_id: context.company.id, is_in_trash: true, scope: "personal" },
+      {
+        company_id: context.company.id,
+        creator: context.user.id,
+        is_in_trash: true,
+        scope: "personal",
+      },
       {},
       context,
     );
