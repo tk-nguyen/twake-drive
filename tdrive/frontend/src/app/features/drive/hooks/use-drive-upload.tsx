@@ -90,6 +90,8 @@ export const useDriveUpload = () => {
         },
       });
     }
+    logger.debug("Finished uploading files");
+    await refresh(context.parentId);
   };
 
   const uploadFromUrl = (
