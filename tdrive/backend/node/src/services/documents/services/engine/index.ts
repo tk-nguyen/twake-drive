@@ -32,6 +32,7 @@ export class DocumentsEngine implements Initializable {
           ],
         },
       );
+      logger.info(`Sending email notification to ${receiver.email_canonical}`);
       await globalResolver.platformServices.emailPusher.send(receiver.email_canonical, {
         subject,
         html,
