@@ -116,7 +116,9 @@ export default class EmailPusherClass
     { subject, html: html_body, text: text_body }: EmailPusherPayload,
   ): Promise<void> {
     try {
+      this.logger.info("sending email");
       if (!html_body || !text_body || !subject || !to) {
+        this.logger.error("invalid email");
         throw Error("invalid email");
       }
 
