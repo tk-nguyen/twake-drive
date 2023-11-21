@@ -426,6 +426,9 @@ export class DocumentsService {
 
             if (sharedWith.length > 0) {
               // Notify the user that the document has been shared with them
+              this.logger.info("Notifying user that the document has been shared with them: ", {
+                sharedWith,
+              });
               gr.services.documents.engine.notifyDocumentShared({
                 context,
                 item,
@@ -733,6 +736,10 @@ export class DocumentsService {
       await this.repository.save(item);
 
       // Notify the user that the document versions have been updated
+      this.logger.info("Notifying user that the document has been updated: ", {
+        item,
+        notificationEmitter: context.user.id,
+      });
       gr.services.documents.engine.notifyDocumentVersionUpdated({
         context,
         item,
