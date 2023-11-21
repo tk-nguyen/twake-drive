@@ -136,6 +136,7 @@ export default class EmailPusherClass
       } else {
         if (this.interface === "smtp") {
           try {
+            this.logger.info("sending email via smtp interface.");
             const info = await this.transporter.sendMail({
               from: `"Sender Name" <${this.sender}>`,
               to: to,
@@ -149,6 +150,7 @@ export default class EmailPusherClass
             this.logger.error({ error: `${err}` }, "Failed to send email");
           }
         } else {
+          this.logger.info("sending email via api interface.");
           const { data } = await axios.post<EmailPusherEmailType, EmailPusherResponseType>(
             `${this.apiUrl}`,
             emailObject,
