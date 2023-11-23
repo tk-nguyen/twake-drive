@@ -45,10 +45,6 @@ export default class EmailPusherClass
         port: this.configuration.get<number>("smtp_port", 25),
         requireTLS: this.configuration.get<boolean>("smtp_tls", false),
         secure: this.configuration.get<boolean>("smtp_tls", false),
-        auth: {
-          user: this.configuration.get<string>("smtp_user", ""),
-          pass: this.configuration.get<string>("smtp_password", ""),
-        },
       };
       this.transporter = nodemailer.createTransport(smtpConfig);
       this.sender = this.configuration.get<string>("smtp_from", "");
@@ -148,7 +144,10 @@ export default class EmailPusherClass
 
             this.logger.info("Message sent: %s", info.response);
           } catch (err) {
-            this.logger.error({ error: `${err}` }, "Failed to send email");
+            this.logger.error(
+              { error: `${err}`, secure: this.configuration.get<boolean>("smtp_tls", false) },
+              "Failed to send email",
+            );
           }
         } else {
           this.logger.info("sending email via api interface.");
