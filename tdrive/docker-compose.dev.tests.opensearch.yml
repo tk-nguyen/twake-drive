@@ -25,8 +25,8 @@ services:
 #      - opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
     ports:
       - 9200:9200 # REST API
-      - 9600:9600 # Performance Analyzer
- #   networks:
+#      - 9600:9600 # Performance Analyzer
+#   networks:
  #     - opensearch-net # All of the containers will join the same Docker bridge network
 
   mongo:
@@ -39,22 +39,25 @@ services:
 
   node:
     image: tdrive/tdrive-node:test
-    container_name: node-test
     build:
       context: .
       dockerfile: docker/tdrive-node/Dockerfile
-      target: test
+      target: development
+    volumes:
+      - ./coverage/:/usr/src/app/coverage/
     environment:
+      - LOG_LEVEL=error
       - NODE_ENV=test
       - DB_DRIVER
-      #- PUBSUB_URLS=amqp://guest:guest@rabbitmq:5672
-      - SEARCH_ES_ENDPOINT=http://elasticsearch:9200
-      - SEARCH_ES_FLUSHINTERVAL=1
-    volumes:
-      - ./backend/node:/usr/src/app
-      - ./docker-data/documents/:/storage/
+      - PUBSUB_URLS=amqp://guest:guest@rabbitmq:5672
+      - SEARCH_OS_FLUSHINTERVAL=1
+      - SEARCH_OS_ENDPOINT=https://opensearch-node1:9200
+      - SEARCH_OS_PASSWORD=admin
+      - SEARCH_OS_USE_AUTH=true
+      - SEARCH_OS_USERNAME=admin
     depends_on:
       - mongo
       - opensearch-node1
     links:
       - mongo
+      - opensearch-node1
