@@ -25,8 +25,6 @@ import {
 } from "../../types";
 import { DriveFileDTO } from "../dto/drive-file-dto";
 import { DriveFileDTOBuilder } from "../../services/drive-file-dto-builder";
-import { ExecutionContext } from "../../../../core/platform/framework/api/crud-service";
-import gr from "../../../global-resolver";
 import config from "config";
 
 export class DocumentsController {
@@ -34,12 +32,6 @@ export class DocumentsController {
   private rootAdmins: string[] = config.has("drive.rootAdmins")
     ? config.get("drive.rootAdmins")
     : [];
-
-  private getCompanyUserRole(companyId: string, userId: string, context?: ExecutionContext) {
-    return gr.services.companies
-      .getCompanyUser({ id: companyId }, { id: userId }, context)
-      .then(a => (a ? a.level : null));
-  }
 
   /**
    * Creates a DriveFile item
