@@ -32,7 +32,9 @@ export class DocumentsController {
   private rootAdmins: string[] = config.has("drive.rootAdmins")
     ? config.get("drive.rootAdmins")
     : [];
-
+  public profilingEnabled: boolean = config.has("drive.profilingEnabled")
+    ? config.get("drive.profilingEnabled")
+    : false;
   /**
    * Creates a DriveFile item
    *
