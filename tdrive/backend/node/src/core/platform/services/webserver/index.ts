@@ -15,7 +15,6 @@ import { SkipCLI } from "../../framework/decorators/skip";
 import fs from "fs";
 import { ExecutionContext, executionStorage } from "../../framework/execution-storage";
 
-// import { throws } from "assert";
 export default class WebServerService extends TdriveService<WebServerAPI> implements WebServerAPI {
   name = "webserver";
   version = "1";
@@ -81,15 +80,15 @@ export default class WebServerService extends TdriveService<WebServerAPI> implem
       swagger: {
         info: {
           title: "Tdrive Swagger",
-          description: "Automatically generate Tdrive Swagger API",
+          description: "Automatically generated Twake Drive Swagger API",
           version: "0.1.0",
         },
         externalDocs: {
-          url: "http://linagora.github.io/Tdrive",
+          url: "https://linagora.github.io/twake-drive",
           description: "Find more info here",
         },
-        host: "localhost",
-        schemes: ["http"],
+        host: this.configuration.get<string>("host"),
+        schemes: ["https", "http"],
         consumes: ["application/json"],
         produces: ["application/json"],
         tags: [],
