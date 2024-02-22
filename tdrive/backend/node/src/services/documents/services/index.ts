@@ -1,6 +1,10 @@
 import SearchRepository from "../../../core/platform/services/search/repository";
 import { getLogger, logger, TdriveLogger } from "../../../core/platform/framework";
-import { CrudException, ListResult } from "../../../core/platform/framework/api/crud-service";
+import {
+  CrudException,
+  ExecutionContext,
+  ListResult,
+} from "../../../core/platform/framework/api/crud-service";
 import Repository, {
   comparisonType,
   inType,
@@ -109,6 +113,14 @@ export class DocumentsService {
         ...(await this.get(id, context)),
       };
     }
+  };
+
+  userQuota = async (context: CompanyExecutionContext): Promise<number> => {
+    const children = await this.repository.find({
+      parent_id: "user_" + context.user.id,
+      company_id: context.company.id,
+    });
+    return children.getEntities().reduce((sum, child) => sum + child.size, 0);
   };
 
   /**
@@ -1021,12 +1033,11 @@ export class DocumentsService {
   }
 
   getTab = async (tabId: string, context: CompanyExecutionContext): Promise<DriveTdriveTab> => {
-    const tab = await this.driveTdriveTabRepository.findOne(
+    return await this.driveTdriveTabRepository.findOne(
       { company_id: context.company.id, tab_id: tabId },
       {},
       context,
     );
-    return tab;
   };
 
   setTab = async (
