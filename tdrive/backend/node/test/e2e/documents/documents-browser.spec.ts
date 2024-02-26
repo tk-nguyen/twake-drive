@@ -126,10 +126,32 @@ describe("The Documents Browser Window and API", () => {
       await new Promise(r => setTimeout(r, 3000));
 
       //then file become searchable
-      expect((await anotherUser.browseDocuments("shared_with_me", {})).children).toHaveLength(1);
+      expect((await anotherUser.browseDocuments("shared_with_me", {pageSize: 1})).children).toHaveLength(1);
+    });
+
+    it("Share With Me should return all the files that was share by user at one", async () => {
+      const sharedWIthMeFolder = "shared_with_me";
+      const oneUser = await UserApi.getInstance(platform, true, {companyRole: "admin"});
+      const anotherUser = await UserApi.getInstance(platform, true, {companyRole: "admin"});
+
+      let files = await oneUser.uploadAllFilesOneByOne();
+
+      await anotherUser.uploadAllFilesOneByOne();
+      await new Promise(r => setTimeout(r, 5000));
+
+      //give permissions to the file
+      files[2].access_info.entities.push({
+        type: "user",
+        id: anotherUser.user.id,
+        level: "read",
+        grantor: null,
+      });
+      await oneUser.updateDocument(files[2].id, files[2]);
+      await new Promise(r => setTimeout(r, 3000));
+
+      //then file become searchable
+      expect((await anotherUser.browseDocuments("shared_with_me", {pagination: {limitStr: 100}})).children).toHaveLength(1);
     });
   });
-
-
 });
 
