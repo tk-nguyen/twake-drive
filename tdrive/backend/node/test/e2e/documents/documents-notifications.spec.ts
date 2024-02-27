@@ -49,7 +49,6 @@ describe("the Drive feature", () => {
     platform = null;
   });
 
-
   it("Did notify the user after sharing a file.", async () => {
     // jest.setTimeout(20000);
     //given:: user uploaded one doc and give permission to another user
@@ -85,5 +84,46 @@ describe("the Drive feature", () => {
     await e2e_createVersion(platform, item.id, { filename: "file2", file_metadata });
 
     expect(notifyDocumentVersionUpdated).toHaveBeenCalled();
+  });
+
+  it("Did notify the owner after a user uploaded a file to a shared directory.", async () => {
+    const oneUser = await UserApi.getInstance(platform, true, { companyRole: "admin" });
+    const anotherUser = await UserApi.getInstance(platform, true, { companyRole: "admin" });
+    const thridUser = await UserApi.getInstance(platform, true, { companyRole: "admin" });
+
+    const directory = await oneUser.createDirectory();
+    directory.access_info.entities.push({
+      type: "user",
+      id: anotherUser.user.id,
+      level: "write",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      grantor: null,
+    });
+
+    directory.access_info.entities.push({
+      type: "user",
+      id: thridUser.user.id,
+      level: "write",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      grantor: null,
+    });
+
+    await anotherUser.uploadRandomFileAndCreateDocument(directory.id);
+    // expect the owner to be notified
+    expect(notifyDocumentShared).toHaveBeenCalledWith(
+      expect.objectContaining({
+        notificationEmitter: anotherUser.user.id,
+        notificationReceiver: oneUser.user.id,
+      }),
+    );
+    // expect only one notification went through (the owner only notified)
+    expect(notifyDocumentShared).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        notificationEmitter: oneUser.user.id,
+        notificationReceiver: thridUser.user.id,
+      }),
+    );
   });
 });
