@@ -28,7 +28,7 @@ jobs:
     if: github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: "staging:develop"
@@ -37,7 +37,7 @@ jobs:
     if: github.event.label.name == 'qa:ready' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: qa
           fetch-depth: 0
@@ -62,7 +62,7 @@ jobs:
     if: github.event.label.name == 'canary:ready' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: canary
           fetch-depth: 0
@@ -86,7 +86,7 @@ jobs:
     if: github.event.label.name == 'priority:1' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: qa
           fetch-depth: 0
@@ -97,7 +97,7 @@ jobs:
           git config user.email "labels-bot@github.com"
           git cherry-pick ${{github.event.pull_request.merge_commit_sha}}
           git push
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: canary
           fetch-depth: 0
@@ -108,7 +108,7 @@ jobs:
           git config user.email "labels-bot@github.com"
           git cherry-pick ${{github.event.pull_request.merge_commit_sha}}
           git push
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
