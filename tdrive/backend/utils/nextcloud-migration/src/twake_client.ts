@@ -127,14 +127,12 @@ export class TwakeDriveClient {
   }
 
   private async client() {
-    if (!this.clientInstance) {
-      this.clientInstance = axios.create({
-        baseURL: this.config.url,
-        headers: {
-          Authorization: `Bearer ${await (this.accessToken())}`,
-        },
-      });
-    }
+    this.clientInstance = axios.create({
+      baseURL: this.config.url,
+      headers: {
+        Authorization: `Bearer ${await (this.accessToken())}`,
+      },
+    });
     return this.clientInstance;
   }
 
