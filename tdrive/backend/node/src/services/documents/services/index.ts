@@ -920,7 +920,7 @@ export class DocumentsService {
       zlib: { level: 9 },
     });
 
-    archive.on('error', error => {
+    archive.on("error", error => {
       this.logger.error("error while creating ZIP file: ", error);
     });
 
@@ -938,7 +938,8 @@ export class DocumentsService {
       }
     }
 
-    await archive.finalize();
+    //TODO[ASH] why do we need this call??
+    archive.finalize();
 
     return archive;
   };
