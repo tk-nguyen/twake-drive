@@ -1,4 +1,6 @@
 FROM node:16
+ARG VERSION
+ENV APP_VERSION=${VERSION}
 
 WORKDIR /usr/src/app
 
