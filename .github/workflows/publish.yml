@@ -85,3 +85,6 @@ jobs:
             ${{ steps.meta.outputs.bake-file }}
           push: true
           targets: ${{ matrix.targets }}
+          set: |
+            *.cache-to=type=gha,mode=max
+            *.cache-from=type=gha
