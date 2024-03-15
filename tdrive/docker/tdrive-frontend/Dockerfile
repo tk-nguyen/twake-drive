@@ -16,6 +16,8 @@ RUN cp /tdrive-react/src/app/environment/environment.ts.dist /tdrive-react/src/a
 
 # Second stage: configuring nginx and copying build artifacts
 FROM nginx:latest
+ARG VERSION
+ENV APP_VERSION=${VERSION}
 COPY docker/tdrive-frontend/nginx.conf /etc/nginx/nginx.conf
 COPY docker/tdrive-frontend/site.conf /etc/nginx/sites-available/site.template
 COPY docker/tdrive-frontend/redirect.conf /etc/nginx/sites-available/redirect

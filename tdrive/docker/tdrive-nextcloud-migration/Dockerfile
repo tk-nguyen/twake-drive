@@ -37,6 +37,8 @@ RUN perl -i -ne 'print unless/prestart/' package.json
 #CMD ["npm", "run", "start"]
 
 FROM updated
+ARG VERSION
+ENV APP_VERSION=${VERSION}
 
 ENV SERVER_PORT=3000 \
     LDAP_BASE= \

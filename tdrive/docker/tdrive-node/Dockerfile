@@ -44,6 +44,8 @@ CMD ["npm", "run", "dev:debug"]
 
 # Production Stage
 FROM installed-libs as production
+ARG VERSION
+ENV APP_VERSION=${VERSION}
 
 EXPOSE 4000
 CMD ["npm", "run", "serve"]
