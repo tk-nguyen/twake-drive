@@ -60,7 +60,7 @@ import {
   RealtimeEntityActionType,
   ResourcePath,
 } from "../../../core/platform/services/realtime/types";
-
+import config from "config";
 export class DocumentsService {
   version: "1";
   repository: Repository<DriveFile>;
@@ -69,6 +69,12 @@ export class DocumentsService {
   driveTdriveTabRepository: Repository<DriveTdriveTabEntity>;
   ROOT: RootType = "root";
   TRASH: TrashType = "trash";
+  quotaEnabled: boolean = config.has("drive.featureUserQuota")
+    ? config.get("drive.featureUserQuota")
+    : false;
+  defaultQuota: number = config.has("drive.defaultUserQuota")
+    ? config.get("drive.defaultUserQuota")
+    : 0;
   logger: TdriveLogger = getLogger("Documents Service");
 
   async init(): Promise<this> {
@@ -328,6 +334,19 @@ export class DocumentsService {
         }
 
         if (fileToProcess) {
+          if (this.quotaEnabled) {
+            const userQuota = await this.userQuota(context);
+            const leftQuota = this.defaultQuota - userQuota;
+
+            if (fileToProcess.upload_data.size > leftQuota) {
+              // clean up everything
+              await globalResolver.services.files.delete(fileToProcess.id, context);
+              throw new CrudException(
+                `Not enough space: ${fileToProcess.upload_data.size}, ${leftQuota}.`,
+                403,
+              );
+            }
+          }
           driveItem.size = fileToProcess.upload_data.size;
           driveItem.is_directory = false;
           driveItem.extension = fileToProcess.metadata.name.split(".").pop();
@@ -774,6 +793,17 @@ export class DocumentsService {
       const driveItemVersion = getDefaultDriveItemVersion(version, context);
       const metadata = await getFileMetadata(driveItemVersion.file_metadata.external_id, context);
 
+      if (this.quotaEnabled) {
+        const userQuota = await this.userQuota(context);
+        const leftQuota = this.defaultQuota - userQuota;
+
+        if (metadata.size > leftQuota) {
+          // clean up everything
+          await globalResolver.services.files.delete(metadata.external_id, context);
+          throw new CrudException(`Not enough space: ${metadata.size}, ${leftQuota}.`, 403);
+        }
+      }
+
       driveItemVersion.file_size = metadata.size;
       driveItemVersion.file_metadata.size = metadata.size;
       driveItemVersion.file_metadata.name = metadata.name;
@@ -820,8 +850,12 @@ export class DocumentsService {
 
       return driveItemVersion;
     } catch (error) {
-      this.logger.error({ error: `${error}` }, "Failed to create Drive item version");
-      throw new CrudException("Failed to create Drive item version", 500);
+      logger.error({ error: `${error}` }, "Failed to create Drive item version");
+      // if error code is 403, it means the user exceeded the quota limit
+      if (error.code === 403) {
+        CrudException.throwMe(error, new CrudException("Quota limit exceeded", 403));
+      }
+      CrudException.throwMe(error, new CrudException("Failed to create Drive item version", 500));
     }
   };
 
