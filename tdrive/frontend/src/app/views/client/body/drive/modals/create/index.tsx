@@ -18,6 +18,7 @@ import { slideXTransition, slideXTransitionReverted } from 'src/utils/transition
 import { CreateFolder } from './create-folder';
 import { CreateLink } from './create-link';
 import Languages from "features/global/services/languages-service";
+import { FileTypeDocumentIcon, FileTypeSlidesIcon, FileTypeSpreadsheetIcon } from 'app/atoms/icons-colored';
 
 export type CreateModalAtomType = {
   open: boolean;
@@ -59,7 +60,9 @@ export const CreateModal = ({
                 <ChevronLeftIcon className="w-6 h-6" />
               </A>
             )}
-            <span className="ml-2">{Languages.t('components.create_modal.create_folder_or_doc')}</span>
+            <span className="ml-2">
+              {Languages.t('components.create_modal.create_folder_or_doc')}
+            </span>
           </div>
         }
       >
@@ -115,15 +118,21 @@ export const CreateModal = ({
                   return (
                     <CreateModalOption
                       key={i}
-                      icon={
+                      icon={app.emptyFile.filename === "Untitled.docx" ?  (
+                        <FileTypeDocumentIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
+                      ) : app.emptyFile.filename === "Untitled.xlsx" ? (
+                        <FileTypeSpreadsheetIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
+                      ) : app.emptyFile.filename === "Untitled.pptx" ? (
+                        <FileTypeSlidesIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
+                      ) : (
                         <Avatar
                           type="square"
                           size="sm"
                           className="w-5 h-5"
                           avatar={app.app.identity?.icon}
                         />
-                      }
-                      text={`${app.emptyFile.name}`}
+                      )}
+                      text={Languages.t(`${app.emptyFile.name}`)}
                       onClick={() =>
                         addFromUrl(app.emptyFile.url, app.emptyFile.filename || app.emptyFile.name)
                       }
