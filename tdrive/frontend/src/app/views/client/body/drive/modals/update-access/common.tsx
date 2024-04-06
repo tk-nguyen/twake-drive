@@ -8,6 +8,7 @@ export const AccessLevel = ({
   onChange,
   canRemove,
   hiddenLevels,
+  labelOverrides,
   className,
 }: {
   disabled?: boolean;
@@ -15,23 +16,26 @@ export const AccessLevel = ({
   onChange: (level: DriveFileAccessLevel & 'remove') => void;
   canRemove?: boolean;
   className?: string;
+  labelOverrides?: { [key: string]: string };
   hiddenLevels?: string[];
 }) => {
+  const createOption = (level: DriveFileAccessLevel, tKey: string) =>
+    !hiddenLevels?.includes(level) && <option value={level}>{(labelOverrides || {})[level] || Languages.t(tKey)}</option>;
   return (
     <Select
       disabled={disabled}
       className={
         className +
-        ' w-auto ' +
-        (level === 'none' ? '!text-rose-500 !bg-rose-100 dark-bg-rose-800' : '')
+        ' w-auto'
       }
+      theme={level === 'none' ? 'rose' : 'outline'}
       value={level || 'none'}
       onChange={e => onChange(e.target.value as DriveFileAccessLevel & 'remove')}
     >
-      {!hiddenLevels?.includes('manage') && <option value={'manage'}>{Languages.t('common.access-level_full_acess')}</option>}
-      {!hiddenLevels?.includes('write') && <option value={'write'}>{Languages.t('common.access-level_write')}</option>}
-      {!hiddenLevels?.includes('read') && <option value={'read'}>{Languages.t('common.access-level_read')}</option>}
-      {!hiddenLevels?.includes('none') && <option value={'none'}>{Languages.t('common.access-level_no_access')}</option>}
+      {createOption('manage', 'common.access-level_full_acess')}
+      {createOption('write', 'common.access-level_write')}
+      {createOption('read', 'common.access-level_read')}
+      {createOption('none', 'common.access-level_no_access')}
       {canRemove && <option value={'remove'}>Remove</option>}
     </Select>
   );

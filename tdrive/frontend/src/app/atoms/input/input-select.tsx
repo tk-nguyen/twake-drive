@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { defaultInputClassName, errorInputClassName } from './input-text';
+import { defaultInputClassName, errorInputClassName, ThemeName } from './input-text';
 
 interface InputProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  theme?: 'plain' | 'outline';
+  theme?: ThemeName;
   hasError?: boolean;
   size?: 'md' | 'lg' | 'sm';
   className?: string;

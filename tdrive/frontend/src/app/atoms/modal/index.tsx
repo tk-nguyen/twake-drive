@@ -17,6 +17,7 @@ export const Modal = (props: {
   onClose?: () => void;
   children?: React.ReactNode;
   closable?: boolean;
+  closeIcon?: ReactNode,
   className?: string;
   style?: React.CSSProperties;
   positioned?: boolean;
@@ -130,7 +131,7 @@ export const Modal = (props: {
                       className="hover:opacity-75 focus:outline-none "
                       onClick={() => props.onClose && props.onClose()}
                     >
-                      <DismissIcon />
+                      {props.closeIcon ? props.closeIcon : <DismissIcon />}
                     </button>
                   </div>
                 )}

@@ -1,8 +1,9 @@
 import { CheckOutlineIcon } from '../icons-agnostic';
-import { BaseSmall } from '../text';
+import { Base, BaseSmall } from '../text';
 
 export const Checkbox = (props: {
   label?: string;
+  labelNormalSize?: boolean;
   onChange?: (status: boolean) => void;
   value?: boolean;
   className?: string;
@@ -43,9 +44,14 @@ export const Checkbox = (props: {
         }}
       >
         {renderSwitch()}
-        <BaseSmall className={'ml-2 ' + (props.disabled ? 'opacity-50' : 'cursor-pointer')}>
-          {props.label}
-        </BaseSmall>
+        {props.labelNormalSize
+          ? <Base className={'ml-2 ' + (props.disabled ? 'opacity-50' : 'cursor-pointer')}>
+              {props.label}
+            </Base>
+          : <BaseSmall className={'ml-2 ' + (props.disabled ? 'opacity-50' : 'cursor-pointer')}>
+              {props.label}
+            </BaseSmall>
+          }
       </div>
     );
   } else {

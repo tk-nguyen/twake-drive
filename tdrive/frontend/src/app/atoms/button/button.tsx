@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  theme?: 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark' | 'white';
+  theme?: 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark' | 'white' | 'green';
   size?: 'md' | 'lg' | 'sm';
   icon?: (props: any) => JSX.Element;
   iconSize?: 'md' | 'lg';
@@ -39,6 +39,10 @@ export const Button = (props: ButtonProps) => {
   if (props.theme === 'dark')
     className =
       'text-zinc-300 border-0 bg-zinc-900 hover:bg-zinc-800 hover:text-white active:bg-zinc-900';
+
+  if (props.theme === 'green')
+    className =
+      'text-zinc-300 border-0 bg-green-700';
 
   if (disabled) className += ' opacity-50 pointer-events-none';
 

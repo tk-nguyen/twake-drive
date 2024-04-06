@@ -90,10 +90,10 @@ export default (props: {
         )}
       />
       {isFocus && query?.trim() && (
-        <div className="absolute w-full top-0 -translate-y-full bg-white dark:bg-zinc-800 dark:text-white rounded-md border shadow-md p-2">
+        <div className="absolute w-full end-1 z-10 bg-white dark:bg-zinc-800 dark:text-white rounded-md border shadow-md p-2">
           <div>
             {result.length === 0 && (
-              <div className="text-center pt-8">
+              <div className="text-center">
                 <Info>{Languages.t('components.user_picker.modal_no_result')}</Info>
               </div>
             )}
