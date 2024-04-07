@@ -1,5 +1,6 @@
 import { Base } from '@atoms/text';
 import { FolderIcon } from '@heroicons/react/outline';
+import { DocumentIcon } from '@views/client/body/drive/documents/document-icon';
 import type { DriveItem } from 'app/features/drive/types';
 
 export const CuteDepictionOfFolderHierarchy = (props: {
@@ -20,7 +21,7 @@ export const CuteDepictionOfFolderHierarchy = (props: {
         └
       </div>
       <div className="shrink pl-2">
-        <FolderIcon className="w-5 mr-2" />
+        <DocumentIcon className="w-5 mr-2" item={props.file} />
       </div>
       <div className="grow">
         {props.file?.name}
