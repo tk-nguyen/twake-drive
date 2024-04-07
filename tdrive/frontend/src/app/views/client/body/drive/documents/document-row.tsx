@@ -1,29 +1,18 @@
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 import { Button } from '@atoms/button/button';
-import {
-  FileTypeArchiveIcon,
-  FileTypeDocumentIcon,
-  FileTypeLinkIcon,
-  FileTypeMediaIcon,
-  FileTypePdfIcon,
-  FileTypeSlidesIcon,
-  FileTypeSpreadsheetIcon,
-  FileTypeUnknownIcon,
-} from '@atoms/icons-colored';
 import { Base, BaseSmall } from '@atoms/text';
 import Menu from '@components/menus/menu';
 import useRouterCompany from '@features/router/hooks/use-router-company';
 import { useDrivePreview } from '@features/drive/hooks/use-drive-preview';
 import { formatBytes } from '@features/drive/utils';
-import fileUploadApiClient from '@features/files/api/file-upload-api-client';
 import { useEffect, useState } from 'react';
-import Avatar from '../../../../../atoms/avatar';
 import { PublicIcon } from '../components/public-icon';
 import {CheckableIcon, DriveItemOverlayProps, DriveItemProps} from './common';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 import RouterServices from '@features/router/services/router-service';
 import useRouteState from 'app/features/router/hooks/use-route-state';
+import { DocumentIcon } from './document-icon';
 
 export const DocumentRow = ({
   item,
@@ -39,13 +28,6 @@ export const DocumentRow = ({
   const { open,close } = useDrivePreview();
   const company = useRouterCompany();
   const { itemId } = useRouteState();
-
-  const fileType = fileUploadApiClient.mimeToType(
-    item?.last_version_cache?.file_metadata?.mime || '',
-  );
-
-  const metadata = item.last_version_cache?.file_metadata || {};
-  const hasThumbnails = !!metadata.thumbnails?.length || false;
 
   useEffect(() => {
     // close the preview if the item is not set or the user navigated away
@@ -90,34 +72,7 @@ export const DocumentRow = ({
           show={hover || checked}
           checked={checked}
           onCheck={onCheck}
-          fallback={
-            <>
-              {hasThumbnails ? (
-                <Avatar
-                  avatar={metadata.thumbnails?.[0]?.url}
-                  size="xs"
-                  type="square"
-                  title={metadata.name}
-                />
-              ) : fileType === 'image' || fileType === 'video' ? (
-                <FileTypeMediaIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'archive' ? (
-                <FileTypeArchiveIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'pdf' ? (
-                <FileTypePdfIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'document' ? (
-                <FileTypeDocumentIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'spreadsheet' ? (
-                <FileTypeSpreadsheetIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'slides' ? (
-                <FileTypeSlidesIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : fileType === 'link' ? (
-                <FileTypeLinkIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              ) : (
-                <FileTypeUnknownIcon className={'h-5 w-5 shrink-0 text-gray-400'} />
-              )}
-            </>
-          }
+          fallback={<DocumentIcon item={item} />}
         />
       </div>
       <div className="grow text-ellipsis whitespace-nowrap overflow-hidden">

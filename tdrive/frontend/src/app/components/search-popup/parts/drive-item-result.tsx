@@ -5,21 +5,11 @@ import { onDriveItemDownloadClick } from '../common';
 import ResultContext from './result-context';
 import { Button } from '@atoms/button/button';
 import { DownloadIcon } from '@atoms/icons-agnostic';
-import {
-  FileTypeArchiveIcon,
-  FileTypeDocumentIcon,
-  FileTypePdfIcon,
-  FileTypeSlidesIcon,
-  FileTypeSpreadsheetIcon,
-  FileTypeUnknownIcon,
-} from '@atoms/icons-colored';
 import * as Text from '@atoms/text';
-import { useCompanyApplications } from '@features/applications/hooks/use-company-applications';
 import { DriveItem } from '@features/drive/types';
 import FileUploadAPIClient from '@features/files/api/file-upload-api-client';
 import { formatDate } from '@features/global/utils/format-date';
 import { formatSize } from '@features/global/utils/format-file-size';
-import useRouterWorkspace from '@features/router/hooks/use-router-workspace';
 import { useSearchModal } from '@features/search/hooks/use-search';
 import { SearchInputState } from '@features/search/state/search-input';
 import { UserType } from '@features/users/types/user';
@@ -30,18 +20,13 @@ import { useHistory } from 'react-router-dom';
 import RouterServices from '@features/router/services/router-service';
 import { useCurrentUser } from 'app/features/users/hooks/use-current-user';
 import useRouterCompany from 'app/features/router/hooks/use-router-company';
+import { DocumentIcon } from '@views/client/body/drive/documents/document-icon';
 
 export default (props: { driveItem: DriveItem & { user?: UserType }}) => {
   const history = useHistory();
   const input = useRecoilValue(SearchInputState);
-  const currentWorkspaceId = useRouterWorkspace();
-  const companyApplications = useCompanyApplications();
   const { user } = useCurrentUser();
   const [_, setParentId] = useRecoilState(DriveCurrentFolderAtom({ initialFolderId: 'user_'+user?.id }));
-  const tdriveDriveApplicationId =
-    companyApplications.applications.find(application => {
-      return application.identity.code === 'tdrive_drive';
-    })?.id || '';
   const file = props.driveItem;
   const name = file?.name;
   const extension = name?.split('.').pop();
@@ -128,21 +113,7 @@ export const FileResultMedia = (props: {
         duration={type === 'video' ? extension : undefined}
       />
       {(!['image', 'video'].includes(type) || !url) && (
-        <>
-          {type === 'archive' ? (
-            <FileTypeArchiveIcon className={iconClassName} />
-          ) : type === 'pdf' ? (
-            <FileTypePdfIcon className={iconClassName} />
-          ) : type === 'document' ? (
-            <FileTypeDocumentIcon className={iconClassName} />
-          ) : type === 'spreadsheet' ? (
-            <FileTypeSpreadsheetIcon className={iconClassName} />
-          ) : type === 'slides' ? (
-            <FileTypeSlidesIcon className={iconClassName} />
-          ) : (
-            <FileTypeUnknownIcon className={iconClassName} />
-          )}
-        </>
+          <DocumentIcon item={file} fileType={type} className={iconClassName} />
       )}
     </div>
   );
