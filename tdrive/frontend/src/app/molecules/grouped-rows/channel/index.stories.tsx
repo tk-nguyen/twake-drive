@@ -5,7 +5,7 @@ import ChannelBlock from '.';
 import Avatar from '@atoms/avatar';
 
 export default {
-  title: '@molecules/avatar-block',
+  title: '@molecules/grouped-rows',
 };
 
 const Template: ComponentStory<any> = (props: {

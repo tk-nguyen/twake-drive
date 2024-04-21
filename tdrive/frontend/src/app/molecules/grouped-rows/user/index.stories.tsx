@@ -7,7 +7,7 @@ import Avatar from '@atoms/avatar';
 import { CheckIcon } from '@atoms/icons-agnostic';
 
 export default {
-  title: '@molecules/avatar-block',
+  title: '@molecules/grouped-rows',
 };
 
 const Template: ComponentStory<any> = (props: {

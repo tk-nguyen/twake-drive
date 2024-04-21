@@ -3,7 +3,7 @@ import React from 'react';
 import BaseBlock from '@molecules/grouped-rows/base';
 
 // @ts-ignore
-interface BlockProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface UserBlockProps extends React.InputHTMLAttributes<HTMLInputElement> {
   avatar: JSX.Element;
   title: JSX.Element | string;
   subtitle: JSX.Element | string;
@@ -11,6 +11,6 @@ interface BlockProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-export default function Workspace(props: BlockProps) {
+export default function UserBlock(props: UserBlockProps) {
   return BaseBlock(props);
 }
