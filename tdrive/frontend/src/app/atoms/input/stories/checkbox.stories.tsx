@@ -2,6 +2,8 @@
 import { ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../input-checkbox';
+import { CheckboxSlider } from '../input-checkbox-slider';
+import { Title } from 'app/atoms/text';
 
 export default {
   title: '@atoms/checkbox',
@@ -30,6 +32,14 @@ const Template: ComponentStory<any> = (props: { label: string; disabled: boolean
         disabled={props.disabled}
         label={props.label}
       />
+
+      <Title className='my-5'>CheckboxSlider</Title>
+
+      <CheckboxSlider
+        onClick={e => setChecked(!checked)}
+        checked={checked}
+        disabled={props.disabled}
+        />
     </div>
   );
 };
