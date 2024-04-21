@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import { defaultInputClassName, errorInputClassName, ThemeName } from './input-text';
 
+export type SelectSize = 'md' | 'lg' | 'sm';
+
 interface InputProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   theme?: ThemeName;
   hasError?: boolean;
-  size?: 'md' | 'lg' | 'sm';
+  size?: SelectSize;
   className?: string;
   children?: React.ReactNode;
 }

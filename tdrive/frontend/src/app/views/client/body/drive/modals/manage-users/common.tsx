@@ -26,7 +26,7 @@ export const AccessLevel = ({
       value={level || 'read'}
       onChange={e => onChange(e.target.value as DriveFileAccessLevel & 'remove')}
     >
-      {!hiddenLevels?.includes('manage') && <option value={'manage'}>{Languages.t('common.access-level_full_acess')}</option>}
+      {!hiddenLevels?.includes('manage') && <option value={'manage'}>{Languages.t('common.access-level_full_access')}</option>}
       {!hiddenLevels?.includes('read') && <option value={'read'}>{Languages.t('common.access-level_read')}</option>}
     </Select>
   );

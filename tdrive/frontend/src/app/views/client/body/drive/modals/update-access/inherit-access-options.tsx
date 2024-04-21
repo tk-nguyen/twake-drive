@@ -12,7 +12,7 @@ import {
 
 import { Base, Info, Subtitle } from '@atoms/text';
 import { Checkbox } from '@atoms/input/input-checkbox';
-import { AccessLevelDropdown } from './access-level-dropdown';
+import { AccessLevelDropdown } from '../../components/access-level-dropdown';
 import AlertManager from '@features/global/services/alert-manager-service';
 
 export const InheritAccessOptions = (props: {
@@ -55,6 +55,7 @@ export const InheritAccessOptions = (props: {
           </div>
           <div className="shrink-0 ml-2">
             <AccessLevelDropdown
+              hiddenLevels={['remove']}
               disabled={props.disabled}
               onChange={level => {
                 props.item && props.onUpdate(changeCompanyAccessLevel(props.item, level === 'remove' ? false : level));
@@ -78,7 +79,6 @@ export const InheritAccessOptions = (props: {
             <AccessLevelDropdown
               disabled={props.disabled}
               hiddenLevels={['none']}
-              canRemove
               onChange={level => {
                 if (level === 'remove')
                   AlertManager.confirm(

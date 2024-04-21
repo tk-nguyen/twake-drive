@@ -7,7 +7,7 @@ import { useUser } from '@features/users/hooks/use-user';
 import { UserType } from '@features/users/types/user';
 import { useState } from 'react';
 import SelectUsers from '../../components/select-users';
-import { AccessLevelDropdown } from './access-level-dropdown';
+import { AccessLevelDropdown } from '../../components/access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
 import { changeUserAccess, getUserAccessLevel, getAllUserAccesses } from '@features/files/utils/access-info-helpers';
 
@@ -53,6 +53,7 @@ const UserAccessSelector = ({ id, disabled }: { id: string; disabled: boolean })
         <AccessLevelDropdown
           className="rounded-l-none"
           disabled={loading || disabled}
+          hiddenLevels={['remove']}
           level={level}
           onChange={level => setLevel(level)}
         />
@@ -82,7 +83,6 @@ const UserAccessLevel = ({
         <AccessLevelDropdown
           disabled={loading || disabled || user?.id === currentUser?.id}
           level={(item && getUserAccessLevel(item, userId)) || "none"}
-          canRemove={true}
           onChange={level => item && update(changeUserAccess(item, userId, level === 'remove' ? false : level))}
           />
       }
