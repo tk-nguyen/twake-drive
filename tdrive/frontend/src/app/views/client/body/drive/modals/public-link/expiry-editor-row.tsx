@@ -12,7 +12,7 @@ import { Input } from 'app/atoms/input/input-text';
 import { CheckboxSlider } from 'app/atoms/input/input-checkbox-slider';
 import { Button } from 'app/atoms/button/button';
 import { ShieldExclamationIcon, CalendarIcon, PencilAltIcon } from '@heroicons/react/outline';
-import { Modal, ModalContent } from 'app/atoms/modal';
+import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';
 
@@ -153,37 +153,18 @@ export const ExpiryEditorRow = (props: {
             />
       }
       />
-
-    <Modal open={isConfirmingExpiryRemoval} onClose={() => setIsConfirmingExpiryRemoval(false)}>
-      <ModalContent
-        title={Languages.t("components.public-link-security_expiration_removal_title")}
-        text={props.isLinkPasswordProtected
-          ? Languages.t("components.public-link-security_expiration_removal_but_password")
-          : Languages.t("components.public-link-security_expiration_removal_no_password")
-        }
-        theme="danger"
-        icon={ShieldExclamationIcon}
-        buttons={
-          <>
-            <Button
-              className="ml-2"
-              theme='default'
-              onClick={() => setIsConfirmingExpiryRemoval(false)}
-              >
-              {Languages.t("general.cancel")}
-            </Button>
-            <Button
-              theme="danger"
-              onClick={() => {
-                setIsConfirmingExpiryRemoval(false)
-                saveValue(0);
-              }}
-              >
-              {Languages.t("components.public-link-security_expiration_removal_confirm")}
-            </Button>
-          </>
-        }
+    <ConfirmModal
+      open={isConfirmingExpiryRemoval}
+      onClose={() => setIsConfirmingExpiryRemoval(false)}
+      onOk={() => saveValue(0)}
+      title={Languages.t("components.public-link-security_expiration_removal_title")}
+      text={props.isLinkPasswordProtected
+        ? Languages.t("components.public-link-security_expiration_removal_but_password")
+        : Languages.t("components.public-link-security_expiration_removal_no_password")
+      }
+      icon={ShieldExclamationIcon}
+      buttonOkLabel="components.public-link-security_expiration_removal_confirm"
+      buttonOkTheme='danger'
       />
-    </Modal>
   </>;
 }

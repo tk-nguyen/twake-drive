@@ -9,7 +9,7 @@ import { Input } from 'app/atoms/input/input-text';
 import { CheckboxSlider } from 'app/atoms/input/input-checkbox-slider';
 import { Button } from 'app/atoms/button/button';
 import { ShieldCheckIcon, PencilAltIcon, ShieldExclamationIcon } from '@heroicons/react/outline';
-import { Modal, ModalContent } from 'app/atoms/modal';
+import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';
 
@@ -136,33 +136,17 @@ export const PasswordEditorRow = (props: {
       }
       />
 
-    <Modal open={isConfirmingPasswordRemoval} onClose={() => setIsConfirmingPasswordRemoval(false)}>
-      <ModalContent
-        title={Languages.t("components.public-link-security_password_removal_title")}
-        text={Languages.t("components.public-link-security_password_removal_body")}
-        theme="danger"
-        icon={ShieldExclamationIcon}
-        buttons={
-          <>
-            <Button
-              className="ml-2"
-              theme='default'
-              onClick={() => setIsConfirmingPasswordRemoval(false)}
-              >
-              {Languages.t("general.cancel")}
-            </Button>
-            <Button
-              theme="danger"
-              onClick={() => {
-                setIsConfirmingPasswordRemoval(false)
-                savePassword("");
-              }}
-              >
-              {Languages.t("components.public-link-security_password_removal_confirm")}
-            </Button>
-          </>
-        }
+    <ConfirmModal
+      open={isConfirmingPasswordRemoval}
+      title={Languages.t("components.public-link-security_password_removal_title")}
+      text={Languages.t("components.public-link-security_password_removal_body")}
+      theme="danger"
+      icon={ShieldExclamationIcon}
+      buttonOkTheme='danger'
+      buttonOkLabel='components.public-link-security_password_removal_confirm'
+
+      onClose={() => setIsConfirmingPasswordRemoval(false)}
+      onOk={() => savePassword("")}
       />
-    </Modal>
   </>;
 }

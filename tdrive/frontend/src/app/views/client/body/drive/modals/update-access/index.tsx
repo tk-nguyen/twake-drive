@@ -31,10 +31,7 @@ export const AccessModal = () => {
       open={state.open}
       onClose={() => setState({ ...state, open: false })}
       >
-      {!!state.id &&
-        <AccessModalContent
-          id={state.id}
-          />}
+      {!!state.id && <AccessModalContent id={state.id} />}
     </Modal>
   );
 };

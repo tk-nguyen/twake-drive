@@ -2,8 +2,10 @@
 import React from 'react';
 import _ from 'lodash';
 
+export type ButtonTheme = 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark' | 'white' | 'green';
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  theme?: 'primary' | 'secondary' | 'danger' | 'default' | 'outline' | 'dark' | 'white' | 'green';
+  theme?: ButtonTheme;
   size?: 'md' | 'lg' | 'sm';
   icon?: (props: any) => JSX.Element;
   iconSize?: 'md' | 'lg';

@@ -144,7 +144,7 @@ export const Modal = (props: {
     </Transition.Root>
   );
 };
-
+export type ModalContentTheme = 'success' | 'danger' | 'warning' | 'gray';
 export const ModalContent = (props: {
   title: ReactNode | string;
   text?: string;
@@ -152,7 +152,7 @@ export const ModalContent = (props: {
   buttons?: ReactNode;
   children?: ReactNode;
   icon?: any;
-  theme?: 'success' | 'danger' | 'warning' | 'gray';
+  theme?: ModalContentTheme;
 }) => {
   let color = 'blue';
   if (props.theme === 'success') color = 'green';
