@@ -1,12 +1,10 @@
 import { Subtitle } from '@atoms/text';
 import { useDriveItem, getPublicLink } from '@features/drive/hooks/use-drive-item';
-import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { Input } from 'app/atoms/input/input-text';
 import { useState } from 'react';
 import { AccessLevelDropdown } from '../../components/access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
-import { Button } from '@atoms/button/button';
-import { LinkIcon, UserGroupIcon, CheckCircleIcon } from '@heroicons/react/outline';
+import { UserGroupIcon } from '@heroicons/react/outline';
 import type { DriveFileAccessLevelForPublicLink } from 'app/features/drive/types';
 import { changePublicLink } from '@features/files/utils/access-info-helpers';
 import { CopyLinkButton } from './copy-link-button';
@@ -24,7 +22,6 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
     if (level === 'none')
       setPublicLinkCreationLevel(defaultPublicLinkLevel);
   };
-  const [didJustCompleteACopy, setDidJustCompleteACopy] = useState<boolean>(false);
 
   return (
     <>
@@ -57,7 +54,7 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
           </div>
           <div className="shrink-0">
             <AccessLevelDropdown
-              hiddenLevels={['manage'].concat(havePublicLink ? [] : ['none'])}
+              hiddenLevels={['manage', 'remove'].concat(havePublicLink ? [] : ['none'])}
               disabled={loading || disabled}
               level={publicLinkCreationLevelSafe}
               labelOverrides={{'none': Languages.t('components.public-link-access-level-delete')}}

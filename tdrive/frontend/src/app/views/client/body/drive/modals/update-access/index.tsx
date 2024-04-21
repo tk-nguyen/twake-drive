@@ -109,43 +109,11 @@ const AccessModalContent = (props: {
           </>
         }
       >
-      {!props.isOnAdvancedScreen ?
-        <>
-          <PublicLinkManager id={id} disabled={access !== 'manage'} />
+      <PublicLinkManager id={id} disabled={access !== 'manage'} />
 
-          {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
-            <InternalAccessManager id={id} disabled={access !== 'manage'} />
-          )}
-
-          {haveAdvancedSettings && <SwitchToAdvancedSettingsPanel
-              disabled={!haveAdvancedSettings}
-              onShowAdvancedScreen={props.onShowAdvancedScreen}
-          />}
-        </> : <>
-          {havePublicLink &&
-            <PublicLinkAccessOptions
-              disabled={loading || access !== 'manage'}
-              password={item?.access_info?.public?.password}
-              expiration={item?.access_info?.public?.expiration}
-              onChangePassword={(password: string) => {
-                item && changePublicLink(item, { password: password || '' });
-              }}
-              onChangeExpiration={(expiration: number) => {
-                item && changePublicLink(item, { expiration: expiration || 0 });
-              }}
-            />}
-          { parentItem?.parent_id !== null && <>
-              <InheritAccessOptions
-                item={item}
-                disabled={loading}
-                onUpdate={update}
-              />
-              <CuteDepictionOfFolderHierarchy
-                file={item}
-                parent={parentItem}
-              />
-            </>}
-        </>}
+      {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
+        <InternalAccessManager id={id} disabled={access !== 'manage'} />
+      )}
     </ModalContent>
   );
 };
