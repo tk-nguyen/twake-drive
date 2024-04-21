@@ -1,4 +1,4 @@
-import { Base } from '@atoms/text';
+import { Subtitle } from '@atoms/text';
 import UserBlock from '@molecules/grouped-rows/user';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { DriveFileAccessLevel } from '@features/drive/types';
@@ -9,7 +9,7 @@ import { useState } from 'react';
 import SelectUsers from '../../components/select-users';
 import { AccessLevelDropdown } from './access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
-import { changeUserAccess, getUserAccessLevel, getAllUserAccesses } from '@features/files/utils/access-info-edits';
+import { changeUserAccess, getUserAccessLevel, getAllUserAccesses } from '@features/files/utils/access-info-helpers';
 
 
 export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: boolean }) => {
@@ -17,7 +17,9 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
 
   return (
     <>
-      <Base className="block mt-4 mb-1">{Languages.t('components.internal-access_specific_rules')}</Base>
+      <Subtitle className="block mt-2 mb-1">
+        {Languages.t('components.internal-access_specific_rules')}
+      </Subtitle>
       <div className="rounded-md border mt-2 dark:border-zinc-700">
         <UserAccessSelector id={id} disabled={disabled} />
 
