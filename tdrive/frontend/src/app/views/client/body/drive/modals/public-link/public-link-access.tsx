@@ -9,6 +9,7 @@ import { Button } from '@atoms/button/button';
 import { LinkIcon, UserGroupIcon, CheckCircleIcon } from '@heroicons/react/outline';
 import type { DriveFileAccessLevelForPublicLink } from 'app/features/drive/types';
 import { changePublicLink } from '@features/files/utils/access-info-helpers';
+import { CopyLinkButton } from './copy-link-button';
 
 export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boolean }) => {
   const { item, loading, update } = useDriveItem(id);
@@ -42,34 +43,9 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
               theme={havePublicLink ? "blue" : "outline"}
               value={havePublicLink ? publicLink : Languages.t('components.public-link-acess.public-link-placeholder')}
             />
-            <Button
-              disabled={disabled || (!havePublicLink && publicLinkCreationLevel === 'none')}
-              onClick={() => {
-                if (havePublicLink) {
-                  copyToClipboard(publicLink);
-                  if (!didJustCompleteACopy) {
-                    // No point enqueuing further ones, the first timeout will undo immediately anyway
-                    // so not bothering with useEffect either
-                    setDidJustCompleteACopy(true);
-                    setTimeout(() => setDidJustCompleteACopy(false), 1500);
-                  }
-                } else
-                  updatePublicLinkLevel(publicLinkCreationLevel);
-              }}
-              theme={didJustCompleteACopy ? "green" : "primary"}
-              className="absolute top-0 right-0 justify-center"
-            >
-              { didJustCompleteACopy
-                ? <CheckCircleIcon className="w-5 mr-2" />
-                : <LinkIcon className="w-5 mr-2" />
-              }
-              {Languages.t(
-                didJustCompleteACopy
-                ? 'components.public-link-copied-info'
-                : (havePublicLink
-                  ? "components.public-link-copy"
-                  : "components.public-link-get"))}
-            </Button>
+            <CopyLinkButton
+              textToCopy={havePublicLink && publicLink}
+              />
           </div>
         </div>
         <div className="p-4 flex flex-row items-center justify-center text-zinc-800 dark:text-white">
