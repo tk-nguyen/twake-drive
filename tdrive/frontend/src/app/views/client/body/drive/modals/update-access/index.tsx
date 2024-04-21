@@ -5,14 +5,14 @@ import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useState, useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { InternalAccessManager } from './internal-access';
-import { PublicLinkManager } from './public-link-access';
+import { PublicLinkManager } from '../public-link/public-link-access';
 import { useCurrentCompany } from '@features/companies/hooks/use-companies';
 import Languages from 'features/global/services/languages-service';
 import FeatureTogglesService, {
   FeatureNames,
 } from '@features/global/services/feature-toggles-service';
 import { ArrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
-import { PublicLinkAccessOptions } from './public-link-access-options';
+import { PublicLinkAccessOptions } from '../public-link/public-link-access-options';
 import { CuteDepictionOfFolderHierarchy } from './cute-depiction-of-folder-hierarchy';
 import { InheritAccessOptions } from './inherit-access-options';
 import { changePublicLink, hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';

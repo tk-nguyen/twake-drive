@@ -3,7 +3,7 @@ import { useDriveItem, getPublicLink } from '@features/drive/hooks/use-drive-ite
 import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { Input } from 'app/atoms/input/input-text';
 import { useState } from 'react';
-import { AccessLevelDropdown } from './access-level-dropdown';
+import { AccessLevelDropdown } from '../update-access/access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
 import { Button } from '@atoms/button/button';
 import { LinkIcon, UserGroupIcon, CheckCircleIcon } from '@heroicons/react/outline';

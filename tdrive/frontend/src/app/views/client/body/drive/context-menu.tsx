@@ -8,6 +8,7 @@ import { UploadModelAtom } from './modals/upload'
 import { PropertiesModalAtom } from './modals/properties';
 import { SelectorModalAtom } from './modals/selector';
 import { AccessModalAtom } from './modals/update-access';
+import { PublicLinkModalAtom } from './modals/public-link';
 import { VersionsModalAtom } from './modals/versions';
 import { UsersModalAtom } from './modals/manage-users';
 import { DriveApiClient, getPublicLinkToken } from '@features/drive/api-client/api-client';
@@ -46,6 +47,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
   const setConfirmTrashModalState = useSetRecoilState(ConfirmTrashModalAtom);
   const setVersionModal = useSetRecoilState(VersionsModalAtom);
   const setAccessModalState = useSetRecoilState(AccessModalAtom);
+  const setPublicLinkModalState = useSetRecoilState(PublicLinkModalAtom);
   const setPropertiesModalState = useSetRecoilState(PropertiesModalAtom);
   const setUsersModalState = useSetRecoilState(UsersModalAtom);
   const { open: preview } = useDrivePreview();
@@ -82,7 +84,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
               type: 'menu',
               text: Languages.t('components.item_context_menu.share'),
               hide: access === 'read' || getPublicLinkToken() || inTrash,
-              onClick: () => setAccessModalState({ open: true, id: item.id }),
+              onClick: () => setPublicLinkModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',

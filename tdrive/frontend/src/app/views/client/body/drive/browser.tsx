@@ -29,6 +29,7 @@ import { CreateModalAtom } from './modals/create';
 import { UploadModelAtom } from './modals/upload'
 import { PropertiesModal } from './modals/properties';
 import { AccessModal } from './modals/update-access';
+import { PublicLinkModal } from './modals/public-link';
 import { VersionsModal } from './modals/versions';
 import { UsersModal } from './modals/manage-users';
 import { SharedFilesTable } from './shared-files-table';
@@ -267,6 +268,7 @@ export default memo(
             {role == "admin" && <UsersModal />}
             <VersionsModal />
             <AccessModal />
+            <PublicLinkModal />
             <PropertiesModal />
             <ConfirmDeleteModal />
             <ConfirmTrashModal />
