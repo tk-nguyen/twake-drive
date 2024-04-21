@@ -1,20 +1,13 @@
-import A from '@atoms/link';
-import { Info } from '@atoms/text';
 import { Modal, ModalContent } from '@atoms/modal';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { InternalAccessManager } from './internal-access';
-import { PublicLinkManager } from '../public-link/public-link-access';
 import { useCurrentCompany } from '@features/companies/hooks/use-companies';
 import Languages from 'features/global/services/languages-service';
 import FeatureTogglesService, {
   FeatureNames,
 } from '@features/global/services/feature-toggles-service';
-import { ArrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
-import { PublicLinkAccessOptions } from '../public-link/public-link-access-options';
-import { CuteDepictionOfFolderHierarchy } from './cute-depiction-of-folder-hierarchy';
-import { InheritAccessOptions } from './inherit-access-options';
 import { changePublicLink, hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 export type AccessModalType = {
@@ -32,60 +25,22 @@ export const AccessModalAtom = atom<AccessModalType>({
 
 export const AccessModal = () => {
   const [state, setState] = useRecoilState(AccessModalAtom);
-  const [isOnAdvancedScreen, setIsOnAdvancedScreen] = useState(false);
 
   return (
     <Modal
       open={state.open}
-      onClose={() => {
-        if (isOnAdvancedScreen)
-          setIsOnAdvancedScreen(false);
-        else
-          setState({ ...state, open: false });
-      }}
-      closeIcon={isOnAdvancedScreen && <ArrowLeftIcon className="w-5 dark:text-zinc-500" />}
+      onClose={() => setState({ ...state, open: false })}
       >
       {!!state.id &&
         <AccessModalContent
           id={state.id}
-          isOnAdvancedScreen={isOnAdvancedScreen}
-          onShowAdvancedScreen={(active) => setIsOnAdvancedScreen(active)}
-        />}
+          />}
     </Modal>
   );
 };
 
-const SwitchToAdvancedSettingsPanel = (props: {
-  disabled: boolean,
-  onShowAdvancedScreen: (active: boolean) => void,
-}) =>
-  <div className="p-4 flex flex-row items-center justify-center text-zinc-800 dark:text-white">
-    <div className="shrink-0">
-      <LockClosedIcon className="w-5 mr-2" />
-    </div>
-    <div className="grow">
-      <div>Advanced security settings</div>
-      <div><Info>Set password, expiration date, etc.</Info></div>
-    </div>
-    <div className="shrink-0">
-      <A
-        className={"inline-block" + (props.disabled ? ' !text-zinc-500' : '')}
-        disabled={props.disabled}
-        noColor={props.disabled}
-        onClick={() => {
-          if (!props.disabled)
-            props.onShowAdvancedScreen(true);
-        }}
-      >
-        Change
-      </A>
-    </div>
-  </div>;
-
 const AccessModalContent = (props: {
   id: string,
-  isOnAdvancedScreen: boolean,
-  onShowAdvancedScreen: (active: boolean) => void,
 }) => {
   const { id } = props;
   const { item, access, loading, update, refresh } = useDriveItem(id);
@@ -95,25 +50,21 @@ const AccessModalContent = (props: {
     refresh(id);
     refreshCompany();
   }, []);
-  const havePublicLink = hasAnyPublicLinkAccess(item);
-  const haveAdvancedSettings = parentItem?.parent_id !== null || havePublicLink;
 
   return (
     <ModalContent
       title={
           <>
-            {Languages.t(props.isOnAdvancedScreen
-              ? 'components.item_context_menu.manage_access_advanced_to'
-              : 'components.item_context_menu.manage_access_to') + ' '}
+            {Languages.t('components.internal-access_manage_title') + ' '}
             <strong>{item?.name}</strong>
           </>
         }
       >
-      <PublicLinkManager id={id} disabled={access !== 'manage'} />
-
-      {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
-        <InternalAccessManager id={id} disabled={access !== 'manage'} />
-      )}
+      <div className={loading ? 'opacity-50' : ''}>
+        {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
+          <InternalAccessManager id={id} disabled={access !== 'manage'} />
+        )}
+      </div>
     </ModalContent>
   );
 };
