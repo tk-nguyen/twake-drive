@@ -9,11 +9,11 @@ import { useState } from 'react';
 import SelectUsers from '../../components/select-users';
 import { AccessLevelDropdown } from './access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
+import { changeUserAccess, getUserAccessLevel, getAllUserAccesses } from '@features/files/utils/access-info-edits';
 
 
 export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: boolean }) => {
   const { item } = useDriveItem(id);
-  const userEntities = item?.access_info.entities.filter(a => a.type === 'user') || [];
 
   return (
     <>
@@ -21,11 +21,9 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
       <div className="rounded-md border mt-2 dark:border-zinc-700">
         <UserAccessSelector id={id} disabled={disabled} />
 
-        {userEntities
-          ?.sort((a, b) => a?.id?.localeCompare(b?.id))
-          ?.map(user => (
-            <UserAccessLevel key={user.id} id={id} userId={user?.id} disabled={disabled} />
-          ))}
+        {item && getAllUserAccesses(item)?.map(user =>
+          <UserAccessLevel key={user.id} id={id} userId={user?.id} disabled={disabled} />
+          )}
         <div className="-mb-px" />
       </div>
     </>
@@ -43,18 +41,8 @@ const UserAccessSelector = ({ id, disabled }: { id: string; disabled: boolean })
           className="rounded-r-none"
           level={level}
           onChange={(users: UserType[]) => {
-            const id = users[0]?.id;
-            update({
-              access_info: {
-                entities: [
-                  //Add or replace existing user
-                  ...(item?.access_info.entities.filter(a => a.type !== 'user' || a.id !== id) ||
-                    []),
-                  ...((id ? [{ type: 'user', id, level }] : []) as any),
-                ],
-                public: item?.access_info.public,
-              },
-            });
+            const id = users[0]?.id; //TODO: all others ignored
+            item && id && update(changeUserAccess(item, id, level));
           }}
           initialUsers={[]}
         />
@@ -83,7 +71,6 @@ const UserAccessLevel = ({
   const { item, loading, update } = useDriveItem(id);
   const user = useUser(userId);
   const { user: currentUser } = useCurrentUser();
-  const level = item?.access_info.entities.filter(a => a.type === 'user' && a.id === userId)?.[0]?.level || 'none';
   return (
     <UserBlock
       className="p-4 border-t dark:border-zinc-700"
@@ -92,26 +79,9 @@ const UserAccessLevel = ({
       suffix={
         <AccessLevelDropdown
           disabled={loading || disabled || user?.id === currentUser?.id}
-          level={level}
+          level={(item && getUserAccessLevel(item, userId)) || "none"}
           canRemove={true}
-          onChange={
-            level =>
-              update({
-                access_info: {
-                  entities:
-                    level === 'remove'
-                      ? item?.access_info?.entities.filter(
-                          e => e.type !== 'user' || e.id !== userId,
-                        ) || []
-                      : item?.access_info?.entities.map(e => {
-                          if (e.type === 'user' && e.id === userId)
-                            return { ...e, level };
-                          return e;
-                        }) || [],
-                  public: item?.access_info.public,
-                },
-              })
-            }
+          onChange={level => item && update(changeUserAccess(item, userId, level === 'remove' ? false : level))}
           />
       }
     />

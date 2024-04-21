@@ -25,6 +25,7 @@ import RouterServices from '@features/router/services/router-service';
 import useRouterCompany from '@features/router/hooks/use-router-company';
 import _ from 'lodash';
 import Languages from 'features/global/services/languages-service';
+import { hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 /**
  * This will build the context menu in different contexts
@@ -50,7 +51,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
   const { open: preview } = useDrivePreview();
   const { viewId } = useRouteState();
   const company = useRouterCompany();
-  
+
   function getIdsFromArray(arr: DriveItem[]): string[] {
     return arr.map((obj) => obj.id);
   }
@@ -309,9 +310,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                 {
                   type: 'menu',
                   text: Languages.t('components.item_context_menu.copy_link'),
-                  hide:
-                    !parent?.item?.access_info?.public?.level ||
-                    parent?.item?.access_info?.public?.level === 'none',
+                  hide: !hasAnyPublicLinkAccess(item),
                   onClick: () => {
                     copyToClipboard(getPublicLink(item || parent?.item));
                     ToasterService.success(

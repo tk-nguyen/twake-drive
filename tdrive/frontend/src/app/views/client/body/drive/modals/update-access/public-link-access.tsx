@@ -7,7 +7,8 @@ import { AccessLevelDropdown } from './access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
 import { Button } from '@atoms/button/button';
 import { LinkIcon, UserGroupIcon, CheckCircleIcon } from '@heroicons/react/outline';
-import type { DriveFileAccessLevel } from 'app/features/drive/types';
+import type { DriveFileAccessLevelForPublicLink } from 'app/features/drive/types';
+import { changePublicLink } from '@features/files/utils/access-info-helpers';
 
 export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boolean }) => {
   const { item, loading, update } = useDriveItem(id);
@@ -15,15 +16,10 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
   const defaultPublicLinkLevel = 'read';
   const publicLinkLevel = item?.access_info?.public?.level || 'none';
   const havePublicLink = publicLinkLevel !== 'none';
-  const [publicLinkCreationLevel, setPublicLinkCreationLevel] = useState<DriveFileAccessLevel>(defaultPublicLinkLevel);
+  const [publicLinkCreationLevel, setPublicLinkCreationLevel] = useState<DriveFileAccessLevelForPublicLink>(defaultPublicLinkLevel);
   const publicLinkCreationLevelSafe = havePublicLink ? publicLinkLevel || defaultPublicLinkLevel : publicLinkCreationLevel;
-  const updatePublicLinkLevel = (level: DriveFileAccessLevel) => {
-    update({
-      access_info: {
-        entities: item?.access_info.entities || [],
-        public: { ...(item?.access_info?.public || { token: '' }), level },
-      },
-    });
+  const updatePublicLinkLevel = (level: DriveFileAccessLevelForPublicLink) => {
+    item && update(changePublicLink(item, { level }));
     if (level === 'none')
       setPublicLinkCreationLevel(defaultPublicLinkLevel);
   };
@@ -57,9 +53,8 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
                     setDidJustCompleteACopy(true);
                     setTimeout(() => setDidJustCompleteACopy(false), 1500);
                   }
-                } else {
+                } else
                   updatePublicLinkLevel(publicLinkCreationLevel);
-                }
               }}
               theme={didJustCompleteACopy ? "green" : "primary"}
               className="absolute top-0 right-0 justify-center"

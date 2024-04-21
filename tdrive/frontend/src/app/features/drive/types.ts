@@ -38,6 +38,8 @@ export type DriveItem = {
   scope: string;
 };
 
+export type DriveFileAccessLevelForInherited = 'none' | 'manage';
+export type DriveFileAccessLevelForPublicLink = 'none' | 'read' | 'write';
 export type DriveFileAccessLevel = 'none' | 'read' | 'write' | 'manage';
 
 export type DriveItemAccessInfo = {
@@ -50,7 +52,7 @@ export type DriveItemAccessInfo = {
   entities: AuthEntity[];
 };
 
-type AuthEntity = {
+export type AuthEntity = {
   type: 'user' | 'channel' | 'company' | 'folder';
   id: string | 'parent';
   level: DriveFileAccessLevel;

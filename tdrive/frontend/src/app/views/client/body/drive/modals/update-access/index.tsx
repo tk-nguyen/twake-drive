@@ -15,6 +15,7 @@ import { ArrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import { PublicLinkAccessOptions } from './public-link-access-options';
 import { CuteDepictionOfFolderHierarchy } from './cute-depiction-of-folder-hierarchy';
 import { InheritAccessOptions } from './inherit-access-options';
+import { changePublicLink, hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 export type AccessModalType = {
   open: boolean;
@@ -94,19 +95,8 @@ const AccessModalContent = (props: {
     refresh(id);
     refreshCompany();
   }, []);
-  const havePublicLink = (item?.access_info?.public?.level || 'none') !== 'none';
+  const havePublicLink = hasAnyPublicLinkAccess(item);
   const haveAdvancedSettings = parentItem?.parent_id !== null || havePublicLink;
-
-  const updatePublicAccess = (key: string, value: string | number, skipLoading?: true) =>
-    update({
-      access_info: {
-        entities: item?.access_info.entities || [],
-        public: {
-          ...item!.access_info!.public!,
-          [key]: value || '',
-        },
-      },
-    }, skipLoading);
 
   return (
     <ModalContent
@@ -138,10 +128,10 @@ const AccessModalContent = (props: {
               password={item?.access_info?.public?.password}
               expiration={item?.access_info?.public?.expiration}
               onChangePassword={(password: string) => {
-                updatePublicAccess('password', password || '', true);
+                item && changePublicLink(item, { password: password || '' });
               }}
               onChangeExpiration={(expiration: number) => {
-                updatePublicAccess('expiration', expiration || 0);
+                item && changePublicLink(item, { expiration: expiration || 0 });
               }}
             />}
           { parentItem?.parent_id !== null && <>

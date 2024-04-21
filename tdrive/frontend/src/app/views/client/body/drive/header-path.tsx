@@ -10,6 +10,7 @@ import Languages from 'features/global/services/languages-service';
 import { useHistory } from 'react-router-dom';
 import useRouterCompany from '@features/router/hooks/use-router-company';
 import RouterServices from '@features/router/services/router-service';
+import { hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 export default ({
   path: livePath,
@@ -193,7 +194,7 @@ const PathItem = ({
           })()}
         </Title>
       </a>
-      {item?.access_info?.public?.level && item?.access_info?.public?.level !== 'none' && (
+      {hasAnyPublicLinkAccess(item) && (
         <PublicIcon className="h-5 w-5 ml-2" />
       )}
       {first && !!user?.id && viewId?.includes('trash') && (

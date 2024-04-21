@@ -7,6 +7,7 @@ import { formatBytes } from '@features/drive/utils';
 import { useState } from 'react';
 import { PublicIcon } from '../components/public-icon';
 import { CheckableIcon, DriveItemProps } from './common';
+import { hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 import './style.scss';
 
 export const FolderRow = ({
@@ -49,7 +50,7 @@ export const FolderRow = ({
         <Base className="!font-semibold flex maxWidth100">{item.name}</Base>
       </div>
       <div className="shrink-0 ml-4">
-        {item?.access_info?.public?.level !== 'none' && (
+        {hasAnyPublicLinkAccess(item) && (
           <PublicIcon className="h-5 w-5 text-blue-500" />
         )}
       </div>

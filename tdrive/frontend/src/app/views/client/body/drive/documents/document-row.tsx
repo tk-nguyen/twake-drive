@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import RouterServices from '@features/router/services/router-service';
 import useRouteState from 'app/features/router/hooks/use-route-state';
 import { DocumentIcon } from './document-icon';
+import { hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 export const DocumentRow = ({
   item,
@@ -79,7 +80,7 @@ export const DocumentRow = ({
         <Base className="flex maxWidth100">{item.name}</Base>
       </div>
       <div className="shrink-0 ml-4">
-        {item?.access_info?.public?.level !== 'none' && (
+        {hasAnyPublicLinkAccess(item) && (
           <PublicIcon className="h-5 w-5 text-blue-500" />
         )}
       </div>
