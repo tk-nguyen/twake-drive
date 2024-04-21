@@ -76,18 +76,21 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
           const newMenuActions = [
             {
               type: 'menu',
+              icon: 'document',
               text: Languages.t('components.item_context_menu.preview'),
               hide: item.is_directory,
               onClick: () => preview(item),
             },
             {
               type: 'menu',
+              icon: 'share-alt',
               text: Languages.t('components.item_context_menu.share'),
               hide: access === 'read' || getPublicLinkToken() || inTrash,
               onClick: () => setPublicLinkModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
+              icon: 'download-alt',
               text: Languages.t('components.item_context_menu.download'),
               onClick: () => {
                 if (item.is_directory) {
@@ -101,6 +104,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             { type: 'separator' },
             {
               type: 'menu',
+              icon: 'eye',
               text: Languages.t('components.item_context_menu.open_new_window'),
               onClick: () => {
                 const itemId = !item.is_directory ? item.id : "";
@@ -112,12 +116,14 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             { type: 'separator' },
             {
               type: 'menu',
+              icon: 'users-alt',
               text: Languages.t('components.item_context_menu.manage_access'),
               hide: access === 'read' || getPublicLinkToken() || inTrash,
               onClick: () => setAccessModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
+              icon: 'folder-question',
               text: Languages.t('components.item_context_menu.move'),
               hide: access === 'read' || inTrash,
               onClick: () =>
@@ -141,12 +147,14 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             },
             {
               type: 'menu',
+              icon: 'file-edit-alt',
               text: Languages.t('components.item_context_menu.rename'),
               hide: access === 'read' || inTrash,
               onClick: () => setPropertiesModalState({ open: true, id: item.id }),
             },
             {
               type: 'menu',
+              icon: 'link',
               text: Languages.t('components.item_context_menu.copy_link'),
               hide: !item.access_info.public?.level || item.access_info.public?.level === 'none' || inTrash,
               onClick: () => {
@@ -158,6 +166,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             },
             {
               type: 'menu',
+              icon: 'history',
               text: Languages.t('components.item_context_menu.versions'),
               hide: item.is_directory || inTrash,
               onClick: () => setVersionModal({ open: true, id: item.id }),
@@ -165,6 +174,7 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
             { type: 'separator', hide: access !== 'manage' || inTrash, },
             {
               type: 'menu',
+              icon: 'trash',
               text: Languages.t('components.item_context_menu.move_to_trash'),
               className: 'error',
               hide: inTrash || access !== 'manage',
