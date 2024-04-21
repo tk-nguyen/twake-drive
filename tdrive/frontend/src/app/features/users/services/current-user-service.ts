@@ -3,12 +3,12 @@
 import Login from '@features/auth/login-service';
 import Collections, { Collection } from '@deprecated/CollectionsV1/Collections/Collections';
 import Api from '@features/global/framework/api-service';
-import Languages from '@features/global/services/languages-service';
 import { UserType } from '@features/users/types/user';
 import { TdriveService } from '@features/global/framework/registry-decorator-service';
 import { addApiUrlIfNeeded } from '@features/global/utils/URLUtils';
-import { getUser } from '../hooks/use-user-list';
+import { getUser } from '@features/users/hooks/use-user-list';
 import { getGradient } from '@atoms/avatar';
+import { getFullName } from '../utils/get-full-name';
 
 type SearchQueryType = {
   searching: boolean;
@@ -41,22 +41,7 @@ class User {
   }
 
   getFullName(user: Pick<UserType, 'username' | 'first_name' | 'last_name' | 'deleted'>): string {
-    let name: string = user?.username;
-
-    if (!name) {
-      return 'Anonymous';
-    }
-    // @author https://stackoverflow.com/a/17200679
-    const toNameCase = (str?: string) => (str || '').toLowerCase().replace(/(?<!\p{L})\p{L}(?=\p{L}{2})/gu, (m: string) => m.toUpperCase());
-
-    if (user.deleted) {
-      name = Languages.t('general.user.deleted');
-    } else {
-      name = [user.first_name, user.last_name].filter(a => a).map(toNameCase).join(' ');
-      name = name || user.username;
-    }
-
-    return name;
+    return getFullName(user);
   }
 
   getThumbnail(user: UserType) {
