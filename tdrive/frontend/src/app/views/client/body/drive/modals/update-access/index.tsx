@@ -110,11 +110,15 @@ const AccessModalContent = (props: {
 
   return (
     <ModalContent
-      title={Languages.t(
-        props.isOnAdvancedScreen
-          ? 'components.item_context_menu.manage_access_advanced_to'
-          : 'components.item_context_menu.manage_access_to') + ' ' + item?.name}
-    >
+      title={
+          <>
+            {Languages.t(props.isOnAdvancedScreen
+              ? 'components.item_context_menu.manage_access_advanced_to'
+              : 'components.item_context_menu.manage_access_to') + ' '}
+            <strong>{item?.name}</strong>
+          </>
+        }
+      >
       {!props.isOnAdvancedScreen ?
         <>
           <PublicLinkManager id={id} disabled={access !== 'manage'} />
