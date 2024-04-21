@@ -3,7 +3,7 @@ import { useDriveItem, getPublicLink } from '@features/drive/hooks/use-drive-ite
 import { copyToClipboard } from '@features/global/utils/CopyClipboard';
 import { Input } from 'app/atoms/input/input-text';
 import { useState } from 'react';
-import { AccessLevel } from './common';
+import { AccessLevelDropdown } from './access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
 import { Button } from '@atoms/button/button';
 import { LinkIcon, UserGroupIcon, CheckCircleIcon } from '@heroicons/react/outline';
@@ -85,7 +85,7 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
             {Languages.t('components.public-link-access-level-' + (havePublicLink ? 'update' : 'create'))}
           </div>
           <div className="shrink-0">
-            <AccessLevel
+            <AccessLevelDropdown
               hiddenLevels={['manage'].concat(havePublicLink ? [] : ['none'])}
               disabled={loading || disabled}
               level={publicLinkCreationLevelSafe}

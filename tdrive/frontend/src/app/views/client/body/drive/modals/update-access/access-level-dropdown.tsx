@@ -2,7 +2,7 @@ import Select from '@atoms/input/input-select';
 import { DriveFileAccessLevel } from '@features/drive/types';
 import Languages from 'features/global/services/languages-service';
 
-export const AccessLevel = ({
+export const AccessLevelDropdown = ({
   disabled,
   level,
   onChange,
@@ -14,7 +14,7 @@ export const AccessLevel = ({
   disabled?: boolean;
   level: DriveFileAccessLevel | null;
   onChange: (level: DriveFileAccessLevel & 'remove') => void;
-  canRemove?: boolean;
+  canRemove?: boolean; //TODO: use hiddenLevels
   className?: string;
   labelOverrides?: { [key: string]: string };
   hiddenLevels?: string[];

@@ -1,15 +1,13 @@
-import Avatar from '@atoms/avatar';
-import { Base, Info } from '@atoms/text';
+import { Base } from '@atoms/text';
 import UserBlock from '@molecules/grouped-rows/user';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { DriveFileAccessLevel } from '@features/drive/types';
 import { useCurrentUser } from '@features/users/hooks/use-current-user';
 import { useUser } from '@features/users/hooks/use-user';
-import currentUserService from '@features/users/services/current-user-service';
 import { UserType } from '@features/users/types/user';
 import { useState } from 'react';
 import SelectUsers from '../../components/select-users';
-import { AccessLevel } from './common';
+import { AccessLevelDropdown } from './access-level-dropdown';
 import Languages from 'features/global/services/languages-service';
 
 
@@ -62,7 +60,7 @@ const UserAccessSelector = ({ id, disabled }: { id: string; disabled: boolean })
         />
       </div>
       <div className="shrink-0">
-        <AccessLevel
+        <AccessLevelDropdown
           className="rounded-l-none"
           disabled={loading || disabled}
           level={level}
@@ -92,7 +90,7 @@ const UserAccessLevel = ({
       user={user}
       isSelf={!!currentUser?.id && user?.id === currentUser?.id}
       suffix={
-        <AccessLevel
+        <AccessLevelDropdown
           disabled={loading || disabled || user?.id === currentUser?.id}
           level={level}
           canRemove={true}

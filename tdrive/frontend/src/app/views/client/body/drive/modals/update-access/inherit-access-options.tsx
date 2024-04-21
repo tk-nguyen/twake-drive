@@ -4,7 +4,7 @@ import type { DriveItem } from 'app/features/drive/types';
 
 import { Base, Info, Subtitle } from '@atoms/text';
 import { Checkbox } from '@atoms/input/input-checkbox';
-import { AccessLevel } from './common';
+import { AccessLevelDropdown } from './access-level-dropdown';
 import AlertManager from '@features/global/services/alert-manager-service';
 
 export const InheritAccessOptions = (props: {
@@ -58,7 +58,7 @@ export const InheritAccessOptions = (props: {
             <Base>{Languages.t('components.internal-access_company_member')}</Base>
           </div>
           <div className="shrink-0 ml-2">
-            <AccessLevel
+            <AccessLevelDropdown
               disabled={props.disabled}
               onChange={level => {
                 props.onUpdate({
@@ -87,7 +87,7 @@ export const InheritAccessOptions = (props: {
             </Info>
           </div>
           <div className="shrink-0 ml-2">
-            <AccessLevel
+            <AccessLevelDropdown
               disabled={props.disabled}
               hiddenLevels={['none']}
               canRemove
