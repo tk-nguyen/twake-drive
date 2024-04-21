@@ -7,9 +7,9 @@ interface BlockProps extends React.InputHTMLAttributes<HTMLInputElement> {
   avatar: JSX.Element;
   title: JSX.Element | string;
   subtitle: JSX.Element | string;
-  title_suffix?: JSX.Element | string;
-  subtitle_suffix?: JSX.Element | string;
-  suffix?: JSX.Element | string;
+  title_suffix?: JSX.Element | string | false;
+  subtitle_suffix?: JSX.Element | string | false;
+  suffix?: JSX.Element | string | false;
   className?: string;
 }
 
