@@ -66,7 +66,7 @@ export const Input = (props: InputProps) => {
           <textarea
             ref={props.inputRef as React.Ref<HTMLTextAreaElement>}
             className={inputClassName + ' ' + props.inputClassName + ' ' + props.className}
-            {..._.omit(props as any, 'label', 'inputClassName', 'className', 'value', 'size')}
+            {..._.omit(props as any, 'label', 'inputClassName', 'inputRef', 'className', 'value', 'size')}
           >
             {props.value}
           </textarea>
@@ -75,7 +75,7 @@ export const Input = (props: InputProps) => {
             ref={props.inputRef as React.Ref<HTMLInputElement>}
             type="text"
             className={inputClassName + ' ' + props.inputClassName + ' ' + props.className}
-            {..._.omit(props, 'label', 'inputClassName', 'className', 'size')}
+            {..._.omit(props, 'label', 'inputClassName', 'inputRef', 'className', 'size')}
           />
         ))}
     </>
