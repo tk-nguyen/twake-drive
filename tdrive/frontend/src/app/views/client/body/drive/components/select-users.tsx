@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import UserBlock from '@molecules/grouped-rows/user';
 import { Input } from '@atoms/input/input-text';
 import { useSearchUsers } from '@features/users/hooks/use-search-user-list';
-import User from '@components/ui/user';
 import { Button } from '@atoms/button/button';
 import { UserType } from '@features/users/types/user';
 import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
@@ -99,16 +99,13 @@ export default (props: {
             )}
             {shownResults.map((user, i) => {
               return (
-                <div key={user.id} className={
-                  "rounded m-1 p-3 new-direct-channel-proposed-user flex flex-row items-center justify-center align-baseline"
-                  + (i === selectedKeyIndex ? ' ring' : (i > 0 && i !== (selectedKeyIndex + 1) ? ' border-t' : ''))}>
-                  <div className="grow">
-                    <div className='font-bold'>
-                    <User data={user} />
-                    </div>
-                    <div className='ml-3 text-sm text-slate-500'>{user.email}</div>
-                  </div>
-                  <div className='shrink-0 ml-2'>
+                <UserBlock
+                  key={user.id}
+                  user={user}
+                  className={
+                    "rounded m-1 p-3 new-direct-channel-proposed-user flex flex-row items-center justify-center align-baseline"
+                    + (i === selectedKeyIndex ? ' ring' : (i > 0 && i !== (selectedKeyIndex + 1) ? ' border-t' : ''))}
+                  suffix={
                     <Button
                       onClick={() => {
                         setUsers([user]);
@@ -119,8 +116,8 @@ export default (props: {
                     >
                       {Languages.t('components.user_picker.modal.result_add.' + props.level)}
                     </Button>
-                  </div>
-                  </div>
+                  }
+                  />
               );
             })}
             {result.length > maxUserResultsShown &&

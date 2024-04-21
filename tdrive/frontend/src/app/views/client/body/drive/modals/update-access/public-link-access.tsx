@@ -35,7 +35,7 @@ export const PublicLinkManager = ({ id, disabled }: { id: string; disabled?: boo
       <Subtitle className="block mt-2 mb-1">
         {Languages.t('components.public-link-acess.public_link_access')}
       </Subtitle>
-      <div className="rounded-md border">
+      <div className="rounded-md border dark:border-zinc-700">
         <div className="p-4 flex flex-row items-center justify-center">
           <div className="grow relative">
             <Input

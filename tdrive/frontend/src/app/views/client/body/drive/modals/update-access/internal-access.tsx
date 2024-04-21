@@ -1,5 +1,6 @@
 import Avatar from '@atoms/avatar';
 import { Base, Info } from '@atoms/text';
+import UserBlock from '@molecules/grouped-rows/user';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { DriveFileAccessLevel } from '@features/drive/types';
 import { useCurrentUser } from '@features/users/hooks/use-current-user';
@@ -19,7 +20,7 @@ export const InternalAccessManager = ({ id, disabled }: { id: string; disabled: 
   return (
     <>
       <Base className="block mt-4 mb-1">{Languages.t('components.internal-access_specific_rules')}</Base>
-      <div className="rounded-md border mt-2">
+      <div className="rounded-md border mt-2 dark:border-zinc-700">
         <UserAccessSelector id={id} disabled={disabled} />
 
         {userEntities
@@ -84,48 +85,37 @@ const UserAccessLevel = ({
   const { item, loading, update } = useDriveItem(id);
   const user = useUser(userId);
   const { user: currentUser } = useCurrentUser();
-  const level =
-    item?.access_info.entities.filter(a => a.type === 'user' && a.id === userId)?.[0]?.level ||
-    'none';
-
+  const level = item?.access_info.entities.filter(a => a.type === 'user' && a.id === userId)?.[0]?.level || 'none';
   return (
-    <div className="p-4 border-t flex flex-row items-center justify-center">
-      <div className="shrink-0">
-        <Avatar
-          avatar={user?.thumbnail || ''}
-          title={!user ? '-' : currentUserService.getFullName(user)}
-          size="sm"
-        />
-      </div>
-      <div className="grow ml-2">
-        <Base>{!!user && currentUserService.getFullName(user)}</Base>{' '}
-        {user?.id === currentUser?.id && <Info>{Languages.t('components.internal-access_specific_rules_you')}</Info>}
-      </div>
-      <div className="shrink-0 ml-2">
+    <UserBlock
+      className="p-4 border-t dark:border-zinc-700"
+      user={user}
+      isSelf={!!currentUser?.id && user?.id === currentUser?.id}
+      suffix={
         <AccessLevel
           disabled={loading || disabled || user?.id === currentUser?.id}
           level={level}
-          canRemove
-          onChange={level => {
-            update({
-              access_info: {
-                entities:
-                  level === 'remove'
-                    ? item?.access_info?.entities.filter(
-                        e => e.type !== 'user' || e.id !== userId,
-                      ) || []
-                    : item?.access_info?.entities.map(e => {
-                        if (e.type === 'user' && e.id === userId) {
-                          return { ...e, level };
-                        }
-                        return e;
-                      }) || [],
-                public: item?.access_info.public,
-              },
-            });
-          }}
-        />
-      </div>
-    </div>
+          canRemove={true}
+          onChange={
+            level =>
+              update({
+                access_info: {
+                  entities:
+                    level === 'remove'
+                      ? item?.access_info?.entities.filter(
+                          e => e.type !== 'user' || e.id !== userId,
+                        ) || []
+                      : item?.access_info?.entities.map(e => {
+                          if (e.type === 'user' && e.id === userId)
+                            return { ...e, level };
+                          return e;
+                        }) || [],
+                  public: item?.access_info.public,
+                },
+              })
+            }
+          />
+      }
+    />
   );
 };
