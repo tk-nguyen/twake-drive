@@ -5,7 +5,7 @@ export function getFullName(user: Pick<UserType, 'username' | 'first_name' | 'la
   let name: string = user?.username;
 
   if (!name) {
-    return 'Anonymous';
+    return Languages.t('general.user.anonymous');
   }
   // @author https://stackoverflow.com/a/17200679
   const toNameCase = (str?: string) => (str || '').toLowerCase().replace(/(?<!\p{L})\p{L}(?=\p{L}{2})/gu, (m: string) => m.toUpperCase());

@@ -156,6 +156,7 @@
     "services.console_services.toaster.success_invite_emails": "Успешно добавлен(о) {{$1}} пользователь(ей)",
     "general.user.role.company.guest": "Гость",
     "general.user.deleted": "Удаленная учетная запись",
+    "general.user.anonymous": "Анонимный",
     "components.locked_features.locked_guests_popup.title": "Функция гостей заблокирована",
     "components.locked_features.locked_guests_popup.subtitle": "Эта функция недоступна в бесплатной версии Tdrive",
     "components.member.user_parts.and_more_user_text": " и еще {{$1}} пользователей",

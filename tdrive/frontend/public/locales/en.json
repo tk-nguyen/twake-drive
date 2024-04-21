@@ -182,6 +182,7 @@
     "general.user.role.company.member": "Member",
     "general.user.role.company.guest": "Guest",
     "general.user.deleted": "Deleted Account",
+    "general.user.anonymous": "Anonymous",
     "general.user.deactivated": "User is no longer in this company",
     "components.locked_features.locked_guests_popup.title": "Guests feature is locked",
     "components.locked_features.locked_guests_popup.subtitle": "This feature is not available in the Tdrive free version",

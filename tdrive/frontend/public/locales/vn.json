@@ -175,6 +175,7 @@
     "general.user.role.company.member": "Thành viên",
     "general.user.role.company.guest": "Khách mời",
     "general.user.deleted": "Tài khoản đã bị xóa",
+    "general.user.anonymous": "Vô danh",
     "general.user.deactivated": "Người dùng không còn thuộc công ty này nữa",
     "components.locked_features.locked_guests_popup.title": "Tính năng Khách mời bị khóa",
     "components.locked_features.locked_guests_popup.subtitle": "Tính năng này không khả dụng trong phiên bản miễn phí của Tdrive",

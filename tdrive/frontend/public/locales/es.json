@@ -175,6 +175,7 @@
     "general.user.role.company.admin": "Administrador de la empresa",
     "general.user.role.company.member": "Miembro",
     "general.user.deleted": "Cuenta eliminada",
+    "general.user.anonymous": "Anónimo",
     "components.locked_features.locked_guests_popup.title": "La función de invitados está bloqueada",
     "components.locked_features.locked_guests_popup.description": "¡Ups! Parece que quieres invitar a usuarios externos a tu espacio de trabajo. Es posible que desee considerar la actualización de su plan si desea colaborar con invitados y socios externos. Explora nuestras opciones de precios y selecciona la mejor opción para tus necesidades de colaboración en equipo.",
     "components.locked_features.locked_guests_popup.learn_more_button": "Más información",
