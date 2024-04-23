@@ -1,8 +1,8 @@
+import { spawnCheckingExitCode } from "../../utils/exec";
 import archiver from "archiver";
 import { merge } from "lodash";
 import PdfParse from "pdf-parse";
 import { Readable } from "stream";
-import unoconv from "unoconv-promise";
 import Repository from "../../core/platform/services/database/services/orm/repository/repository";
 import {
   cleanFiles,
@@ -387,11 +387,7 @@ export const officeFileToString = async (file: Readable, extension: string): Pro
   const outputPath = getTmpFile(".pdf");
 
   try {
-    await unoconv.run({
-      file: officeFilePath,
-      output: outputPath,
-    });
-
+    await spawnCheckingExitCode("unoconv", [`-o${outputPath}`, officeFilePath]);
     cleanFiles([officeFilePath]);
 
     return await pdfFileToString(outputPath);
@@ -633,11 +629,11 @@ export const getKeywordsOfFile = async (
     logger.info(`Processing text file:   ${filename}`);
     content_strings = await readableToString(file);
   }
-  if (isFileType(mime, filename, pdfExtensions)) {
+  if ((content_strings ?? "").trim().length == 0 && isFileType(mime, filename, pdfExtensions)) {
     logger.info(`Processing PDF file:    ${filename}`);
     content_strings = await pdfFileToString(file);
   }
-  if (isFileType(mime, filename, officeExtensions)) {
+  if ((content_strings ?? "").trim().length == 0 && isFileType(mime, filename, officeExtensions)) {
     logger.info(`Processing office file: ${filename}`);
     content_strings = await officeFileToString(file, extension);
   }
