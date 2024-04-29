@@ -3,7 +3,7 @@
     "general.continue": "Continuar",
     "general.back": "Atrás",
     "components.drive_dropzone.uploading": "Subiendo ...",
-    "components.user_picker.modal_no_result": "No se han encontrado resultados",
+    "components.user_picker.modal_results_count_none": "No se han encontrado resultados",
     "scenes.app.header.disconnected": "Estás desconectado",
     "scenes.app.header.disconnected.reload": "Recargar",
     "scenes.apps.parameters.workspace_sections.members": "Participantes",

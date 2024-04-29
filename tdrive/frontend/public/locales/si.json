@@ -178,7 +178,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.electronics_electricity_energy": "ඉලෙක්ට්රොනික / විදුලි / බලශක්ති",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.machinery_automotive": "යන්ත්‍රෝපකරණ / වාහන",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.transport_logistics": "ප්රවාහන / සැපයුම්",
-    "components.user_picker.modal_no_result": "ප්‍රතිඵල හමු නොවිණි",
+    "components.user_picker.modal_results_count_none": "ප්‍රතිඵල හමු නොවිණි",
     "scenes.apps.account.title": "Account parameters",
     "components.alert.confirm": "ඔබේ ක්‍රියාව තහවුරු කරන්න",
     "scenes.app.popup.adduser.adresses_message": "කරුණාකර ලිපින කොමාවකින් හෝ ඉඩකින් වෙන් කරන්න. Tdrive ඔබගේ දායකත්වය මත පදනම්ව ආරාධනා ගණන සීමා කළ හැකි බව මතක තබා ගන්න.",

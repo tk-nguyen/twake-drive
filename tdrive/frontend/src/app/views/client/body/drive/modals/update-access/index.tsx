@@ -29,6 +29,7 @@ export const AccessModal = () => {
   return (
     <Modal
       open={state.open}
+      className='!overflow-visible'
       onClose={() => setState({ ...state, open: false })}
       >
       {!!state.id && <AccessModalContent id={state.id} />}

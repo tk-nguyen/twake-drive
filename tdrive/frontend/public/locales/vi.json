@@ -39,7 +39,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.electronics_electricity_energy": "Điện tử / Điện / Năng lượng",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.studies_and_advice": "Học và lời khuyên",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.printing_paper": "In ấn / Giấy",
-    "components.user_picker.modal_no_result": "Không tìm thấy kết quả",
+    "components.user_picker.modal_results_count_none": "Không tìm thấy kết quả",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.business_services": "Dịch vụ kinh doanh",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.entertainment": "Giải trí",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.textile_clothing_shoes": "Dệt may / Quần áo / Giày",

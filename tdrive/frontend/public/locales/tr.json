@@ -167,7 +167,7 @@
     "scenes.join.create_the_company_button": "şirket oluştur",
     "scenes.join.join_workspace_from_company": "{{$2}}'ten {{$1}}'e katılın!",
     "scenes.join.tdrive_description": "Tdrive, ekip üretkenliğinizi artırmak için oluşturulmuş açık kaynaklı bir dijital çalışma alanıdır.",
-    "components.user_picker.modal_no_result": "Sonuç bulunamadı",
+    "components.user_picker.modal_results_count_none": "Sonuç bulunamadı",
     "components.users_picker.add_me": "beni ekle",
     "scenes.app.workspaces.create_company.invitations.title": "Çalışma alanınızı yapılandırın.",
     "scenes.app.header.disconnected": "bağlantınız kesildi",

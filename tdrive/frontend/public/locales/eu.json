@@ -27,7 +27,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.publishing_communication_multimedia": "Argitalpena / Komunikazioa / Multimedia",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.education": "Hezkuntza",
     "general.continue": "Jarraitu",
-    "components.user_picker.modal_no_result": "Ez da emaitzarik aurkitu",
+    "components.user_picker.modal_results_count_none": "Ez da emaitzarik aurkitu",
     "scenes.app.workspaces.create_company.group_data.group_type.public_organization": "Erakunde publikoa",
     "scenes.app.workspaces.create_company.group_data.group_type.society_club_charity": "Elkartea, kluba edo ongintza",
     "scenes.app.workspaces.create_company.group_data.group_type.other_group": "Bestela",

@@ -46,7 +46,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.pharmaceutical_industry": "医药行业",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "其他",
     "components.drive_dropzone.uploading": "正在上传...",
-    "components.user_picker.modal_no_result": "未找到结果",
+    "components.user_picker.modal_results_count_none": "未找到结果",
     "components.users_picker.add_me": "添加我",
     "scenes.app.workspaces.create_company.invitations.title": "配置你的工作空间。",
     "scenes.app.header.disconnected": "您已断开连接",

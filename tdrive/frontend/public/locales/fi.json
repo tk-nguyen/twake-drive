@@ -15,7 +15,7 @@
     "scenes.app.workspaces.create_company.group_data.group_size.10_50": "11 - 49 käyttäjää",
     "scenes.app.workspaces.create_company.group_data.group_size.5000_more": "Yli 5000 käyttäjää",
     "components.drive_dropzone.uploading": "Lähetetään...",
-    "components.user_picker.modal_no_result": "Tuloksia ei löytynyt",
+    "components.user_picker.modal_results_count_none": "Tuloksia ei löytynyt",
     "components.users_picker.add_me": "Lisää minut",
     "scenes.app.header.disconnected": "Et ole yhdistettynä",
     "scenes.app.header.disconnected.reload": "Lataa uudelleen",

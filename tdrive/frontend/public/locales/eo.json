@@ -84,7 +84,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Administrado",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Alia",
     "components.drive_dropzone.uploading": "Alŝutante…",
-    "components.user_picker.modal_no_result": "Neniuj rezultoj trovitaj",
+    "components.user_picker.modal_results_count_none": "Neniuj rezultoj trovitaj",
     "components.users_picker.add_me": "Aldonu min",
     "scenes.app.workspaces.create_company.invitations.title": "Agordu vian laborspacon.",
     "scenes.app.header.disconnected": "Vi estas malkonektita",

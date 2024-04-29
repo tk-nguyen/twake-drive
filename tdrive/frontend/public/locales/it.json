@@ -77,7 +77,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Amministrazione",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Altro",
     "components.drive_dropzone.uploading": "Caricamento in corso...",
-    "components.user_picker.modal_no_result": "Nessun risultato trovato",
+    "components.user_picker.modal_results_count_none": "Nessun risultato trovato",
     "components.users_picker.add_me": "Aggiungimi",
     "scenes.app.workspaces.create_company.invitations.title": "Configura il tuo spazio di lavoro.",
     "scenes.app.header.disconnected": "Sei disconnesso",

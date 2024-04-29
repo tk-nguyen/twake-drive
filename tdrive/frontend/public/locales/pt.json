@@ -134,7 +134,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Administração",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Outras",
     "components.drive_dropzone.uploading": "Enviando...",
-    "components.user_picker.modal_no_result": "Nenhum resultado encontrado",
+    "components.user_picker.modal_results_count_none": "Nenhum resultado encontrado",
     "components.users_picker.add_me": "Me adicione",
     "scenes.app.workspaces.create_company.invitations.title": "Configure seu espaço de trabalho.",
     "scenes.app.header.disconnected": "Você está desconectado",

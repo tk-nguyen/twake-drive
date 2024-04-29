@@ -45,7 +45,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Verwaltung",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Sonstige",
     "components.drive_dropzone.uploading": "Hochladen ...",
-    "components.user_picker.modal_no_result": "Kein Ergebnis gefunden",
+    "components.user_picker.modal_results_count_none": "Kein Ergebnis gefunden",
     "components.users_picker.add_me": "Mich hinzufügen",
     "scenes.app.workspaces.create_company.invitations.title": "Konfigurieren Sie Ihren Arbeitsbereich.",
     "scenes.app.header.disconnected": "Sie sind nicht verbunden",

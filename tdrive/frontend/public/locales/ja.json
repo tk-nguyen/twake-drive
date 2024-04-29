@@ -3,7 +3,7 @@
     "general.continue": "持続する",
     "general.back": "バック",
     "components.drive_dropzone.uploading": "アップロード中...",
-    "components.user_picker.modal_no_result": "結果が見つかりません",
+    "components.user_picker.modal_results_count_none": "結果が見つかりません",
     "scenes.app.header.disconnected": "あなたは切断されています",
     "scenes.app.header.disconnected.reload": "リロード",
     "scenes.apps.parameters.workspace_sections.members": "メンバー",

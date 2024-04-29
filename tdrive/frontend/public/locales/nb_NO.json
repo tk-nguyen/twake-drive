@@ -54,7 +54,7 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Administrasjon",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Annet",
     "components.drive_dropzone.uploading": "Laster opp…",
-    "components.user_picker.modal_no_result": "Ingen resultater funnet",
+    "components.user_picker.modal_results_count_none": "Ingen resultater funnet",
     "scenes.app.workspaces.create_company.invitations.title": "Konfigurer arbeidsrommet ditt.",
     "scenes.app.popup.adduserfromtdriveconsole.current_users_state": "{{$1}} e-post(er) vil bli lagt til",
     "components.newversion.new_version_component.row.part_1": "Du kjører en utdatert Tdrive-versjon",
