@@ -51,7 +51,6 @@
     "scenes.app.workspaces.create_company.group_data.group_main_activity.administration": "Administration",
     "scenes.app.workspaces.create_company.group_data.group_main_activity.other": "Other",
     "components.drive_dropzone.uploading": "Uploading...",
-    "components.user_picker.modal_results_count_none": "No results found",
     "components.user_picker.modal.result_add.none": "No rights",
     "components.user_picker.modal.result_add.read": "Grant read",
     "components.user_picker.modal.result_add.write": "Grant write",

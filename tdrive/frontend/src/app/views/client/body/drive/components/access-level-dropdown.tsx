@@ -25,6 +25,7 @@ export const AccessLevelDropdown = ({
   labelOverrides,
   className,
   size,
+  noRedBobMode,
 }: {
   disabled?: boolean;
   level: DriveFileAccessLevel | null;
@@ -33,6 +34,7 @@ export const AccessLevelDropdown = ({
   labelOverrides?: { [key: string]: string };
   hiddenLevels?: DriveFileAccessLevelOrRemove[] | string[];
   size?: SelectSize,
+  noRedBobMode?: boolean,
 }) => {
   const createOption = (level: DriveFileAccessLevelOrRemove) =>
     !hiddenLevels?.includes(level) && <option value={level}>{(labelOverrides || {})[level] || translateAccessLevel(level)}</option>;
@@ -41,7 +43,7 @@ export const AccessLevelDropdown = ({
       disabled={disabled}
       size={size}
       className={className + ' w-auto'}
-      theme={level === 'none' ? 'rose' : 'outline'}
+      theme={(!noRedBobMode && level === 'none') ? 'rose' : 'outline'}
       value={level || 'none'}
       onChange={e => onChange(e.target.value as DriveFileAccessLevel & 'remove')}
     >

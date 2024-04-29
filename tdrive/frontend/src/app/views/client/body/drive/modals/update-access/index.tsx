@@ -25,25 +25,25 @@ export const AccessModalAtom = atom<AccessModalType>({
 
 export const AccessModal = () => {
   const [state, setState] = useRecoilState(AccessModalAtom);
-
+  const closeModal = () => setState({ ...state, open: false });
   return (
     <Modal
       open={state.open}
       className='!overflow-visible'
-      onClose={() => setState({ ...state, open: false })}
+      onClose={closeModal}
       >
-      {!!state.id && <AccessModalContent id={state.id} />}
+      {!!state.id && <AccessModalContent id={state.id} onCloseModal={closeModal} />}
     </Modal>
   );
 };
 
 const AccessModalContent = (props: {
   id: string,
+  onCloseModal: () => void,
 }) => {
   const { id } = props;
   const { item, access, loading, update, refresh } = useDriveItem(id);
-  const { item: parentItem } = useDriveItem(item?.parent_id || '');
-  const { company, refresh: refreshCompany } = useCurrentCompany();
+  const { refresh: refreshCompany } = useCurrentCompany();
   useEffect(() => {
     refresh(id);
     refreshCompany();
@@ -60,7 +60,7 @@ const AccessModalContent = (props: {
       >
       <div className={loading ? 'opacity-50' : ''}>
         {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
-          <InternalAccessManager id={id} disabled={access !== 'manage'} />
+          <InternalAccessManager id={id} disabled={access !== 'manage'} onCloseModal={props.onCloseModal} />
         )}
       </div>
     </ModalContent>

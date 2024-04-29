@@ -80,7 +80,7 @@ export const PasswordEditorRow = (props: {
           <label htmlFor={chkPasswordId}>{Languages.t('components.public-link-security_password')}</label>
           {!!props.password?.length && !isEditingPassword &&
             <a
-              className={disabled ? Styles.Disabled.Yes : ""}
+              className={disabled ? Styles.Disabled.Yes : "!text-zinc-800"}
               onClick={() => {
                 if (!disabled) {
                   setCurrentEditedPassword(props.password!);
@@ -140,9 +140,7 @@ export const PasswordEditorRow = (props: {
       open={isConfirmingPasswordRemoval}
       title={Languages.t("components.public-link-security_password_removal_title")}
       text={Languages.t("components.public-link-security_password_removal_body")}
-      theme="danger"
-      icon={ShieldExclamationIcon}
-      buttonOkTheme='danger'
+      buttonOkTheme='primary'
       buttonOkLabel='components.public-link-security_password_removal_confirm'
 
       onClose={() => setIsConfirmingPasswordRemoval(false)}

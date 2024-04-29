@@ -14,6 +14,7 @@ interface UserBlockProps {
   subtitle_suffix?: JSX.Element | string | false;
   user?: UserType;
   isSelf?: boolean;
+  onClick?: () => void;
 }
 
 export default function UserBlock(props: UserBlockProps) {
@@ -22,7 +23,7 @@ export default function UserBlock(props: UserBlockProps) {
     suffix={props.suffix}
     title_suffix={props.title_suffix}
     subtitle_suffix={props.subtitle_suffix}
-
+    onClick={props.onClick}
     avatar={
       <Avatar
         avatar={props.user?.thumbnail || ''}

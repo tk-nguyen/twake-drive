@@ -10,7 +10,7 @@ export type ConfirmModalProps = {
   title: string;
   text: string;
   theme?: ModalContentTheme;
-  icon: React.ComponentType;
+  icon?: React.ComponentType;
   skipCancelOnClose?: boolean;
   buttonOkTheme?: ButtonTheme;
   buttonOkLabel: string;
@@ -40,16 +40,16 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
           <>
             <Button
               className="ml-2"
-              theme='default'
-              onClick={dialogCloseHandler(false)}
-              >
-              {Languages.t(props.buttonCancelLabel || "general.cancel")}
-            </Button>
-            <Button
               theme={props.buttonOkTheme || "danger"}
               onClick={dialogCloseHandler(true)}
               >
               {Languages.t(props.buttonOkLabel)}
+            </Button>
+            <Button
+              theme='default'
+              onClick={dialogCloseHandler(false)}
+              >
+              {Languages.t(props.buttonCancelLabel || "general.cancel")}
             </Button>
           </>
         }

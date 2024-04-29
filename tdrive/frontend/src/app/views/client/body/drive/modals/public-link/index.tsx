@@ -11,7 +11,7 @@ import A from '@atoms/link';
 import { Subtitle } from '@atoms/text';
 import { LockClosedIcon, EyeIcon, PencilIcon, ScaleIcon, EyeOffIcon } from '@heroicons/react/outline';
 import { Modal, ModalContent } from '@atoms/modal';
-import { PublicLinkAccessOptions } from '../public-link/public-link-access-options';
+import { PublicLinkAccessOptions } from './public-link-access-options';
 import BaseBlock from '@molecules/grouped-rows/base';
 import { AccessLevelDropdown, translateAccessLevel } from '../../components/access-level-dropdown';
 import { CopyLinkButton } from './copy-link-button';
@@ -93,7 +93,7 @@ const SwitchToAdvancedSettingsRow = (props: {
     title={Languages.t('components.public-link-security')}
     suffix={
       <A
-        className={"pr-4 inline-block" + (props.disabled ? ' !text-zinc-500' : '')}
+        className={"pr-4 inline-block " + (props.disabled ? '!text-zinc-500' : '!text-zinc-800')}
         disabled={props.disabled}
         noColor={props.disabled}
         onClick={() => {
@@ -114,8 +114,7 @@ const PublicLinkModalContent = (props: {
 }) => {
   const { id } = props;
   const { item, access, loading, update, refresh } = useDriveItem(id);
-  const { item: parentItem } = useDriveItem(item?.parent_id || '');
-  const { company, refresh: refreshCompany } = useCurrentCompany();
+  const { refresh: refreshCompany } = useCurrentCompany();
   useEffect(() => {
     refresh(id);
     refreshCompany();
