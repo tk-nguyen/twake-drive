@@ -162,9 +162,8 @@ export const ExpiryEditorRow = (props: {
         ? Languages.t("components.public-link-security_expiration_removal_but_password")
         : Languages.t("components.public-link-security_expiration_removal_no_password")
       }
-      icon={ShieldExclamationIcon}
+      buttonOkTheme='primary'
       buttonOkLabel="components.public-link-security_expiration_removal_confirm"
-      buttonOkTheme='danger'
       />
   </>;
 }
