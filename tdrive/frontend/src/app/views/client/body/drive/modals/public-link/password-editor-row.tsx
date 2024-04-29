@@ -130,7 +130,7 @@ export const PasswordEditorRow = (props: {
                 if (checked && !currentEditedPassword.length)
                   setCurrentEditedPassword(!props.password?.length ? Math.random().toString(36).slice(-8) : props.password);
               } else
-                setIsConfirmingPasswordRemoval(true);
+                confirmSavePassword("");
             }}
             />
       }
