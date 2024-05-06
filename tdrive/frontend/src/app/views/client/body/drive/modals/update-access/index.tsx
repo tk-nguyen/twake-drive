@@ -2,13 +2,12 @@ import { Modal, ModalContent } from '@atoms/modal';
 import { useDriveItem } from '@features/drive/hooks/use-drive-item';
 import { useEffect } from 'react';
 import { atom, useRecoilState } from 'recoil';
-import { InternalAccessManager } from './internal-access';
+import { InternalUsersAccessManager } from './internal-users-access';
 import { useCurrentCompany } from '@features/companies/hooks/use-companies';
 import Languages from 'features/global/services/languages-service';
 import FeatureTogglesService, {
   FeatureNames,
 } from '@features/global/services/feature-toggles-service';
-import { changePublicLink, hasAnyPublicLinkAccess } from '@features/files/utils/access-info-helpers';
 
 export type AccessModalType = {
   open: boolean;
@@ -60,7 +59,7 @@ const AccessModalContent = (props: {
       >
       <div className={loading ? 'opacity-50' : ''}>
         {FeatureTogglesService.isActiveFeatureName(FeatureNames.COMPANY_SEARCH_USERS) && (
-          <InternalAccessManager id={id} disabled={access !== 'manage'} onCloseModal={props.onCloseModal} />
+          <InternalUsersAccessManager id={id} disabled={access !== 'manage'} onCloseModal={props.onCloseModal} />
         )}
       </div>
     </ModalContent>

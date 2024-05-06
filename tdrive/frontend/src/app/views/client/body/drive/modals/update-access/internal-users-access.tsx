@@ -17,7 +17,7 @@ import { InputDecorationIcon } from '@atoms/input/input-decoration-icon';
 import { AccessLevelDropdown } from '../../components/access-level-dropdown';
 import UserBlock from '@molecules/grouped-rows/user';
 
-export const InternalAccessManager = ({
+export const InternalUsersAccessManager = ({
   id,
   disabled,
   onCloseModal,
@@ -121,7 +121,7 @@ export const InternalAccessManager = ({
           <div className="shrink-0">
             <AccessLevelDropdown
               className="rounded-l-none !p-0 leading-tight text-end !pr-8 !pl-2 border-none bg-zinc-100 dark:bg-zinc-800"
-              noRedBobMode={true}
+              noRedWhenLevelNone={true}
               disabled={loading || disabled}
               hiddenLevels={['remove']}
               level={level}
@@ -217,7 +217,7 @@ const UserAccessLevel = (props: {
 
         : <AccessLevelDropdown
             disabled={loading || props.disabled || user?.id === currentUser?.id}
-            noRedBobMode={true}
+            noRedWhenLevelNone={true}
             level={(item && getUserAccessLevel(item, props.userId)) || "none"}
             onChange={level => item && update(changeUserAccess(item, props.userId, level === 'remove' ? false : level))}
             />
