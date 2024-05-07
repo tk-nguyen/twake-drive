@@ -6,6 +6,9 @@ import {
   DriveFileAccessLevelForPublicLink,
   DriveItem,
 } from '@features/drive/types';
+import Logger from '@features/global/framework/logger-service';
+
+const getLogger = () => Logger.getLogger('access-info-helpers');
 
 const entityMatcher = (entityType: AuthEntity['type'], entityId?: string) =>
   (entity: AuthEntity) =>
@@ -14,7 +17,7 @@ const entityMatcher = (entityType: AuthEntity['type'], entityId?: string) =>
 /** Updates the level of entities matching the given type and id, or adds the return
   * of updater with no argument.
   *
-  * If an item is not unique, all are modified and a console warning is printed except for `entityType` "channel".
+  * If an item is not unique, all are modified and a logger warning is printed except for `entityType` "channel".
   */
 function upsertEntities(
   entities: AuthEntity[] | undefined,
@@ -34,7 +37,7 @@ function upsertEntities(
   const matcher = entityMatcher(entityType, entityId);
   const mapped = entities.map(item => {
     if (!matcher(item)) return item;
-    if (found && entityType != "channel") console.warn(`DriveItem has more than one access_info entry for '${entityType}' id = ${entityId}:`, item);
+    if (found && entityType != "channel") getLogger().warn(`DriveItem has more than one access_info entry for '${entityType}' id = ${entityId}:`, item);
     found = true;
     return updater(item);
   }).filter(x => x);
@@ -83,12 +86,12 @@ const itemWithEntityAccessChanged = (
     },
   } as DriveItem);
 
-// Note this just assumes uniqueness and just logs in the console if that is not the case and uses the first one.
+// Note this just assumes uniqueness and just logs if that is not the case and uses the first one.
 const getAccessLevelOfUniqueForType = (item: DriveItem | undefined, entityType: AuthEntity['type'], entityId?: string) => {
   if (!item) return undefined;
   const accesses = item.access_info.entities.filter(entityMatcher(entityType, entityId));
   if (accesses.length != 1 && entityType != "channel")
-    console.warn(`DriveItem doesn't have exactly one access_info entry for '${entityType}${entityId ? " id: " + entityId : ""}':`, item);
+    getLogger().warn(`DriveItem doesn't have exactly one access_info entry for '${entityType}${entityId ? " id: " + entityId : ""}':`, item);
   return accesses[0]?.level;
 }
 
@@ -99,7 +102,7 @@ export const changeUserAccess = (item: DriveItem, userId: string, level: DriveFi
 /** Return a list of all DriveItemAccessInfo for users sorted by id */
 export const getAllUserAccesses = (item: DriveItem) => accessInfosOfEntitiesOfType(item, "user");
 
-/** Return the access level for the provided user; an entry is expected to exist (or there is a `console.warn`) */
+/** Return the access level for the provided user; an entry is expected to exist (or there is a `logger.warn`) */
 export const getUserAccessLevel = (item: DriveItem, userId: string) => getAccessLevelOfUniqueForType(item, "user", userId);
 
 

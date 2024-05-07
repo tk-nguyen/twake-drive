@@ -4,6 +4,7 @@ import 'moment/min/locales';
 import { useEffect, useRef, useState } from 'react';
 import { uniqueId } from 'lodash';
 
+import Logger from '@features/global/framework/logger-service';
 import Languages from 'features/global/services/languages-service';
 
 import BaseBlock from '@molecules/grouped-rows/base';
@@ -15,6 +16,8 @@ import { ShieldExclamationIcon, CalendarIcon, PencilAltIcon } from '@heroicons/r
 import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';
+
+const getLogger = () => Logger.getLogger('expiry-editor-row');
 
 export const ExpiryEditorRow = (props: {
   disabled?: boolean;
@@ -54,7 +57,7 @@ export const ExpiryEditorRow = (props: {
           setIsEditing(false);
         },
         (e: unknown) => {
-          console.error("Error while saving expiry date:", e);
+          getLogger().error("Error while saving expiry date:", e);
           setIsWaitingForSave(false);
         },
       );

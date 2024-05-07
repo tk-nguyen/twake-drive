@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { uniqueId } from 'lodash';
 
 import Languages from 'features/global/services/languages-service';
+import Logger from '@features/global/framework/logger-service';
 
 import BaseBlock from '@molecules/grouped-rows/base';
 import { Base } from '@atoms/text';
@@ -12,6 +13,8 @@ import { ShieldCheckIcon, PencilAltIcon, ShieldExclamationIcon } from '@heroicon
 import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';
+
+const getLogger = () => Logger.getLogger('password-editor-row');
 
 export const PasswordEditorRow = (props: {
   disabled?: boolean;
@@ -51,7 +54,7 @@ export const PasswordEditorRow = (props: {
           setIsEditingPassword(false);
         },
         (e: unknown) => {
-          console.error("Error while saving password:", e);
+          getLogger().error("Error while saving password:", e);
           setIsWaitingForPasswordSave(false);
         },
       );
@@ -70,7 +73,7 @@ export const PasswordEditorRow = (props: {
       savePassword(password);
   }
 
-  return <>
+return <>
     <BaseBlock
       className={"m-4" + (disabled ? Styles.Disabled.Yes : "")}
       disabled={disabled}
