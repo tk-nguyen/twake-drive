@@ -1,5 +1,6 @@
 import _, { isUndefined } from "lodash";
 import { defaultInputClassName, errorInputClassName, ThemeName } from './input-text';
+import { CSSProperties } from "@material-ui/styles";
 
 export type SelectSize = 'md' | 'lg' | 'sm';
 
@@ -22,9 +23,10 @@ export function Select(props: InputProps) {
   else if (props.size === 'sm') inputClassName = inputClassName + ' text-sm h-7 py-0 px-3';
   else inputClassName = inputClassName + ' text-base h-9 py-1';
 
-  let styles = {};
+  //special for safari
+  let styles = { textAlignLast: "right" } as CSSProperties;
   const noFocus = isUndefined(props.noFocusBorder) ? true : props.noFocusBorder;
-  if (noFocus) styles = {boxShadow: "none", borderColor: "inherit"};
+  if (noFocus) styles = _.assign(styles, {boxShadow: "none", borderColor: "inherit"});
 
   return (
     <select
