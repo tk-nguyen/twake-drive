@@ -131,7 +131,7 @@ export const InternalUsersAccessManager = ({
         </div>
         {showResults &&
           <>
-            <div className="flex flex-row border-t !border-x-0 dark:border-zinc-700" />
+            {/*<div className="flex flex-row border-t !border-x-0 dark:border-zinc-700" />*/}
             <div className="relative w-full h-0">  {/* Necessary so the relative results don't take height */}
               <div className={"rounded-md absolute z-10 w-full shadow-md border bg-white dark:bg-zinc-900 mt-1 dark:border-zinc-700"}>
                 { shownResults && shownResults.map((user, index) =>
@@ -148,7 +148,7 @@ export const InternalUsersAccessManager = ({
                     />
                 )}
                 {!loading && resultFooterText && <>
-                  <div className={(result.length == 0 ? 'rounded-md' : 'rounded-b-md') + ' grow text-center italic text-red-700 dark:text-red-500 font-bold py-2 dark:border-zinc-700 border-t bg-zinc-100 dark:bg-zinc-800'}>
+                  <div className={(result.length == 0 ? 'rounded-md' : 'rounded-b-md') + ' grow text-center text-zinc-700 dark:text-white dark:opacity-75 py-2 dark:border-zinc-700 border-t bg-zinc-100 dark:bg-zinc-800'}>
                     {resultFooterText}
                   </div>
                 </>}
