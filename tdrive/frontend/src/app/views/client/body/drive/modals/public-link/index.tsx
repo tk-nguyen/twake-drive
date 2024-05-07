@@ -94,7 +94,7 @@ const SwitchToAdvancedSettingsRow = (props: {
     title={Languages.t('components.public-link-security')}
     suffix={
       <A
-        className={"pr-4 inline-block " + (props.disabled ? '!text-zinc-500' : '!text-zinc-800')}
+        className={"pr-4 inline-block " + (props.disabled ? '!text-zinc-500 dark:!text-zinc-500' : '!text-zinc-800 dark:!text-zinc-200')}
         disabled={props.disabled}
         noColor={props.disabled}
         onClick={() => {
