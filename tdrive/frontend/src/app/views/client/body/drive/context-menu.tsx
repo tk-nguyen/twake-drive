@@ -76,18 +76,19 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
           const newMenuActions = [
             {
               type: 'menu',
-              icon: 'document',
-              text: Languages.t('components.item_context_menu.preview'),
-              hide: item.is_directory,
-              onClick: () => preview(item),
-            },
-            {
-              type: 'menu',
               icon: 'share-alt',
               text: Languages.t('components.item_context_menu.share'),
               hide: access === 'read' || getPublicLinkToken() || inTrash,
               onClick: () => setPublicLinkModalState({ open: true, id: item.id }),
             },
+            {
+              type: 'menu',
+              icon: 'users-alt',
+              text: Languages.t('components.item_context_menu.manage_access'),
+              hide: access === 'read' || getPublicLinkToken() || inTrash,
+              onClick: () => setAccessModalState({ open: true, id: item.id }),
+            },
+            { type: 'separator' },
             {
               type: 'menu',
               icon: 'download-alt',
@@ -101,7 +102,6 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
                 }
               }
             },
-            { type: 'separator' },
             {
               type: 'menu',
               icon: 'eye',
@@ -114,13 +114,6 @@ export const useOnBuildContextMenu = (children: DriveItem[], initialParentId?: s
               }
             },
             { type: 'separator' },
-            {
-              type: 'menu',
-              icon: 'users-alt',
-              text: Languages.t('components.item_context_menu.manage_access'),
-              hide: access === 'read' || getPublicLinkToken() || inTrash,
-              onClick: () => setAccessModalState({ open: true, id: item.id }),
-            },
             {
               type: 'menu',
               icon: 'folder-question',
