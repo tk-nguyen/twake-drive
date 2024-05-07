@@ -81,9 +81,6 @@ export const InternalUsersAccessManager = ({
 
   return (
     <>
-      <Subtitle className="block mt-2 mb-1">
-        {Languages.t('components.internal-access_manage_subtitle')}
-      </Subtitle>
       <div className="rounded-md border-t mt-2 dark:border-zinc-700">
         <div className="p-4 flex flex-row items-center justify-center rounded-t-md border-x dark:border-zinc-700">
           <div className="grow">
