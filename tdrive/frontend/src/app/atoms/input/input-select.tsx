@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isUndefined } from "lodash";
 import { defaultInputClassName, errorInputClassName, ThemeName } from './input-text';
 
 export type SelectSize = 'md' | 'lg' | 'sm';
@@ -9,6 +9,7 @@ interface InputProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>,
   size?: SelectSize;
   className?: string;
   children?: React.ReactNode;
+  noFocusBorder?: boolean;
 }
 
 export function Select(props: InputProps) {
@@ -21,8 +22,13 @@ export function Select(props: InputProps) {
   else if (props.size === 'sm') inputClassName = inputClassName + ' text-sm h-7 py-0 px-3';
   else inputClassName = inputClassName + ' text-base h-9 py-1';
 
+  let styles = {};
+  const noFocus = isUndefined(props.noFocusBorder) ? true : props.noFocusBorder;
+  if (noFocus) styles = {boxShadow: "none", borderColor: "inherit"};
+
   return (
     <select
+      style={styles}
       className={inputClassName + ' ' + props.className}
       {..._.omit(props, 'label', 'className', 'size')}
     >
