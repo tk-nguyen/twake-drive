@@ -214,7 +214,6 @@
     "components.public-link-security-change-subtitle": "Thiết lập mật khẩu, ngày hết hạn, vv.",
     "components.public-link-security-title": "Chia sẻ với liên kết",
     "components.internal-access_manage_title":"Quản lý quyền truy cập vào",
-    "components.internal-access_manage_subtitle":"Cấp phép truy cập",
     "components.internal-access_inherit_parent": "Thừa hưởng từ thư mục cha",
     "components.internal-access_inherit_parent_perm": "Chọn có thừa hưởng quyền của thư mục cha hay không.",
     "components.internal-access_company_member": "Mọi thành viên của công ty",

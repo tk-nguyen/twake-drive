@@ -198,7 +198,6 @@
     "components.public-link-security-change-subtitle": "Установить пароль, срок действия и т.д.",
     "components.public-link-security-title": "Поделиться ссылкой",
     "components.internal-access_manage_title":"Настройки доступа к",
-    "components.internal-access_manage_subtitle":"Настройки доступа",
     "components.internal-access_inherit_parent":"Inherit parent folder",
     "components.internal-access_inherit_parent_perm":"Choose to inherit or not the parent folder permissions.",
     "components.internal-access_company_member":"Every member from the company",

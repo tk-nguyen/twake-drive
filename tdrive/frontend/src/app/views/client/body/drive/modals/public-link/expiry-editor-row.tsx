@@ -12,7 +12,7 @@ import { Base, Info } from '@atoms/text';
 import { Input } from 'app/atoms/input/input-text';
 import { CheckboxSlider } from 'app/atoms/input/input-checkbox-slider';
 import { Button } from 'app/atoms/button/button';
-import { ShieldExclamationIcon, CalendarIcon, PencilAltIcon } from '@heroicons/react/outline';
+import { CalendarIcon, PencilAltIcon } from '@heroicons/react/outline';
 import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';

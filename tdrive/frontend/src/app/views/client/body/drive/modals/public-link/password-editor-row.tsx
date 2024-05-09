@@ -9,7 +9,7 @@ import { Base } from '@atoms/text';
 import { Input } from 'app/atoms/input/input-text';
 import { CheckboxSlider } from 'app/atoms/input/input-checkbox-slider';
 import { Button } from 'app/atoms/button/button';
-import { ShieldCheckIcon, PencilAltIcon, ShieldExclamationIcon } from '@heroicons/react/outline';
+import { ShieldCheckIcon, PencilAltIcon } from '@heroicons/react/outline';
 import { ConfirmModal } from 'app/atoms/modal/confirm';
 
 import Styles from './styles';

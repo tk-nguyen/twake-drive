@@ -223,7 +223,6 @@
     "components.public-link-security_expiration_removal_but_password": "Warning: about to remove the expiry on the public link making available to anyone with the password",
     "components.public-link-security_expiration_removal_confirm": "Remove expiration",
     "components.internal-access_manage_title":"Manage access to",
-    "components.internal-access_manage_subtitle":"Grant access",
     "components.internal-access_inherit_parent":"Inherit parent folder",
     "components.internal-access_inherit_parent_perm":"Choose to inherit or not the parent folder permissions.",
     "components.internal-access_company_member":"Every member from the company",

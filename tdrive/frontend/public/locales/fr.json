@@ -198,7 +198,6 @@
     "components.public-link-security-change-subtitle": "Définir le mot de passe, la date d'expiration, etc.",
     "components.public-link-security-title": "Partager avec un lien",
     "components.internal-access_manage_title":"Gérer l'accès à",
-    "components.internal-access_manage_subtitle":"Accorder l'accès",
     "components.internal-access_inherit_parent": "Hériter du dossier parent",
     "components.internal-access_inherit_parent_perm": "Hériter des permissions du dossier parent",
     "components.internal-access_company_member": "Toutes les personnes de l'entreprise",

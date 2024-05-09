@@ -9,7 +9,6 @@ import { useUser } from '@features/users/hooks/use-user';
 import { useSearchUsers } from '@features/users/hooks/use-search-user-list';
 import { changeUserAccess, getUserAccessLevel, getAllUserAccesses } from '@features/files/utils/access-info-helpers';
 
-import { Subtitle } from '@atoms/text';
 import { Input } from '@atoms/input/input-text';
 import { Button } from '@atoms/button/button';
 import { SearchIcon } from '@heroicons/react/solid';
@@ -128,7 +127,6 @@ export const InternalUsersAccessManager = ({
         </div>
         {showResults &&
           <>
-            {/*<div className="flex flex-row border-t !border-x-0 dark:border-zinc-700" />*/}
             <div className="relative w-full h-0">  {/* Necessary so the relative results don't take height */}
               <div className={"rounded-md absolute z-10 w-full shadow-md border bg-white dark:bg-zinc-900 mt-1 dark:border-zinc-700"}>
                 { shownResults && shownResults.map((user, index) =>
