@@ -55,21 +55,6 @@
       "root": "./public"
     }
   },
-  "websocket": {
-    "path": "/socket/",
-    "adapters": {
-      "types": [],
-      "redis": {
-        "host": "redis",
-        "port": 6379
-      }
-    },
-    "auth": {
-      "jwt": {
-        "secret": "supersecret"
-      }
-    }
-  },
   "auth": {
     "jwt": {
       "secret": "supersecret",
@@ -244,12 +229,10 @@
     "push",
     "storage",
     "webserver",
-    "websocket",
     "database",
     "cron",
     "search",
     "message-queue",
-    "realtime",
     "tracker",
     "general",
     "user",

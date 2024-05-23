@@ -41,13 +41,7 @@ import {
   WorkspaceCounterPrimaryKey,
 } from "../entities/workspace_counters";
 import { countRepositoryItems } from "../../../utils/counters";
-import {
-  Initializable,
-  RealtimeSaved,
-  TdriveServiceProvider,
-} from "../../../core/platform/framework";
-import { ResourcePath } from "../../../core/platform/services/realtime/types";
-import { getRoomName, getWorkspacePath } from "../realtime";
+import { Initializable, TdriveServiceProvider } from "../../../core/platform/framework";
 import { InviteTokenObject, WorkspaceInviteTokenObject } from "../web/types";
 import WorkspaceInviteTokens, {
   getInstance as getWorkspaceInviteTokensInstance,
@@ -149,15 +143,6 @@ export class WorkspaceServiceImpl implements TdriveServiceProvider, Initializabl
     return new CreateResult<Workspace>(TYPE, created.entity);
   }
 
-  // TODO: remove logic from context
-  @RealtimeSaved<Workspace>((workspace, context) => [
-    {
-      // FIXME: For now the room is defined at the company level
-      // It meay be good to have a special room where just some users are receiving this event
-      room: ResourcePath.get(getRoomName(workspace)),
-      path: getWorkspacePath(workspace, context as WorkspaceExecutionContext),
-    },
-  ])
   async save<SaveOptions>(
     item: Partial<Workspace>,
     options?: SaveOptions & { logo_b64?: string },

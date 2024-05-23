@@ -30,8 +30,7 @@ import ExternalGroup, {
   ExternalGroupPrimaryKey,
   getInstance as getExternalGroupInstance,
 } from "../entities/external_company";
-import { logger, RealtimeSaved } from "../../../core/platform/framework";
-import { getCompanyRoom, getUserRoom } from "../realtime";
+import { logger } from "../../../core/platform/framework";
 import gr from "../../global-resolver";
 import { localEventBus } from "../../../core/platform/framework/event-bus";
 
@@ -59,15 +58,6 @@ export class CompanyServiceImpl {
     return this.externalCompanyRepository.findOne(pk, {}, context);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @RealtimeSaved<Company>((company, _context) => {
-    return [
-      {
-        room: getCompanyRoom(company.id),
-        resource: company,
-      },
-    ];
-  })
   async updateCompany<SaveOptions>(
     company: Company,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -186,14 +176,6 @@ export class CompanyServiceImpl {
     );
   }
 
-  @RealtimeSaved<CompanyUser>((companyUser, _) => {
-    return [
-      {
-        room: getUserRoom(companyUser?.user_id),
-        resource: companyUser,
-      },
-    ];
-  })
   async removeUserFromCompany(
     companyPk: CompanyPrimaryKey,
     userPk: UserPrimaryKey,
@@ -249,14 +231,6 @@ export class CompanyServiceImpl {
     return new DeleteResult<Company>("company", instance, !!instance);
   }
 
-  @RealtimeSaved<CompanyUser>((companyUser, _) => {
-    return [
-      {
-        room: getUserRoom(companyUser?.user_id),
-        resource: companyUser,
-      },
-    ];
-  })
   async setUserRole(
     companyId: uuid,
     userId: uuid,

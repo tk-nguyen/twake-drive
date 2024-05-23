@@ -22,7 +22,6 @@ describe("The /users/quota API", () => {
         "database",
         "search",
         "message-queue",
-        "websocket",
         "applications",
         "webserver",
         "user",

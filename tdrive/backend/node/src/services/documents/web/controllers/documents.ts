@@ -5,11 +5,7 @@ import { CrudException, ListResult } from "../../../../core/platform/framework/a
 import { File } from "../../../../services/files/entities/file";
 import { UploadOptions } from "../../../../services/files/types";
 import globalResolver from "../../../../services/global-resolver";
-import {
-  CompanyUserRole,
-  PaginationQueryParameters,
-  ResourceWebsocket,
-} from "../../../../utils/types";
+import { CompanyUserRole, PaginationQueryParameters } from "../../../../utils/types";
 import { DriveFile } from "../../entities/drive-file";
 import { FileVersion } from "../../entities/file-version";
 import {
@@ -160,18 +156,12 @@ export class DocumentsController {
       Params: ItemRequestParams;
       Querystring: PaginationQueryParameters & { public_token?: string };
     }>,
-  ): Promise<DriveItemDetails & { websockets: ResourceWebsocket[] }> => {
+  ): Promise<DriveItemDetails> => {
     const context = getDriveExecutionContext(request);
     const { id } = request.params;
 
     return {
       ...(await globalResolver.services.documents.documents.get(id, context)),
-      websockets: request.currentUser?.id
-        ? globalResolver.platformServices.realtime.sign(
-            [{ room: `/companies/${context.company.id}/documents/item/${id}` }],
-            request.currentUser?.id,
-          )
-        : [],
     };
   };
 
@@ -188,7 +178,7 @@ export class DocumentsController {
       Body: SearchDocumentsBody;
       Querystring: PaginationQueryParameters & { public_token?: string };
     }>,
-  ): Promise<DriveItemDetails & { websockets: ResourceWebsocket[] }> => {
+  ): Promise<DriveItemDetails> => {
     const context = getDriveExecutionContext(request);
     const { id } = request.params;
 
@@ -202,7 +192,6 @@ export class DocumentsController {
 
     return {
       ...(await globalResolver.services.documents.documents.browse(id, options, context)),
-      websockets: [],
     };
   };
 

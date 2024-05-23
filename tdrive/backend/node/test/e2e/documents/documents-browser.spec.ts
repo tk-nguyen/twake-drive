@@ -19,7 +19,6 @@ describe("The Documents Browser Window and API", () => {
         "user",
         "files",
         "auth",
-        "realtime",
         "statistics",
         "platform-services",
         "documents",

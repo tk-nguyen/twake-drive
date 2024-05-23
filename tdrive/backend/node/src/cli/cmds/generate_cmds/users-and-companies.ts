@@ -24,7 +24,6 @@ const services = [
   "applications",
   "statistics",
   "auth",
-  "realtime",
   "push",
   "platform-services",
   "user",

@@ -25,14 +25,6 @@
       "root": "STATIC_ROOT"
     }
   },
-  "websocket": {
-    "auth": {
-      "jwt": {
-        "secret": "AUTH_JWT_SECRET",
-        "expiration": "AUTH_JWT_EXPIRATION"
-      }
-    }
-  },
   "tracker": {
     "segment": {
       "key": "SEGMENT_SECRET_KEY"

@@ -53,13 +53,8 @@ import {
   makeStandaloneAccessLevel,
   getItemScope,
 } from "./access-check";
-import { websocketEventBus } from "../../../core/platform/services/realtime/bus";
 import archiver from "archiver";
 import internal from "stream";
-import {
-  RealtimeEntityActionType,
-  ResourcePath,
-} from "../../../core/platform/services/realtime/types";
 import config from "config";
 export class DocumentsService {
   version: "1";
@@ -410,9 +405,6 @@ export class DocumentsService {
       //TODO[ASH] update item size only for files, there is not need to do during direcotry creation
       await updateItemSize(driveItem.parent_id, this.repository, context);
 
-      //TODO[ASH] there is no need to notify websocket, until we implement user notification
-      await this.notifyWebsocket(driveItem.parent_id, context);
-
       await globalResolver.platformServices.messageQueue.publish<DocumentsMessageQueueRequest>(
         "services:documents:process",
         {
@@ -681,11 +673,7 @@ export class DocumentsService {
         await this.update(item.id, item, context);
       }
       await updateItemSize(previousParentId, this.repository, context);
-
-      await this.notifyWebsocket(previousParentId, context);
     }
-
-    await this.notifyWebsocket("trash", context);
   };
 
   /**
@@ -961,19 +949,6 @@ export class DocumentsService {
     archive.finalize();
 
     return archive;
-  };
-
-  notifyWebsocket = async (id: string, context: DriveExecutionContext) => {
-    websocketEventBus.publish(RealtimeEntityActionType.Event, {
-      type: "documents:updated",
-      room: ResourcePath.get(`/companies/${context.company.id}/documents/item/${id}`),
-      entity: {
-        companyId: context.company.id,
-        id: id,
-      },
-      resourcePath: null,
-      result: null,
-    });
   };
 
   /**

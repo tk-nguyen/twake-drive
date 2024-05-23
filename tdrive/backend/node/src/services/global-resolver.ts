@@ -9,12 +9,10 @@ import { DatabaseServiceAPI } from "../core/platform/services/database/api";
 import EmailPusherAPI from "../core/platform/services/email-pusher/provider";
 import { MessageQueueServiceAPI } from "../core/platform/services/message-queue/api";
 import { PushServiceAPI } from "../core/platform/services/push/api";
-import { RealtimeServiceAPI } from "../core/platform/services/realtime/api";
 import { SearchServiceAPI } from "../core/platform/services/search/api";
 import StorageAPI from "../core/platform/services/storage/provider";
 import TrackerAPI from "../core/platform/services/tracker/provider";
 import WebServerAPI from "../core/platform/services/webserver/provider";
-import WebSocketAPI from "../core/platform/services/websocket/provider";
 
 import assert from "assert";
 import { logger } from "../core/platform/framework";
@@ -42,12 +40,10 @@ type PlatformServices = {
   cron: CronAPI;
   messageQueue: MessageQueueServiceAPI;
   push: PushServiceAPI;
-  realtime: RealtimeServiceAPI;
   search: SearchServiceAPI;
   storage: StorageAPI;
   tracker: TrackerAPI;
   webserver: WebServerAPI;
-  websocket: WebSocketAPI;
   emailPusher: EmailPusherAPI;
 };
 
@@ -96,12 +92,10 @@ class GlobalResolver {
       cron: platform.getProvider<CronAPI>("cron"),
       messageQueue: platform.getProvider<MessageQueueServiceAPI>("message-queue"),
       push: platform.getProvider<PushServiceAPI>("push"),
-      realtime: platform.getProvider<RealtimeServiceAPI>("realtime"),
       search: platform.getProvider<SearchServiceAPI>("search"),
       storage: platform.getProvider<StorageAPI>("storage"),
       tracker: platform.getProvider<TrackerAPI>("tracker"),
       webserver: platform.getProvider<WebServerAPI>("webserver"),
-      websocket: platform.getProvider<WebSocketAPI>("websocket"),
       emailPusher: platform.getProvider<EmailPusherAPI>("email-pusher"),
     };
 

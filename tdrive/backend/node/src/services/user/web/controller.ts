@@ -20,19 +20,18 @@ import {
   CompanyParameters,
   CompanyStatsObject,
   CompanyUserObject,
+  CompanyUsersParameters,
   DeregisterDeviceParams,
   RegisterDeviceBody,
   RegisterDeviceParams,
   UserListQueryParameters,
   UserObject,
   UserParameters,
-  CompanyUsersParameters,
   UserQuota,
 } from "./types";
 import Company from "../entities/company";
 import CompanyUser from "../entities/company_user";
 import coalesce from "../../../utils/coalesce";
-import { getCompanyRooms, getUserRooms } from "../realtime";
 import { formatCompany, getCompanyStats } from "../utils";
 import { formatUser } from "../../../utils/users";
 import gr from "../../global-resolver";
@@ -70,9 +69,6 @@ export class UsersCrudController
 
     return {
       resource: userObject,
-      websocket: context.user.id
-        ? gr.platformServices.realtime.sign(getUserRooms(user), context.user.id)[0]
-        : undefined,
     };
   }
 
@@ -100,11 +96,7 @@ export class UsersCrudController
   async setPreferences(
     request: FastifyRequest<{ Body: User["preferences"] }>,
   ): Promise<User["preferences"]> {
-    const preferences = await gr.services.users.setPreferences(
-      { id: request.currentUser.id },
-      request.body,
-    );
-    return preferences;
+    return await gr.services.users.setPreferences({ id: request.currentUser.id }, request.body);
   }
 
   async list(
@@ -143,7 +135,6 @@ export class UsersCrudController
     // return users;
     return {
       resources: resUsers,
-      websockets: gr.platformServices.realtime.sign([], context.user.id),
     };
   }
 
@@ -220,7 +211,6 @@ export class UsersCrudController
 
     return {
       resources: combos.map(combo => formatCompany(...combo)),
-      websockets: gr.platformServices.realtime.sign([], context.user.id),
     };
   }
 
@@ -253,9 +243,6 @@ export class UsersCrudController
         companyUserObj,
         getCompanyStats(company, await gr.services.statistics.get(company.id, "messages")),
       ),
-      websocket: context.user?.id
-        ? gr.platformServices.realtime.sign(getCompanyRooms(company), context.user.id)[0]
-        : undefined,
     };
   }
 

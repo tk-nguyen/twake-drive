@@ -19,7 +19,6 @@ import { WorkspaceExecutionContext } from "../../types";
 import { plainToClass } from "class-transformer";
 import { hasCompanyAdminLevel, hasCompanyMemberLevel } from "../../../../utils/company";
 import { hasWorkspaceAdminLevel } from "../../../../utils/workspace";
-import { getWorkspaceRooms } from "../../realtime";
 import {
   CrudException,
   ExecutionContext,
@@ -166,7 +165,6 @@ export class WorkspacesCrudController
           this.formatWorkspace(ws, await this.getWorkspaceUsersCount(ws.id), context.user.id),
         ),
       ),
-      websockets: gr.platformServices.realtime.sign(getWorkspaceRooms(context), context.user.id),
     };
   }
 

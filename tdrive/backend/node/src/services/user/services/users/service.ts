@@ -28,11 +28,8 @@ import assert from "assert";
 import { localEventBus } from "../../../../core/platform/framework/event-bus";
 import { ResourceEventsPayload } from "../../../../utils/types";
 import { isNumber, isString } from "lodash";
-import { RealtimeSaved } from "../../../../core/platform/framework";
-import { getPublicUserRoom, getUserRoom } from "../../realtime";
 import NodeCache from "node-cache";
 import gr from "../../../global-resolver";
-import { formatUser } from "../../../../utils/users";
 import { TYPE as DriveFileType, DriveFile } from "../../../documents/entities/drive-file";
 
 export class UserServiceImpl {
@@ -99,33 +96,10 @@ export class UserServiceImpl {
     throw new Error("Method not implemented.");
   }
 
-  @RealtimeSaved<User>((user, _context) => {
-    return [
-      {
-        room: getPublicUserRoom(user.id),
-        resource: user,
-      },
-    ];
-  })
-  async publishPublicUserRealtime(userId: string): Promise<void> {
-    const user = await this.get({ id: userId });
-    new SaveResult("user", formatUser(user, { includeCompanies: true }), OperationType.UPDATE);
-  }
-
-  @RealtimeSaved<User>((user, _context) => {
-    return [
-      {
-        room: getUserRoom(user.id),
-        resource: formatUser(user), // FIX ME we should formatUser here
-      },
-    ];
-  })
   async save(user: User, context?: ExecutionContext): Promise<SaveResult<User>> {
     this.assignDefaults(user);
     await this.repository.save(user, context);
     await this.updateExtRepository(user);
-
-    await this.publishPublicUserRealtime(user.id);
 
     return new SaveResult("user", user, OperationType.UPDATE);
   }

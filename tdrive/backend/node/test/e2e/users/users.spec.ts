@@ -27,7 +27,6 @@ describe("The /users API", () => {
         "database",
         "search",
         "message-queue",
-        "websocket",
         "applications",
         "webserver",
         "user",
