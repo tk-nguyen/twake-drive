@@ -5,8 +5,9 @@ import fp from "fastify-plugin";
 import config from "../../../../config";
 import { JwtType } from "../../types";
 import { executionStorage } from "../../../framework/execution-storage";
+import gr from "../../../../../services/global-resolver";
 
-const jwtPlugin: FastifyPluginCallback = (fastify, _opts, next) => {
+const jwtPlugin: FastifyPluginCallback = async (fastify, _opts, next) => {
   fastify.register(cookie);
   fastify.register(fastifyJwt, {
     secret: config.get("auth.jwt.secret"),
@@ -18,6 +19,10 @@ const jwtPlugin: FastifyPluginCallback = (fastify, _opts, next) => {
 
   const authenticate = async (request: FastifyRequest) => {
     const jwt: JwtType = await request.jwtVerify();
+
+    // Verify the SID exists and is valid
+    await gr.services.console.getClient().verifyJwtSid(jwt.sid);
+
     if (jwt.type === "refresh") {
       // TODO  in the future we must invalidate the refresh token (because it should be single use)
     }
@@ -25,6 +30,7 @@ const jwtPlugin: FastifyPluginCallback = (fastify, _opts, next) => {
     request.currentUser = {
       ...{ email: jwt.email },
       ...{ id: jwt.sub },
+      ...{ sid: jwt.sid },
       ...{ identity_provider_id: jwt.provider_id },
       ...{ application_id: jwt.application_id || null },
       ...{ server_request: jwt.server_request || false },

@@ -100,8 +100,22 @@ export class ConsoleInternalClient implements ConsoleServiceClient {
     throw new Error("Method should not be implemented.");
   }
 
+  updateUserSession(_idToken: string): Promise<string> {
+    logger.info("Internal: updateUserSession");
+    throw new Error("Method should not be implemented.");
+  }
+
   resendVerificationEmail(_accessToken: string): Promise<void> {
     logger.info("Internal: resendVerificationEmail");
     throw new Error("Method should not be implemented.");
+  }
+
+  backChannelLogout(_logoutToken: string): Promise<void> {
+    logger.info("Internal: backChannelLogout");
+    throw new Error("Method should not be implemented.");
+  }
+
+  async verifyJwtSid(_sid: string): Promise<void> {
+    logger.info("Internal: verifyJwtSid");
   }
 }

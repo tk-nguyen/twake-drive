@@ -10,6 +10,7 @@ import {
   ConsoleHookResponse,
   ConsoleHookUser,
   ConsoleType,
+  ConsoleBackchannelLogoutRequest,
 } from "../types";
 import Company from "../../user/entities/company";
 import { CrudException } from "../../../core/platform/framework/api/crud-service";
@@ -132,6 +133,7 @@ export class ConsoleController {
       access_token: gr.platformServices.auth.generateJWT(
         request.currentUser.id,
         request.currentUser.email,
+        request.currentUser.sid,
         {
           track: request.currentUser?.allow_tracking || false,
           provider_id: request.currentUser.identity_provider_id,
@@ -287,7 +289,7 @@ export class ConsoleController {
       logger.warn("ERROR_NOTONPROD: YOU ARE RUNNING IN DEVELOPMENT MODE, AUTH IS DISABLED!!!");
     }
 
-    return gr.platformServices.auth.generateJWT(user.id, user.email_canonical, {
+    return gr.platformServices.auth.generateJWT(user.id, user.email_canonical, "", {
       track: user?.preferences?.allow_tracking || false,
       provider_id: user.identity_provider_id,
     });
@@ -297,12 +299,34 @@ export class ConsoleController {
     const client = gr.services.console.getClient();
     const userDTO = await client.getUserByAccessToken(idToken);
     const user = await client.updateLocalUserFromConsole(userDTO);
+
     if (!user) {
       throw CrudException.notFound(`User details not found for access token ${idToken}`);
     }
-    return gr.platformServices.auth.generateJWT(user.id, user.email_canonical, {
+
+    // update the user session
+    const session = await client.updateUserSession(idToken);
+
+    return gr.platformServices.auth.generateJWT(user.id, user.email_canonical, session, {
       track: user?.preferences?.allow_tracking || false,
       provider_id: user.identity_provider_id,
     });
+  }
+
+  async backChannelLogout(
+    request: FastifyRequest<{ Body: ConsoleBackchannelLogoutRequest }>,
+    reply: FastifyReply,
+  ): Promise<void> {
+    try {
+      const logoutToken = request.body.logout_token;
+      if (!logoutToken) {
+        throw new CrudException("Missing logout_token", 400);
+      }
+      await gr.services.console.getClient().backChannelLogout(logoutToken);
+      reply.status(200).send({ success: true });
+    } catch (e) {
+      logger.error(e.message);
+      reply.status(400).send({ error: e.message });
+    }
   }
 }

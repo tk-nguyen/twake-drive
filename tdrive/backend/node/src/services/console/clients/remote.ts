@@ -23,6 +23,7 @@ import { ConsoleServiceImpl } from "../service";
 import coalesce from "../../../utils/coalesce";
 import config from "config";
 import { CompanyUserRole } from "src/services/user/web/types";
+import Session from "../entities/session";
 export class ConsoleRemoteClient implements ConsoleServiceClient {
   version: "1";
 
@@ -166,7 +167,6 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
     await gr.services.users.save(user);
 
     //For now TDrive works with only one company as we don't get it from the SSO
-
     let company = await gr.services.companies.getCompany({
       id: "00000000-0000-4000-0000-000000000000",
     });
@@ -252,5 +252,67 @@ export class ConsoleRemoteClient implements ConsoleServiceClient {
         value: user?.picture,
       },
     };
+  }
+
+  async updateUserSession(idToken: string): Promise<string> {
+    const sessionInfo = (await this.verifier.verifyIdToken(idToken, this.infos.client_id))?.claims;
+    // make sure sid claim is present in the token and not empty
+    if (sessionInfo.sid) {
+      const sessionRepository = gr.services.console.getSessionRepo();
+
+      // check for existing session
+      const existingSession = await sessionRepository.findOne({
+        sid: sessionInfo.sid,
+      });
+      if (existingSession) {
+        return existingSession.sid;
+      } else {
+        const sessionBody = new Session();
+        sessionBody.sub = sessionInfo.sub;
+        sessionBody.sid = sessionInfo.sid;
+        await sessionRepository.save(sessionBody);
+        return sessionBody.sid;
+      }
+    } else {
+      throw new CrudException("Missing sid claim", 400);
+    }
+  }
+
+  async backChannelLogout(logoutToken: string): Promise<void> {
+    const payload = await this.verifier.verifyLogoutToken(logoutToken);
+
+    if (!payload.iss || !payload.aud || !payload.iat || !payload.jti || !payload.events) {
+      throw new CrudException("Missing required claims", 400);
+    }
+
+    if (payload.nonce) {
+      throw new CrudException("Nonce claim is prohibited", 400);
+    }
+
+    if (!payload.sub && !payload.sid) {
+      throw new CrudException("Missing sub or sid claim", 400);
+    }
+
+    const sessionRepository = gr.services.console.getSessionRepo();
+    const session = await sessionRepository.findOne({ sid: payload.sid });
+    if (session) {
+      await sessionRepository.remove(session);
+    }
+  }
+
+  async verifyJwtSid(sid: string): Promise<void> {
+    const sessionRepository = gr.services.console.getSessionRepo();
+    if (sid) {
+      const session = await sessionRepository.findOne({
+        sid,
+      });
+      if (!session) {
+        // fail for not matching session id
+        throw new Error("Invalid session id");
+      }
+    } else {
+      // fail for missing session id
+      throw new Error("Missing session id");
+    }
   }
 }

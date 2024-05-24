@@ -62,5 +62,11 @@ export interface ConsoleServiceClient {
 
   getUserByAccessToken(idToken: string): Promise<ConsoleHookUser>;
 
+  updateUserSession(idToken: string): Promise<string>;
+
+  verifyJwtSid(_sid: string): Promise<void>;
+
+  backChannelLogout(logoutToken: string): Promise<void>;
+
   resendVerificationEmail(email: string): Promise<void>;
 }
