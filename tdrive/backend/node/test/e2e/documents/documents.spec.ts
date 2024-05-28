@@ -106,6 +106,22 @@ describe("the Drive feature", () => {
     expect(updateItemResult.name).toEqual("somethingelse");
   });
 
+  it("Download folder as a zip should work fine", async () => {
+    //given
+    const folder = await currentUser.createDirectory("user_" + currentUser.user.id)
+    await currentUser.uploadRandomFileAndCreateDocument(folder.id);
+
+    //when
+    const zipResponse = await currentUser.zipDocument(folder.id);
+
+    //then
+    expect(zipResponse).toBeTruthy();
+    expect(zipResponse.statusCode).toBe(200);
+
+    //and data is in place
+    expect(zipResponse.body.length).toBeGreaterThanOrEqual(100);
+  });
+
   it("did move an item to trash", async () => {
     const createItemResult = await currentUser.createDefaultDocument();
 

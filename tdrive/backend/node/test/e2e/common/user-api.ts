@@ -400,7 +400,7 @@ export default class UserApi {
     });
   };
 
-  async getFolder(id: string | "root" | "trash" | "shared_with_me") {
+  async zipDocument(id: string | "root" | "trash" | "shared_with_me") {
     return await this.platform.app.inject({
       method: "GET",
       url: `${UserApi.DOC_URL}/companies/${this.platform.workspace.company_id}/item/download/zip?items=${id}`,
@@ -410,16 +410,8 @@ export default class UserApi {
     });
   };
 
-
   async getDocumentOKCheck(id: string | "root" | "trash" | "shared_with_me") {
     const response = await this.getDocument(id);
-    expect(response.statusCode).toBe(200);
-    const doc = deserialize<DriveItemDetailsMockClass>(DriveItemDetailsMockClass, response.body);
-    expect(doc.item?.id).toBe(id);
-  };
-
-  async getFolderOKCheck(id: string | "root" | "trash" | "shared_with_me") {
-    const response = await this.getFolder(id);
     expect(response.statusCode).toBe(200);
     const doc = deserialize<DriveItemDetailsMockClass>(DriveItemDetailsMockClass, response.body);
     expect(doc.item?.id).toBe(id);
