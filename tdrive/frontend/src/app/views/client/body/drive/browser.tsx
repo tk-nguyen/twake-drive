@@ -239,7 +239,7 @@ export default memo(
         {viewId == 'shared-with-me' ? (
           <>
             <Suspense fallback={<></>}>
-              <DrivePreview items={documents}/>
+              <DrivePreview items={documents} />
             </Suspense>
             <SharedFilesTable />
           </>
@@ -263,9 +263,8 @@ export default memo(
             }}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-
           >
-            {role == "admin" && <UsersModal />}
+            {role == 'admin' && <UsersModal />}
             <VersionsModal />
             <AccessModal />
             <PublicLinkModal />
@@ -274,7 +273,7 @@ export default memo(
             <ConfirmTrashModal />
             <ConfirmModal />
             <Suspense fallback={<></>}>
-              <DrivePreview items={documents}/>
+              <DrivePreview items={documents} />
             </Suspense>
             <div
               className={
@@ -350,7 +349,12 @@ export default memo(
                     </div>
                   </div>
                 ) : (
-                  <HeaderPath path={path || []} inTrash={inTrash} setParentId={setParentId} inPublicSharing={inPublicSharing} />
+                  <HeaderPath
+                    path={path || []}
+                    inTrash={inTrash}
+                    setParentId={setParentId}
+                    inPublicSharing={inPublicSharing}
+                  />
                 )}
                 <div className="grow" />
 
@@ -375,17 +379,17 @@ export default memo(
                 )}
               </div>
 
-
               <DndContext sensors={sensors} onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
                 <div className="grow overflow-auto">
-                
                   {folders.length > 0 && (
                     <>
-                      <Title className="mb-2 block">{Languages.t('scenes.app.drive.folders')}</Title>
+                      <Title className="mb-2 block">
+                        {Languages.t('scenes.app.drive.folders')}
+                      </Title>
 
                       {folders.map((child, index) => (
                         <Droppable id={index} key={index}>
-                        <FolderRow
+                          <FolderRow
                             key={index}
                             className={
                               (index === 0 ? 'rounded-t-md ' : '') +
@@ -393,7 +397,9 @@ export default memo(
                             }
                             item={child}
                             onClick={() => {
-                              const route = RouterServices.generateRouteFromState({dirId: child.id});
+                              const route = RouterServices.generateRouteFromState({
+                                dirId: child.id,
+                              });
                               history.push(route);
                               if (inPublicSharing) return setParentId(child.id);
                             }}
@@ -420,7 +426,11 @@ export default memo(
                         <>
                           <Base>{Languages.t('scenes.app.drive.drag_and_drop')}</Base>
                           <br />
-                          <Button onClick={() => uploadItemModal()} theme="primary" className="mt-4">
+                          <Button
+                            onClick={() => uploadItemModal()}
+                            theme="primary"
+                            className="mt-4"
+                          >
                             {Languages.t('scenes.app.drive.add_doc')}
                           </Button>
                         </>
@@ -428,25 +438,23 @@ export default memo(
                     </div>
                   )}
 
-                  {documents.map((child, index) => (
-                    draggableMarkup(index, child)
-                  ))}
+                  {documents.map((child, index) => draggableMarkup(index, child))}
                   <DragOverlay>
                     {activeIndex ? (
-                        <DocumentRowOverlay className={
-                            (activeIndex === 0 ? 'rounded-t-md ' : '') +
-                            (activeIndex === documents.length - 1 ? 'rounded-b-md ' : '')}
-                            item={activeChild}
-                        ></DocumentRowOverlay>
-                    ): null}
+                      <DocumentRowOverlay
+                        className={
+                          (activeIndex === 0 ? 'rounded-t-md ' : '') +
+                          (activeIndex === documents.length - 1 ? 'rounded-b-md ' : '')
+                        }
+                        item={activeChild}
+                      ></DocumentRowOverlay>
+                    ) : null}
                   </DragOverlay>
-
                 </div>
               </DndContext>
-              </div>    
+            </div>
           </UploadZone>
         )}
-
       </>
     );
   },
