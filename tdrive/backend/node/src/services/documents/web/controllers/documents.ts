@@ -9,16 +9,19 @@ import { CompanyUserRole, PaginationQueryParameters } from "../../../../utils/ty
 import { DriveFile } from "../../entities/drive-file";
 import { FileVersion } from "../../entities/file-version";
 import {
+  BrowseDocumentsOptions,
   CompanyExecutionContext,
   DriveExecutionContext,
   DriveFileAccessLevel,
   DriveItemDetails,
   DriveTdriveTab,
   ItemRequestParams,
+  PaginateDocumentBody,
   ItemRequestByEditingSessionKeyParams,
   RequestParams,
   SearchDocumentsBody,
   SearchDocumentsOptions,
+  SortDocumentsBody,
 } from "../../types";
 import { DriveFileDTO } from "../dto/drive-file-dto";
 import { DriveFileDTOBuilder } from "../../services/drive-file-dto-builder";
@@ -196,7 +199,7 @@ export class DocumentsController {
   browse = async (
     request: FastifyRequest<{
       Params: ItemRequestParams;
-      Body: SearchDocumentsBody;
+      Body: BrowseDocumentsOptions;
       Querystring: PaginationQueryParameters & { public_token?: string };
     }>,
   ): Promise<DriveItemDetails> => {
@@ -204,15 +207,24 @@ export class DocumentsController {
     const { id } = request.params;
 
     const options: SearchDocumentsOptions = {
-      ...request.body,
-      company_id: request.body.company_id || context.company.id,
+      ...request.body.filter,
+      company_id: request.body.filter?.company_id || context.company.id,
       view: DriveFileDTOBuilder.VIEW_SHARED_WITH_ME,
       onlyDirectlyShared: true,
       onlyUploadedNotByMe: true,
     };
 
+    const sortOptions: SortDocumentsBody = request.body.sort;
+    const paginateOptions: PaginateDocumentBody = request.body.paginate;
+
     return {
-      ...(await globalResolver.services.documents.documents.browse(id, options, context)),
+      ...(await globalResolver.services.documents.documents.browse(
+        id,
+        options,
+        sortOptions,
+        paginateOptions,
+        context,
+      )),
     };
   };
 
@@ -446,11 +458,12 @@ export class DocumentsController {
   downloadZip = async (
     request: FastifyRequest<{
       Params: RequestParams;
-      Querystring: { token?: string; items: string; public_token?: string };
+      Querystring: { token?: string; items: string; public_token?: string; is_directory?: boolean };
     }>,
     reply: FastifyReply,
   ): Promise<void> => {
     const context = getDriveExecutionContext(request);
+    const isDirectory = request.query.is_directory || false;
     let ids = (request.query.items || "").split(",");
     const token = request.query.token;
 
@@ -463,6 +476,11 @@ export class DocumentsController {
 
     if (ids[0] === "root") {
       const items = await globalResolver.services.documents.documents.get(ids[0], context);
+      ids = items.children.map(item => item.id);
+    }
+
+    if (isDirectory) {
+      const items = await globalResolver.services.documents.documents.get(ids[0], context, true);
       ids = items.children.map(item => item.id);
     }
 

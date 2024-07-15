@@ -1,5 +1,5 @@
 import Api from '../../global/framework/api-service';
-import { BrowseFilter, DriveItem, DriveItemDetails, DriveItemVersion } from '../types';
+import { BrowseFilter, BrowsePaginate, BrowseQuery, BrowseSort, DriveItem, DriveItemDetails, DriveItemVersion } from '../types';
 import Workspace from '@deprecated/workspaces/workspaces';
 import Logger from 'features/global/framework/logger-service';
 import { JWTDataType } from 'app/features/auth/jwt-storage-service';
@@ -70,10 +70,14 @@ export class DriveApiClient {
     );
   }
 
-  static async browse(companyId: string, id: string | 'trash' | '', filter: BrowseFilter) {
-    return await Api.post<BrowseFilter, DriveItemDetails>(
+  static async browse(companyId: string, id: string | 'trash' | '', filter: BrowseFilter, sort: BrowseSort, paginate: BrowsePaginate) {
+    return await Api.post<BrowseQuery, DriveItemDetails>(
       `/internal/services/documents/v1/companies/${companyId}/browse/${id}${appendTdriveToken()}`,
-      filter,
+      {
+        filter,
+        sort,
+        paginate
+      },
     );
   }
 
@@ -134,11 +138,11 @@ export class DriveApiClient {
     return Api.route(`/internal/services/documents/v1/companies/${companyId}/item/${id}/download`);
   }
 
-  static async getDownloadZipUrl(companyId: string, ids: string[]) {
+  static async getDownloadZipUrl(companyId: string, ids: string[], isDirectory?: boolean) {
     // const { token } = await DriveApiClient.getDownloadToken(companyId, ids);
     return Api.route(
       `/internal/services/documents/v1/companies/${companyId}/item/download/zip` +
-        `?items=${ids.join(',')}`
+        `?items=${ids.join(',')}&is_directory=${isDirectory}`,
     );
   }
 

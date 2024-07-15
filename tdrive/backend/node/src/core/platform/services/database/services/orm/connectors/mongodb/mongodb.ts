@@ -264,11 +264,21 @@ export class MongoConnector extends AbstractConnector<MongoConnectionOptions> {
       options,
     );
 
-    const sort: any = {};
+    let sort: any = {};
     for (const key of entityDefinition.options.primaryKey.slice(1)) {
       const defaultOrder =
         (columnsDefinition[key as string].options.order || "ASC") === "ASC" ? 1 : -1;
       sort[key as string] = (options?.pagination?.reversed ? -1 : 1) * defaultOrder;
+    }
+    if (options?.sort) {
+      sort = options.sort
+        ? Object.fromEntries(
+            Object.entries(options.sort).map(([field, direction]) => [
+              field,
+              direction === "asc" ? 1 : -1,
+            ]),
+          )
+        : {};
     }
 
     logger.debug(`services.database.orm.mongodb.find - Query: ${JSON.stringify(query)}`);
@@ -277,7 +287,11 @@ export class MongoConnector extends AbstractConnector<MongoConnectionOptions> {
       .find(query)
       .sort(sort)
       .skip(Math.max(0, parseInt(options.pagination.page_token || "0")))
-      .limit(Math.max(0, parseInt(options.pagination.limitStr || "100")));
+      .limit(Math.max(0, parseInt(options.pagination.limitStr || "100")))
+      .collation({
+        locale: "en_US",
+        numericOrdering: true,
+      });
 
     const entities: Table[] = [];
     while (await cursor.hasNext()) {
