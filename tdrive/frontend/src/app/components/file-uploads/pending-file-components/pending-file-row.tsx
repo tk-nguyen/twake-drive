@@ -80,8 +80,7 @@ export default ({ pendingFileState, pendingFile }: PropsType) => {
               </Text>
               {isPendingFileStatusPause(pendingFile.status) && (
                 <Text type="secondary" className='ant-typography-single-line' style={{ verticalAlign: 'middle', marginLeft: 4 }}>
-                  {/* TODO Add translation here */}
-                  (paused)
+                  ({Languages.t('general.paused')})
                 </Text>
               )}
             </Row>
