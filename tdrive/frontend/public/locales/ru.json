@@ -242,6 +242,7 @@
     "hooks.use-drive-actions.unable_update_file":"Unable to update this file.",
     "general.resume": "Продолжить",
     "general.pause": "Пауза",
+    "general.paused": "Пауза",
     "general.user.role.company.member": "Участник",
     "components.locked_features.locked_guests_popup.skip_for_now_button": "Отложить",
     "scenes.join.loading": "Загрузка…",

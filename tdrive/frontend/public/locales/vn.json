@@ -257,6 +257,7 @@
     "hooks.use-drive-actions.unable_update_file": "Không thể cập nhật tệp này.",
     "general.resume": "Tiếp tục",
     "general.pause": "Tạm dừng",
+    "general.paused": "Đã tạm dừng",
     "app.state.recoil.hooks.use_current_company_applications.toaster_delete": "Đã xóa thành công {{$1}} khỏi công ty của bạn",
     "app.state.recoil.hooks.use_current_company_applications.toaster_add": "Đã thêm thành công {{$1}} vào công ty của bạn",
     "scenes.join.loading": "Đang tải…",

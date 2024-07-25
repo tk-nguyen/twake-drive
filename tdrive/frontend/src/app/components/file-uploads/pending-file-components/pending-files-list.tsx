@@ -51,9 +51,7 @@ export default ({ pendingFilesState, visible }: PropsType) => {
   return pendingFilesState.length > 0 ? (
     <Layout className={'pending-files-list-layout ' + (visible ? 'visible' : '')}>
       <Header
-        className={classNames('pending-files-list-header', {
-          hidden: hiddenPendingFiles,
-        })}
+        className={classNames('pending-files-list-header')}
         onClick={() => setHiddenPendingFiles(!hiddenPendingFiles)}
       >
         <Row justify="space-between" align="middle">

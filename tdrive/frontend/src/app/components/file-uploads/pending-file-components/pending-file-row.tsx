@@ -79,9 +79,8 @@ export default ({ pendingFileState, pendingFile }: PropsType) => {
                 {capitalize(pendingFile?.originalFile.name)}
               </Text>
               {isPendingFileStatusPause(pendingFile.status) && (
-                <Text type="secondary" style={{ verticalAlign: 'middle', marginLeft: 4 }}>
-                  {/* TODO Add translation here */}
-                  (paused)
+                <Text type="secondary" className='ant-typography-single-line' style={{ verticalAlign: 'middle', marginLeft: 4 }}>
+                  ({Languages.t('general.paused')})
                 </Text>
               )}
             </Row>

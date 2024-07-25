@@ -242,6 +242,7 @@
     "hooks.use-drive-actions.unable_update_file": "Impossible de mettre à jour ce fichier",
     "general.resume": "Reprendre",
     "general.pause": "Pause",
+    "general.paused": "En pause",
     "app.state.recoil.hooks.use_current_company_applications.toaster_delete": "{{$1}} supprimé avec succès de votre entreprise",
     "app.state.recoil.hooks.use_current_company_applications.toaster_add": "{{$1}} ajouté avec succès dans votre entreprise",
     "scenes.app.popup.adduser.magiclinks.copied_to_clipboard": "Copié avec succès dans le presse-papiers",
